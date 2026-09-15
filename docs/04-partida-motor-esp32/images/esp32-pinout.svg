@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="620" height="760" viewBox="0 0 620 760" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect x="1" y="1" width="618" height="758" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="310" y="26" font-size="15" font-weight="700" fill="#1e293b" text-anchor="middle">ESP32-WROOM-32 DevKit — 38 pinos (pinagem típica)</text>
+
+  <!-- corpo da placa -->
+  <rect x="205" y="60" width="210" height="600" rx="14" fill="#f8fafc" stroke="#334155" stroke-width="3"/>
+  <rect x="270" y="30" width="80" height="34" rx="4" fill="#cbd5e1" stroke="#334155" stroke-width="2"/>
+  <text x="310" y="52" font-size="9.5" fill="#334155" text-anchor="middle">USB</text>
+  <rect x="255" y="100" width="110" height="60" rx="4" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="310" y="126" font-size="10.5" font-weight="700" fill="#475569" text-anchor="middle">ESP32-WROOM-32</text>
+  <text x="310" y="142" font-size="9.5" fill="#64748b" text-anchor="middle">(módulo RF)</text>
+
+  <!-- ================= COLUNA ESQUERDA ================= -->
+  <g font-size="12.5" font-weight="700">
+    <!-- linha 0: EN -->
+    <rect x="185" y="184" width="20" height="12" fill="#94a3b8"/>
+    <text x="178" y="194" fill="#334155" text-anchor="end">EN</text>
+    <!-- linha 1: GPIO36 VP -->
+    <rect x="185" y="222" width="20" height="12" fill="#94a3b8"/>
+    <text x="178" y="232" fill="#334155" text-anchor="end">GPIO36 (VP)</text>
+    <!-- linha 2: GPIO39 VN (usado) -->
+    <rect x="185" y="260" width="20" height="12" fill="#2563eb"/>
+    <text x="178" y="270" fill="#2563eb" text-anchor="end">GPIO39 (VN)</text>
+    <!-- linha 3: GPIO34 -->
+    <rect x="185" y="298" width="20" height="12" fill="#94a3b8"/>
+    <text x="178" y="308" fill="#334155" text-anchor="end">GPIO34</text>
+    <!-- linha 4: GPIO35 -->
+    <rect x="185" y="336" width="20" height="12" fill="#94a3b8"/>
+    <text x="178" y="346" fill="#334155" text-anchor="end">GPIO35</text>
+    <!-- linha 5: GPIO32 -->
+    <rect x="185" y="374" width="20" height="12" fill="#94a3b8"/>
+    <text x="178" y="384" fill="#334155" text-anchor="end">GPIO32</text>
+    <!-- linha 6: GPIO33 -->
+    <rect x="185" y="412" width="20" height="12" fill="#94a3b8"/>
+    <text x="178" y="422" fill="#334155" text-anchor="end">GPIO33</text>
+    <!-- linha 7: GPIO25 (usado) -->
+    <rect x="185" y="450" width="20" height="12" fill="#2563eb"/>
+    <text x="178" y="460" fill="#2563eb" text-anchor="end">GPIO25</text>
+    <!-- linha 8: GPIO26 -->
+    <rect x="185" y="488" width="20" height="12" fill="#94a3b8"/>
+    <text x="178" y="498" fill="#334155" text-anchor="end">GPIO26</text>
+    <!-- linha 9: GPIO27 -->
+    <rect x="185" y="526" width="20" height="12" fill="#94a3b8"/>
+    <text x="178" y="536" fill="#334155" text-anchor="end">GPIO27</text>
+    <!-- linha 10: GND -->
+    <rect x="185" y="564" width="20" height="12" fill="#1e293b"/>
+    <text x="178" y="574" fill="#1e293b" text-anchor="end">GND</text>
+    <!-- linha 11: GPIO12 (strap) -->
+    <rect x="185" y="602" width="20" height="12" fill="#d97706"/>
+    <text x="178" y="612" fill="#d97706" text-anchor="end">GPIO12</text>
+    <!-- linha 12: 5V/VIN -->
+    <rect x="185" y="640" width="20" height="12" fill="#1e293b"/>
+    <text x="178" y="650" fill="#1e293b" text-anchor="end">5V / VIN</text>
+  </g>
+
+  <!-- ================= COLUNA DIREITA ================= -->
+  <g font-size="12.5" font-weight="700">
+    <!-- linha 0: GPIO23 (usado - Start) -->
+    <rect x="415" y="184" width="20" height="12" fill="#16a34a"/>
+    <text x="442" y="194" fill="#16a34a" text-anchor="start">GPIO23 (Start)</text>
+    <!-- linha 1: GPIO22 (usado - Stop) -->
+    <rect x="415" y="222" width="20" height="12" fill="#16a34a"/>
+    <text x="442" y="232" fill="#16a34a" text-anchor="start">GPIO22 (Stop)</text>
+    <!-- linha 2: TX0 -->
+    <rect x="415" y="260" width="20" height="12" fill="#94a3b8"/>
+    <text x="442" y="270" fill="#334155" text-anchor="start">TX0 (GPIO1)</text>
+    <!-- linha 3: RX0 -->
+    <rect x="415" y="298" width="20" height="12" fill="#94a3b8"/>
+    <text x="442" y="308" fill="#334155" text-anchor="start">RX0 (GPIO3)</text>
+    <!-- linha 4: GPIO21 -->
+    <rect x="415" y="336" width="20" height="12" fill="#94a3b8"/>
+    <text x="442" y="346" fill="#334155" text-anchor="start">GPIO21</text>
+    <!-- linha 5: GND -->
+    <rect x="415" y="374" width="20" height="12" fill="#1e293b"/>
+    <text x="442" y="384" fill="#1e293b" text-anchor="start">GND</text>
+    <!-- linha 6: GPIO19 -->
+    <rect x="415" y="412" width="20" height="12" fill="#94a3b8"/>
+    <text x="442" y="422" fill="#334155" text-anchor="start">GPIO19</text>
+    <!-- linha 7: GPIO18 -->
+    <rect x="415" y="450" width="20" height="12" fill="#94a3b8"/>
+    <text x="442" y="460" fill="#334155" text-anchor="start">GPIO18</text>
+    <!-- linha 8: GPIO5 -->
+    <rect x="415" y="488" width="20" height="12" fill="#94a3b8"/>
+    <text x="442" y="498" fill="#334155" text-anchor="start">GPIO5</text>
+    <!-- linha 9: GPIO17 -->
+    <rect x="415" y="526" width="20" height="12" fill="#94a3b8"/>
+    <text x="442" y="536" fill="#334155" text-anchor="start">GPIO17</text>
+    <!-- linha 10: GPIO16 -->
+    <rect x="415" y="564" width="20" height="12" fill="#94a3b8"/>
+    <text x="442" y="574" fill="#334155" text-anchor="start">GPIO16</text>
+    <!-- linha 11: GPIO4 -->
+    <rect x="415" y="602" width="20" height="12" fill="#94a3b8"/>
+    <text x="442" y="612" fill="#334155" text-anchor="start">GPIO4</text>
+    <!-- linha 12: GPIO2 (usado - Motor, strap/LED) -->
+    <rect x="415" y="640" width="20" height="12" fill="#ea580c"/>
+    <text x="442" y="650" fill="#ea580c" text-anchor="start">GPIO2 (Motor)</text>
+  </g>
+
+  <!-- legenda -->
+  <g font-size="11.5">
+    <circle cx="70" cy="690" r="7" fill="#16a34a"/>
+    <text x="85" y="694" fill="#334155">entrada usada nesta aula</text>
+    <circle cx="70" cy="712" r="7" fill="#ea580c"/>
+    <text x="85" y="716" fill="#334155">saída usada nesta aula</text>
+    <circle cx="300" cy="690" r="7" fill="#2563eb"/>
+    <text x="315" y="694" fill="#334155">E/S analógica usada nesta aula</text>
+    <circle cx="300" cy="712" r="7" fill="#d97706"/>
+    <text x="315" y="716" fill="#334155">pino de "strap" — cuidado no boot</text>
+  </g>
+  <text x="310" y="738" font-size="10.5" fill="#64748b" text-anchor="middle">GPIO 34, 35, 36(VP), 39(VN) são só-entrada e não têm resistor de pull interno (nenhum, em nenhum caso).</text>
+  <text x="310" y="753" font-size="9.5" fill="#94a3b8" text-anchor="middle">layout comum tipo "DOIT ESP32 DevKit V1" — confira o silkscreen da sua placa, pode variar por fabricante</text>
+</svg>

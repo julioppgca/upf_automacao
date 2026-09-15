@@ -1,0 +1,74 @@
+{
+  "ESP32-S3": [
+    {
+      "pin": "1",
+      "pinType": "digitalInput",
+      "address": "%IX0.0",
+      "alias": ""
+    },
+    {
+      "pin": "2",
+      "pinType": "digitalInput",
+      "address": "%IX0.1",
+      "alias": ""
+    },
+    {
+      "pin": "3",
+      "pinType": "digitalOutput",
+      "address": "%QX0.0",
+      "alias": ""
+    }
+  ],
+  "Arduino Uno": [
+    {
+      "pin": "7",
+      "pinType": "digitalInput",
+      "address": "%IX0.0",
+      "alias": ""
+    },
+    {
+      "pin": "8",
+      "pinType": "digitalInput",
+      "address": "%IX0.1",
+      "alias": ""
+    },
+    {
+      "pin": "13",
+      "pinType": "digitalOutput",
+      "address": "%QX0.0",
+      "alias": ""
+    }
+  ],
+  "ESP32 WROOM": [
+    {
+      "pin": "23",
+      "pinType": "digitalInput",
+      "address": "%IX0.0",
+      "alias": ""
+    },
+    {
+      "pin": "22",
+      "pinType": "digitalInput",
+      "address": "%IX0.1",
+      "alias": ""
+    },
+    {
+      "pin": "02",
+      "pinType": "digitalOutput",
+      "address": "%QX0.0",
+      "alias": ""
+    },
+    {
+      "pin": "39",
+      "pinType": "analogInput",
+      "address": "%IW0",
+      "alias": ""
+    },
+    {
+      "pin": "25",
+      "pinType": "analogOutput",
+      "address": "%QW0",
+      "alias": ""
+    }
+  ]
+}

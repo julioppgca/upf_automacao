@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "name": "func",
+    "type": "plc-project"
+  },
+  "data": {
+    "dataTypes": [],
+    "pous": [],
+    "configuration": {
+      "resource": {
+        "tasks": [
+          {
+            "name": "task0",
+            "triggering": "Cyclic",
+            "interval": "T#20ms",
+            "priority": 1
+          },
+          {
+            "name": "task1",
+            "triggering": "Cyclic",
+            "interval": "T#20ms",
+            "priority": 1
+          }
+        ],
+        "instances": [
+          {
+            "name": "instance0",
+            "program": "main",
+            "task": "task0"
+          },
+          {
+            "name": "instance1",
+            "program": "compara_contador",
+            "task": "task1"
+          }
+        ],
+        "globalVariables": [
+          {
+            "name": "cnt1",
+            "type": {
+              "definition": "base-type",
+              "value": "INT"
+            },
+            "class": "global",
+            "location": "",
+            "documentation": "",
+            "debug": false
+          },
+          {
+            "name": "cnt2",
+            "type": {
+              "definition": "base-type",
+              "value": "INT"
+            },
+            "class": "global",
+            "location": "",
+            "documentation": "",
+            "debug": false
+          }
+        ]
+      }
+    },
+    "libraries": [],
+    "debugVariables": {
+      "pous": {
+        "compara_contador": [
+          "maior"
+        ]
+      }
+    }
+  }
+}

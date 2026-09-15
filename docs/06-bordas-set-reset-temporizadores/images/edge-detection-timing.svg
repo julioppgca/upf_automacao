@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect x="1" y="1" width="758" height="358" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="380" y="28" font-size="16" font-weight="700" fill="#1e293b" text-anchor="middle">Contatos de detecção de borda</text>
+
+  <!-- linhas guia verticais nas transicoes -->
+  <line x1="150" y1="55" x2="150" y2="330" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <line x1="400" y1="55" x2="400" y2="330" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+  <!-- ===== linha IN ===== -->
+  <text x="55" y="86" font-size="12.5" font-weight="700" fill="#1e293b" text-anchor="end">IN</text>
+  <path d="M 60 110 L 150 110 L 150 70 L 400 70 L 400 110 L 700 110"
+        stroke="#1e293b" stroke-width="3" fill="none"/>
+  <text x="230" y="60" font-size="10.5" fill="#64748b" text-anchor="middle">botão pressionado e mantido</text>
+
+  <!-- ===== linha P (rising edge) ===== -->
+  <text x="55" y="196" font-size="12.5" font-weight="700" fill="#16a34a" text-anchor="end">P</text>
+  <path d="M 60 210 L 150 210 L 150 170 L 168 170 L 168 210 L 700 210"
+        stroke="#16a34a" stroke-width="3" fill="none"/>
+  <text x="168" y="155" font-size="10" fill="#16a34a" text-anchor="start">1 pulso (1 ciclo de scan)</text>
+
+  <!-- ===== linha N (falling edge) ===== -->
+  <text x="55" y="296" font-size="12.5" font-weight="700" fill="#dc2626" text-anchor="end">N</text>
+  <path d="M 60 310 L 400 310 L 400 270 L 418 270 L 418 310 L 700 310"
+        stroke="#dc2626" stroke-width="3" fill="none"/>
+  <text x="418" y="255" font-size="10" fill="#dc2626" text-anchor="start">1 pulso (1 ciclo de scan)</text>
+
+  <!-- rotulos das transicoes -->
+  <text x="150" y="345" font-size="11" fill="#475569" text-anchor="middle">t1: 0 para 1</text>
+  <text x="400" y="345" font-size="11" fill="#475569" text-anchor="middle">t2: 1 para 0</text>
+
+</svg>

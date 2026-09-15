@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="440" viewBox="0 0 780 440" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect x="1" y="1" width="778" height="438" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="390" y="26" font-size="15" font-weight="700" fill="#1e293b" text-anchor="middle">TON x TOF — quando Q muda em relação a IN</text>
+
+  <!-- ================= TON ================= -->
+  <text x="60" y="52" font-size="12.5" font-weight="700" fill="#ea580c">TON — retarda a energização de Q</text>
+
+  <line x1="150" y1="45" x2="150" y2="185" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <line x1="250" y1="45" x2="250" y2="185" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <line x1="450" y1="45" x2="450" y2="185" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+  <text x="50" y="79" font-size="12" font-weight="700" fill="#1e293b" text-anchor="end">IN</text>
+  <path d="M 60 90 L 150 90 L 150 60 L 450 60 L 450 90 L 700 90" stroke="#1e293b" stroke-width="3" fill="none"/>
+
+  <!-- bracket PT -->
+  <line x1="150" y1="112" x2="250" y2="112" stroke="#ea580c" stroke-width="1.5"/>
+  <line x1="150" y1="106" x2="150" y2="118" stroke="#ea580c" stroke-width="1.5"/>
+  <line x1="250" y1="106" x2="250" y2="118" stroke="#ea580c" stroke-width="1.5"/>
+  <text x="200" y="104" font-size="10.5" font-weight="700" fill="#ea580c" text-anchor="middle">PT</text>
+
+  <text x="50" y="159" font-size="12" font-weight="700" fill="#2563eb" text-anchor="end">Q</text>
+  <path d="M 60 170 L 250 170 L 250 140 L 450 140 L 450 170 L 700 170" stroke="#2563eb" stroke-width="3" fill="none"/>
+
+  <text x="150" y="200" font-size="10" fill="#64748b" text-anchor="middle">IN sobe</text>
+  <text x="250" y="200" font-size="10" fill="#64748b" text-anchor="middle">Q sobe (após PT)</text>
+  <text x="450" y="200" font-size="10" fill="#64748b" text-anchor="middle">IN desce, Q desce junto</text>
+
+  <line x1="20" y1="222" x2="760" y2="222" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <!-- ================= TOF ================= -->
+  <text x="60" y="252" font-size="12.5" font-weight="700" fill="#7c3aed">TOF — retarda a desenergização de Q</text>
+
+  <line x1="150" y1="245" x2="150" y2="385" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <line x1="350" y1="245" x2="350" y2="385" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <line x1="450" y1="245" x2="450" y2="385" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+  <text x="50" y="279" font-size="12" font-weight="700" fill="#1e293b" text-anchor="end">IN</text>
+  <path d="M 60 290 L 150 290 L 150 260 L 350 260 L 350 290 L 700 290" stroke="#1e293b" stroke-width="3" fill="none"/>
+
+  <!-- bracket PT -->
+  <line x1="350" y1="312" x2="450" y2="312" stroke="#7c3aed" stroke-width="1.5"/>
+  <line x1="350" y1="306" x2="350" y2="318" stroke="#7c3aed" stroke-width="1.5"/>
+  <line x1="450" y1="306" x2="450" y2="318" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="400" y="304" font-size="10.5" font-weight="700" fill="#7c3aed" text-anchor="middle">PT</text>
+
+  <text x="50" y="359" font-size="12" font-weight="700" fill="#2563eb" text-anchor="end">Q</text>
+  <path d="M 60 370 L 150 370 L 150 340 L 450 340 L 450 370 L 700 370" stroke="#2563eb" stroke-width="3" fill="none"/>
+
+  <text x="150" y="400" font-size="10" fill="#64748b" text-anchor="middle">IN sobe, Q sobe junto</text>
+  <text x="350" y="400" font-size="10" fill="#64748b" text-anchor="middle">IN desce</text>
+  <text x="450" y="400" font-size="10" fill="#64748b" text-anchor="middle">Q desce (após PT)</text>
+</svg>

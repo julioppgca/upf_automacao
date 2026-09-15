@@ -1,0 +1,18 @@
+{
+  "name": "sim-bridge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Headless AVR8JS runner for OpenPLC Editor's 'OpenPLC Simulator' firmware, exposing its emulated UART as raw Modbus RTU bytes over TCP.",
+  "main": "src/bridge.ts",
+  "scripts": {
+    "start": "tsx src/bridge.ts"
+  },
+  "dependencies": {
+    "avr8js": "0.20.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "@types/node": "^20.14.0"
+  }
+}

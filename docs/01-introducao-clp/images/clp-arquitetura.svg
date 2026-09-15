@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect x="1" y="1" width="898" height="428" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="450" y="30" font-size="17" font-weight="700" fill="#1e293b" text-anchor="middle">Arquitetura básica de um CLP</text>
+
+  <!-- Sensores -->
+  <rect x="20" y="175" width="110" height="70" rx="6" fill="#f8fafc" stroke="#64748b" stroke-width="2.5"/>
+  <text x="75" y="205" font-size="13" font-weight="700" fill="#334155" text-anchor="middle">Sensores</text>
+  <text x="75" y="222" font-size="10.5" fill="#64748b" text-anchor="middle">botões, chaves,</text>
+  <text x="75" y="235" font-size="10.5" fill="#64748b" text-anchor="middle">sensores de campo</text>
+
+  <line x1="130" y1="210" x2="155" y2="210" stroke="#1e293b" stroke-width="3"/>
+  <polygon points="155,201 155,219 168,210" fill="#1e293b"/>
+
+  <!-- Modulo de entradas -->
+  <rect x="168" y="175" width="130" height="70" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.5"/>
+  <text x="233" y="203" font-size="13" font-weight="700" fill="#16a34a" text-anchor="middle">ENTRADAS</text>
+  <text x="233" y="220" font-size="10.5" fill="#166534" text-anchor="middle">digital (24VDC) /</text>
+  <text x="233" y="233" font-size="10.5" fill="#166534" text-anchor="middle">analógica (4-20mA)</text>
+
+  <line x1="298" y1="210" x2="323" y2="210" stroke="#1e293b" stroke-width="3"/>
+  <polygon points="323,201 323,219 336,210" fill="#1e293b"/>
+
+  <!-- CPU -->
+  <rect x="336" y="115" width="220" height="190" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="3"/>
+  <text x="446" y="145" font-size="15" font-weight="700" fill="#2563eb" text-anchor="middle">CPU</text>
+  <line x1="356" y1="158" x2="536" y2="158" stroke="#bfdbfe" stroke-width="1.5"/>
+  <text x="446" y="180" font-size="11.5" font-weight="700" fill="#1e3a8a" text-anchor="middle">Programa do usuário</text>
+  <text x="446" y="195" font-size="10.5" fill="#334155" text-anchor="middle">(Ladder, ST, FBD, SFC, IL)</text>
+  <text x="446" y="222" font-size="11.5" font-weight="700" fill="#1e3a8a" text-anchor="middle">Memória de dados</text>
+  <text x="446" y="237" font-size="10.5" fill="#334155" text-anchor="middle">(%I, %Q, %M)</text>
+  <line x1="356" y1="252" x2="536" y2="252" stroke="#bfdbfe" stroke-width="1.5"/>
+  <text x="446" y="272" font-size="10.5" fill="#64748b" text-anchor="middle">Executa o programa em</text>
+  <text x="446" y="286" font-size="10.5" fill="#64748b" text-anchor="middle">ciclos contínuos (scan)</text>
+
+  <line x1="556" y1="210" x2="581" y2="210" stroke="#1e293b" stroke-width="3"/>
+  <polygon points="581,201 581,219 594,210" fill="#1e293b"/>
+
+  <!-- Modulo de saidas -->
+  <rect x="594" y="175" width="130" height="70" rx="6" fill="#fff7ed" stroke="#ea580c" stroke-width="2.5"/>
+  <text x="659" y="203" font-size="13" font-weight="700" fill="#ea580c" text-anchor="middle">SAÍDAS</text>
+  <text x="659" y="220" font-size="10.5" fill="#9a3412" text-anchor="middle">digital (relé/transistor) /</text>
+  <text x="659" y="233" font-size="10.5" fill="#9a3412" text-anchor="middle">analógica (0-10V)</text>
+
+  <line x1="724" y1="210" x2="749" y2="210" stroke="#1e293b" stroke-width="3"/>
+  <polygon points="749,201 749,219 762,210" fill="#1e293b"/>
+
+  <!-- Atuadores -->
+  <rect x="762" y="175" width="118" height="70" rx="6" fill="#f8fafc" stroke="#64748b" stroke-width="2.5"/>
+  <text x="821" y="205" font-size="13" font-weight="700" fill="#334155" text-anchor="middle">Atuadores</text>
+  <text x="821" y="222" font-size="10.5" fill="#64748b" text-anchor="middle">motores, válvulas,</text>
+  <text x="821" y="235" font-size="10.5" fill="#64748b" text-anchor="middle">lâmpadas, contatores</text>
+
+  <!-- Fonte de alimentacao -->
+  <rect x="366" y="345" width="160" height="52" rx="6" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+  <text x="446" y="368" font-size="12" font-weight="700" fill="#334155" text-anchor="middle">Fonte de Alimentação</text>
+  <text x="446" y="384" font-size="10.5" fill="#64748b" text-anchor="middle">24VDC ou 110-240VAC</text>
+
+  <line x1="446" y1="345" x2="446" y2="305" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,4"/>
+  <line x1="446" y1="345" x2="233" y2="345" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,4"/>
+  <line x1="233" y1="345" x2="233" y2="245" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,4"/>
+  <line x1="446" y1="345" x2="659" y2="345" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,4"/>
+  <line x1="659" y1="345" x2="659" y2="245" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,4"/>
+
+  <text x="450" y="418" font-size="12.5" font-weight="700" fill="#b91c1c" text-anchor="middle">Sem programa carregado na CPU, o CLP não executa lógica alguma — só os módulos ficam energizados.</text>
+</svg>

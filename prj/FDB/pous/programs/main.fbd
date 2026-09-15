@@ -1,0 +1,508 @@
+PROGRAM main
+  VAR
+    liga : BOOL AT %IX0.0;
+    desliga : BOOL AT %IX0.1;
+    saida : BOOL AT %QX0.0;
+    SR0 : SR;
+  END_VAR
+
+{
+  "name": "main",
+  "rung": {
+    "comment": "",
+    "edges": [
+      {
+        "type": "smoothstep",
+        "source": "INPUT-VARIABLE_27ad537a-1c02-412c-a79b-c41e5a95fc64",
+        "sourceHandle": "output-variable",
+        "target": "BLOCK_61fa59ff-301b-45b3-a9d2-2d538ee94c42",
+        "targetHandle": "S1",
+        "id": "xy-edge__INPUT-VARIABLE_27ad537a-1c02-412c-a79b-c41e5a95fc64output-variable-BLOCK_61fa59ff-301b-45b3-a9d2-2d538ee94c42S1"
+      },
+      {
+        "type": "smoothstep",
+        "source": "INPUT-VARIABLE_23a3856e-ce90-485e-bea5-64f6ab0e8695",
+        "sourceHandle": "output-variable",
+        "target": "BLOCK_61fa59ff-301b-45b3-a9d2-2d538ee94c42",
+        "targetHandle": "R",
+        "id": "xy-edge__INPUT-VARIABLE_23a3856e-ce90-485e-bea5-64f6ab0e8695output-variable-BLOCK_61fa59ff-301b-45b3-a9d2-2d538ee94c42R"
+      },
+      {
+        "type": "smoothstep",
+        "source": "BLOCK_61fa59ff-301b-45b3-a9d2-2d538ee94c42",
+        "sourceHandle": "Q1",
+        "target": "OUTPUT-VARIABLE_926c4cca-722f-4c2b-81d6-9c4b877968ec",
+        "targetHandle": "input-variable",
+        "id": "xy-edge__BLOCK_61fa59ff-301b-45b3-a9d2-2d538ee94c42Q1-OUTPUT-VARIABLE_926c4cca-722f-4c2b-81d6-9c4b877968ecinput-variable"
+      }
+    ],
+    "nodes": [
+      {
+        "id": "INPUT-VARIABLE_27ad537a-1c02-412c-a79b-c41e5a95fc64",
+        "type": "input-variable",
+        "position": {
+          "x": 112,
+          "y": 96
+        },
+        "width": 128,
+        "height": 32,
+        "measured": {
+          "width": 128,
+          "height": 32
+        },
+        "data": {
+          "handles": [
+            {
+              "glbPosition": {
+                "x": 224,
+                "y": 64
+              },
+              "relPosition": {
+                "x": 112,
+                "y": 16
+              },
+              "id": "output-variable",
+              "position": "right",
+              "type": "source"
+            }
+          ],
+          "inputHandles": [],
+          "outputHandles": [
+            {
+              "glbPosition": {
+                "x": 224,
+                "y": 64
+              },
+              "relPosition": {
+                "x": 112,
+                "y": 16
+              },
+              "id": "output-variable",
+              "position": "right",
+              "type": "source"
+            }
+          ],
+          "outputConnector": {
+            "glbPosition": {
+              "x": 224,
+              "y": 64
+            },
+            "relPosition": {
+              "x": 112,
+              "y": 16
+            },
+            "id": "output-variable",
+            "position": "right",
+            "type": "source"
+          },
+          "numericId": "10270864",
+          "variable": {
+            "id": "",
+            "name": "liga",
+            "type": {
+              "definition": "base-type",
+              "value": "BOOL"
+            },
+            "class": "local",
+            "location": "",
+            "documentation": "",
+            "debug": false
+          },
+          "executionOrder": 0,
+          "variant": "input-variable",
+          "negated": false,
+          "draggable": true,
+          "selectable": true,
+          "deletable": true
+        },
+        "deletable": true,
+        "selectable": true,
+        "draggable": true,
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "OUTPUT-VARIABLE_926c4cca-722f-4c2b-81d6-9c4b877968ec",
+        "type": "output-variable",
+        "position": {
+          "x": 480,
+          "y": 96
+        },
+        "width": 128,
+        "height": 32,
+        "measured": {
+          "width": 128,
+          "height": 32
+        },
+        "data": {
+          "handles": [
+            {
+              "glbPosition": {
+                "x": 640,
+                "y": 80
+              },
+              "relPosition": {
+                "x": 0,
+                "y": 16
+              },
+              "id": "input-variable",
+              "position": "left",
+              "type": "target"
+            }
+          ],
+          "inputHandles": [
+            {
+              "glbPosition": {
+                "x": 640,
+                "y": 80
+              },
+              "relPosition": {
+                "x": 0,
+                "y": 16
+              },
+              "id": "input-variable",
+              "position": "left",
+              "type": "target"
+            }
+          ],
+          "outputHandles": [],
+          "inputConnector": {
+            "glbPosition": {
+              "x": 640,
+              "y": 80
+            },
+            "relPosition": {
+              "x": 0,
+              "y": 16
+            },
+            "id": "input-variable",
+            "position": "left",
+            "type": "target"
+          },
+          "numericId": "5570393",
+          "variable": {
+            "name": "saida",
+            "class": "local",
+            "type": {
+              "definition": "base-type",
+              "value": "BOOL"
+            },
+            "location": "%QX0.0",
+            "documentation": "",
+            "debug": false
+          },
+          "executionOrder": 0,
+          "variant": "output-variable",
+          "negated": false,
+          "draggable": true,
+          "selectable": true,
+          "deletable": true
+        },
+        "deletable": true,
+        "selectable": true,
+        "draggable": true,
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "BLOCK_61fa59ff-301b-45b3-a9d2-2d538ee94c42",
+        "type": "block",
+        "position": {
+          "x": 336,
+          "y": 64
+        },
+        "data": {
+          "handles": [
+            {
+              "glbPosition": {
+                "x": 336,
+                "y": 112
+              },
+              "relPosition": {
+                "x": 0,
+                "y": 48
+              },
+              "id": "S1",
+              "position": "left",
+              "type": "target",
+              "style": {
+                "top": 48,
+                "left": 0
+              }
+            },
+            {
+              "glbPosition": {
+                "x": 336,
+                "y": 160
+              },
+              "relPosition": {
+                "x": 0,
+                "y": 96
+              },
+              "id": "R",
+              "position": "left",
+              "type": "target",
+              "style": {
+                "top": 96,
+                "left": 0
+              }
+            },
+            {
+              "glbPosition": {
+                "x": 396,
+                "y": 112
+              },
+              "relPosition": {
+                "x": 60,
+                "y": 48
+              },
+              "id": "Q1",
+              "position": "right",
+              "type": "source",
+              "style": {
+                "top": 48,
+                "right": 0
+              }
+            }
+          ],
+          "inputHandles": [
+            {
+              "glbPosition": {
+                "x": 336,
+                "y": 112
+              },
+              "relPosition": {
+                "x": 0,
+                "y": 48
+              },
+              "id": "S1",
+              "position": "left",
+              "type": "target",
+              "style": {
+                "top": 48,
+                "left": 0
+              }
+            },
+            {
+              "glbPosition": {
+                "x": 336,
+                "y": 160
+              },
+              "relPosition": {
+                "x": 0,
+                "y": 96
+              },
+              "id": "R",
+              "position": "left",
+              "type": "target",
+              "style": {
+                "top": 96,
+                "left": 0
+              }
+            }
+          ],
+          "outputHandles": [
+            {
+              "glbPosition": {
+                "x": 396,
+                "y": 112
+              },
+              "relPosition": {
+                "x": 60,
+                "y": 48
+              },
+              "id": "Q1",
+              "position": "right",
+              "type": "source",
+              "style": {
+                "top": 48,
+                "right": 0
+              }
+            }
+          ],
+          "inputConnector": {
+            "glbPosition": {
+              "x": 336,
+              "y": 112
+            },
+            "relPosition": {
+              "x": 0,
+              "y": 48
+            },
+            "id": "S1",
+            "position": "left",
+            "type": "target",
+            "style": {
+              "top": 48,
+              "left": 0
+            }
+          },
+          "outputConnector": {
+            "glbPosition": {
+              "x": 396,
+              "y": 112
+            },
+            "relPosition": {
+              "x": 60,
+              "y": 48
+            },
+            "id": "Q1",
+            "position": "right",
+            "type": "source",
+            "style": {
+              "top": 48,
+              "right": 0
+            }
+          },
+          "numericId": "4890321",
+          "variant": {
+            "name": "SR",
+            "type": "function-block",
+            "language": "st",
+            "variables": [
+              {
+                "name": "S1",
+                "class": "input",
+                "type": {
+                  "definition": "base-type",
+                  "value": "BOOL"
+                }
+              },
+              {
+                "name": "R",
+                "class": "input",
+                "type": {
+                  "definition": "base-type",
+                  "value": "BOOL"
+                }
+              },
+              {
+                "name": "Q1",
+                "class": "output",
+                "type": {
+                  "definition": "base-type",
+                  "value": "BOOL"
+                }
+              }
+            ],
+            "body": "",
+            "documentation": "The SR bistable is a latch where the Set dominates."
+          },
+          "variable": {
+            "id": "668fa160-ccae-4e18-96cf-f85ebe94a919",
+            "name": "SR0",
+            "type": {
+              "definition": "derived",
+              "value": "SR"
+            },
+            "class": "local",
+            "location": "",
+            "documentation": "",
+            "debug": false
+          },
+          "executionOrder": 0,
+          "executionControl": false,
+          "draggable": true,
+          "selectable": true,
+          "deletable": true
+        },
+        "width": 60,
+        "height": 120,
+        "measured": {
+          "width": 60,
+          "height": 120
+        },
+        "draggable": true,
+        "selectable": true,
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "INPUT-VARIABLE_23a3856e-ce90-485e-bea5-64f6ab0e8695",
+        "type": "input-variable",
+        "position": {
+          "x": 112,
+          "y": 144
+        },
+        "width": 128,
+        "height": 32,
+        "measured": {
+          "width": 128,
+          "height": 32
+        },
+        "data": {
+          "handles": [
+            {
+              "glbPosition": {
+                "x": 304,
+                "y": 144
+              },
+              "relPosition": {
+                "x": 112,
+                "y": 16
+              },
+              "id": "output-variable",
+              "position": "right",
+              "type": "source"
+            }
+          ],
+          "inputHandles": [],
+          "outputHandles": [
+            {
+              "glbPosition": {
+                "x": 304,
+                "y": 144
+              },
+              "relPosition": {
+                "x": 112,
+                "y": 16
+              },
+              "id": "output-variable",
+              "position": "right",
+              "type": "source"
+            }
+          ],
+          "outputConnector": {
+            "glbPosition": {
+              "x": 304,
+              "y": 144
+            },
+            "relPosition": {
+              "x": 112,
+              "y": 16
+            },
+            "id": "output-variable",
+            "position": "right",
+            "type": "source"
+          },
+          "numericId": "5474236",
+          "variable": {
+            "id": "",
+            "name": "desliga",
+            "type": {
+              "definition": "base-type",
+              "value": "BOOL"
+            },
+            "class": "local",
+            "location": "",
+            "documentation": "",
+            "debug": false
+          },
+          "executionOrder": 0,
+          "variant": "input-variable",
+          "negated": false,
+          "draggable": true,
+          "selectable": true,
+          "deletable": true
+        },
+        "deletable": true,
+        "selectable": true,
+        "draggable": true,
+        "selected": false,
+        "dragging": false
+      }
+    ],
+    "selectedNodes": []
+  }
+}
+END_PROGRAM

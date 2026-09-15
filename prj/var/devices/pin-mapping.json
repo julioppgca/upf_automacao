@@ -1,0 +1,16 @@
+{
+  "ESP32-DOIT DEVKIT V1": [
+    {
+      "pin": "34",
+      "pinType": "analogInput",
+      "address": "%IW0",
+      "alias": ""
+    },
+    {
+      "pin": "25",
+      "pinType": "analogOutput",
+      "address": "%QW0",
+      "alias": ""
+    }
+  ]
+}

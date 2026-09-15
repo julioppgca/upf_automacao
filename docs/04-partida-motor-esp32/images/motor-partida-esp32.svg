@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="560" viewBox="0 0 920 560" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect x="1" y="1" width="918" height="558" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="460" y="26" font-size="16" font-weight="700" fill="#1e293b" text-anchor="middle">Partida básica de motor com ESP32 + OpenPLC</text>
+
+  <!-- ===================== ZONA 1: BOTOES ===================== -->
+  <text x="130" y="55" font-size="12" font-weight="700" fill="#475569" text-anchor="middle">BOTÕES (entradas)</text>
+
+  <!-- Start -->
+  <text x="40" y="90" font-size="11" font-weight="700" fill="#1e293b">3V3</text>
+  <line x1="65" y1="95" x2="65" y2="110" stroke="#1e293b" stroke-width="2.5"/>
+  <circle cx="65" cy="114" r="3.5" fill="#1e293b"/>
+  <line x1="65" y1="114" x2="90" y2="98" stroke="#16a34a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="65" cy="135" r="3.5" fill="#1e293b"/>
+  <line x1="65" y1="139" x2="65" y2="155" stroke="#1e293b" stroke-width="2.5"/>
+  <circle cx="65" cy="159" r="4" fill="#1e293b"/>
+  <line x1="65" y1="159" x2="65" y2="185" stroke="#1e293b" stroke-width="2.5"/>
+  <rect x="50" y="185" width="30" height="34" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="65" y="204" font-size="9" font-weight="700" fill="#2563eb" text-anchor="middle">10k</text>
+  <line x1="65" y1="219" x2="65" y2="235" stroke="#1e293b" stroke-width="2.5"/>
+  <text x="65" y="250" font-size="10.5" font-weight="700" fill="#1e293b" text-anchor="middle">GND</text>
+  <line x1="70" y1="159" x2="150" y2="159" stroke="#16a34a" stroke-width="3"/>
+  <text x="150" y="150" font-size="11" font-weight="700" fill="#16a34a" text-anchor="middle">Start</text>
+
+  <!-- Stop -->
+  <text x="180" y="90" font-size="11" font-weight="700" fill="#1e293b">3V3</text>
+  <line x1="205" y1="95" x2="205" y2="110" stroke="#1e293b" stroke-width="2.5"/>
+  <circle cx="205" cy="114" r="3.5" fill="#1e293b"/>
+  <line x1="205" y1="114" x2="230" y2="98" stroke="#16a34a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="205" cy="135" r="3.5" fill="#1e293b"/>
+  <line x1="205" y1="139" x2="205" y2="155" stroke="#1e293b" stroke-width="2.5"/>
+  <circle cx="205" cy="159" r="4" fill="#1e293b"/>
+  <line x1="205" y1="159" x2="205" y2="185" stroke="#1e293b" stroke-width="2.5"/>
+  <rect x="190" y="185" width="30" height="34" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="205" y="204" font-size="9" font-weight="700" fill="#2563eb" text-anchor="middle">10k</text>
+  <line x1="205" y1="219" x2="205" y2="235" stroke="#1e293b" stroke-width="2.5"/>
+  <text x="205" y="250" font-size="10.5" font-weight="700" fill="#1e293b" text-anchor="middle">GND</text>
+  <line x1="210" y1="159" x2="260" y2="159" stroke="#16a34a" stroke-width="3"/>
+  <text x="235" y="185" font-size="11" font-weight="700" fill="#16a34a" text-anchor="middle">Stop</text>
+
+  <!-- ===================== ZONA 2: ESP32 ===================== -->
+  <rect x="290" y="90" width="150" height="220" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="3"/>
+  <text x="365" y="115" font-size="13" font-weight="700" fill="#1e3a8a" text-anchor="middle">ESP32-WROOM-32</text>
+  <text x="365" y="130" font-size="9.5" fill="#475569" text-anchor="middle">(roda o firmware OpenPLC)</text>
+
+  <line x1="260" y1="159" x2="290" y2="159" stroke="#16a34a" stroke-width="3"/>
+  <text x="298" y="163" font-size="10.5" font-weight="700" fill="#1e293b">GPIO23 (%IX0.0)</text>
+
+  <line x1="150" y1="159" x2="150" y2="200" stroke="#16a34a" stroke-width="3"/>
+  <line x1="150" y1="200" x2="290" y2="200" stroke="#16a34a" stroke-width="3"/>
+  <text x="298" y="204" font-size="10.5" font-weight="700" fill="#1e293b">GPIO22 (%IX0.1)</text>
+
+  <line x1="440" y1="230" x2="470" y2="230" stroke="#ea580c" stroke-width="3"/>
+  <text x="410" y="226" font-size="10.5" font-weight="700" fill="#1e293b" text-anchor="end">GPIO2 (%QX0.0)</text>
+
+  <!-- ===================== ZONA 3: RELE / ISOLAMENTO ===================== -->
+  <rect x="470" y="195" width="140" height="70" rx="8" fill="#faf5ff" stroke="#7c3aed" stroke-width="3"/>
+  <text x="540" y="220" font-size="12" font-weight="700" fill="#7c3aed" text-anchor="middle">Módulo Relé</text>
+  <text x="540" y="235" font-size="9.5" fill="#6b21a8" text-anchor="middle">(isolação óptica)</text>
+  <text x="540" y="250" font-size="9.5" fill="#6b21a8" text-anchor="middle">3.3V lógica vira contato seco</text>
+
+  <line x1="610" y1="230" x2="650" y2="230" stroke="#7c3aed" stroke-width="3"/>
+
+  <!-- fronteira baixa/alta tensao -->
+  <line x1="650" y1="40" x2="650" y2="520" stroke="#dc2626" stroke-width="2" stroke-dasharray="6,5"/>
+  <text x="645" y="60" font-size="11" font-weight="700" fill="#dc2626" text-anchor="end">lógica (3.3V)</text>
+  <text x="658" y="60" font-size="11" font-weight="700" fill="#dc2626" text-anchor="start">potência (rede)</text>
+
+  <!-- bobina do contator -->
+  <line x1="650" y1="230" x2="700" y2="230" stroke="#334155" stroke-width="3"/>
+  <text x="705" y="220" font-size="9.5" fill="#64748b">fase (L1)</text>
+  <line x1="700" y1="230" x2="700" y2="330" stroke="#334155" stroke-width="3"/>
+  <circle cx="700" cy="360" r="26" fill="#fff7ed" stroke="#ea580c" stroke-width="3"/>
+  <text x="700" y="357" font-size="12" font-weight="700" fill="#ea580c" text-anchor="middle">K1</text>
+  <text x="700" y="371" font-size="8.5" fill="#9a3412" text-anchor="middle">bobina</text>
+  <line x1="700" y1="386" x2="700" y2="420" stroke="#334155" stroke-width="3"/>
+  <text x="690" y="408" font-size="9.5" fill="#64748b" text-anchor="end">neutro (N)</text>
+
+  <!-- ===================== ZONA 4: POTENCIA (diagrama unifilar) ===================== -->
+  <text x="800" y="55" font-size="12" font-weight="700" fill="#475569" text-anchor="middle">CIRCUITO DE POTÊNCIA</text>
+  <text x="650" y="460" font-size="10.5" fill="#64748b" text-anchor="end">rede</text>
+  <text x="650" y="474" font-size="10.5" fill="#64748b" text-anchor="end">trifásica</text>
+
+  <line x1="655" y1="470" x2="695" y2="470" stroke="#1e293b" stroke-width="4"/>
+  <rect x="695" y="455" width="10" height="30" fill="#1e293b"/>
+  <text x="700" y="445" font-size="9.5" fill="#334155" text-anchor="middle">disjuntor</text>
+
+  <line x1="705" y1="470" x2="740" y2="470" stroke="#1e293b" stroke-width="4"/>
+  <rect x="740" y="450" width="34" height="40" rx="4" fill="#fff7ed" stroke="#ea580c" stroke-width="2.5"/>
+  <text x="757" y="466" font-size="9" font-weight="700" fill="#ea580c" text-anchor="middle">K1</text>
+  <text x="757" y="478" font-size="8" fill="#9a3412" text-anchor="middle">contatos</text>
+  <line x1="757" y1="420" x2="757" y2="450" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <text x="757" y="415" font-size="8.5" fill="#94a3b8" text-anchor="middle">aciona</text>
+
+  <line x1="774" y1="470" x2="800" y2="470" stroke="#1e293b" stroke-width="4"/>
+  <rect x="800" y="450" width="34" height="40" rx="4" fill="#fef2f2" stroke="#dc2626" stroke-width="2.5"/>
+  <text x="817" y="466" font-size="8" font-weight="700" fill="#dc2626" text-anchor="middle">relé</text>
+  <text x="817" y="478" font-size="8" font-weight="700" fill="#dc2626" text-anchor="middle">térmico</text>
+
+  <line x1="834" y1="470" x2="855" y2="470" stroke="#1e293b" stroke-width="4"/>
+  <circle cx="880" cy="470" r="26" fill="#f8fafc" stroke="#334155" stroke-width="3"/>
+  <text x="880" y="467" font-size="12" font-weight="700" fill="#334155" text-anchor="middle">M</text>
+  <text x="880" y="480" font-size="9" fill="#475569" text-anchor="middle">3~</text>
+
+  <text x="758" y="500" font-size="9.5" fill="#64748b" text-anchor="middle">representação unifilar simplificada</text>
+
+  <!-- aviso de seguranca -->
+  <rect x="20" y="330" width="600" height="80" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+  <text x="35" y="352" font-size="11.5" font-weight="700" fill="#b91c1c">ATENÇÃO — segurança</text>
+  <text x="35" y="370" font-size="10.5" fill="#7f1d1d">O ESP32 nunca aciona o motor diretamente. A GPIO só chaveia a bobina do módulo</text>
+  <text x="35" y="385" font-size="10.5" fill="#7f1d1d">relé (baixa corrente); quem liga/desliga a energia do motor é sempre o contator,</text>
+  <text x="35" y="400" font-size="10.5" fill="#7f1d1d">dimensionado para a carga, com disjuntor e relé térmico de proteção.</text>
+</svg>

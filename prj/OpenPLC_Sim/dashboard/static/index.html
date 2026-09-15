@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8" />
+<title>OpenPLC Sim — Esteira</title>
+<style>
+  :root {
+    --bg: #0f1420;
+    --panel: #171e2e;
+    --border: #2a3348;
+    --text: #e6ebf5;
+    --muted: #8b96ad;
+    --on: #34d399;
+    --off: #3a4459;
+    --forced: #f59e0b;
+    --accent: #4f7cff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px;
+  }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  .sub { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    max-width: 720px;
+  }
+  .track {
+    position: relative;
+    height: 48px;
+    background: #0b0f18;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    margin: 16px 0 8px;
+    overflow: hidden;
+  }
+  .part {
+    position: absolute;
+    top: 6px;
+    width: 36px;
+    height: 36px;
+    background: var(--accent);
+    border-radius: 6px;
+    transition: left 0.18s linear;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+  .sensor-mark {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--muted);
+  }
+  .sensor-mark::after {
+    content: "sensor";
+    position: absolute;
+    top: -18px;
+    left: -14px;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .badges { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+  .badge {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--off);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .badge.on { background: rgba(52, 211, 153, 0.15); color: var(--on); border-color: var(--on); }
+  .badge.forced { background: rgba(245, 158, 11, 0.15); color: var(--forced); border-color: var(--forced); }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 14px; }
+  button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button.secondary { background: var(--off); color: var(--text); }
+  button.danger { background: var(--forced); }
+  button:hover { filter: brightness(1.1); }
+  .label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+  #conn { font-size: 12px; }
+  #conn.ok { color: var(--on); }
+  #conn.bad { color: var(--forced); }
+  .elapsed { color: var(--muted); font-size: 13px; margin-top: 10px; }
+
+  #ladderContainer { margin-top: 12px; }
+  .ladder-svg { width: 100%; height: auto; display: block; }
+  .rail { stroke: var(--muted); stroke-width: 3; }
+  .wire { stroke: var(--off); stroke-width: 2; }
+  .contact-bar { stroke: var(--off); stroke-width: 3; }
+  .contact-slash { stroke: var(--off); stroke-width: 2; }
+  .coil-shape { stroke: var(--off); stroke-width: 3; fill: none; }
+  .ladder-label { fill: var(--muted); font-size: 11px; text-anchor: middle; font-family: inherit; }
+  .ladder-el.energized .contact-bar,
+  .ladder-el.energized .contact-slash,
+  .ladder-el.energized .coil-shape { stroke: var(--on); }
+  .ladder-el.energized .ladder-label { fill: var(--on); font-weight: 600; }
+</style>
+</head>
+<body>
+  <h1>Simulador OpenPLC — Esteira Transportadora (IO_sim)</h1>
+  <div class="sub">Ladder real rodando no emulador · <span id="conn">conectando...</span></div>
+
+  <div class="card">
+    <div class="label">Ladder ao vivo (IO_sim)</div>
+    <div id="ladderContainer"></div>
+  </div>
+
+  <div class="card">
+    <div class="label">Esteira</div>
+    <div class="track" id="track">
+      <div class="sensor-mark" id="sensorMark"></div>
+      <div class="part" id="part" style="left: -50px"></div>
+    </div>
+    <div class="badges">
+      <div class="badge" id="badge-inicio">Inicio</div>
+      <div class="badge" id="badge-sensor">Sensor</div>
+      <div class="badge" id="badge-esteira">Esteira</div>
+    </div>
+    <div class="elapsed" id="elapsed">t = 0.0s</div>
+  </div>
+
+  <div class="card">
+    <div class="label">Comando do operador</div>
+    <div class="row">
+      <button id="btnStart">Ligar Início</button>
+      <button id="btnStop" class="secondary">Desligar Início</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label">Injeção de falha — Sensor</div>
+    <div class="row">
+      <button id="btnForceOn" class="danger">Forçar ligado</button>
+      <button id="btnForceOff" class="danger">Forçar desligado</button>
+      <button id="btnRelease" class="secondary">Automático (liberar)</button>
+    </div>
+  </div>
+
+<script>
+  const track = document.getElementById("track");
+  const part = document.getElementById("part");
+  const sensorMark = document.getElementById("sensorMark");
+  const elapsedEl = document.getElementById("elapsed");
+  const conn = document.getElementById("conn");
+
+  const BELT_LENGTH = 1.0;
+  const SENSOR_POS = 0.9;
+  let overrideActive = false;
+
+  function trackWidth() {
+    return track.clientWidth - 44; // leave room for the part's own width
+  }
+  sensorMark.style.left = `${(SENSOR_POS / BELT_LENGTH) * track.clientWidth}px`;
+
+  function setBadge(id, on, forced) {
+    const el = document.getElementById(id);
+    el.classList.toggle("on", !!on);
+    el.classList.toggle("forced", !!forced);
+    el.textContent = el.textContent.split(" ")[0] + (on ? " (ligado)" : " (desligado)");
+  }
+
+  // -- Ladder diagram: built once from /api/diagram (real node positions
+  // from the .ld file), repainted every tick from the live variable values.
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  function svgEl(tag, attrs) {
+    const e = document.createElementNS(SVG_NS, tag);
+    for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+    return e;
+  }
+
+  function buildLadder(diagram) {
+    const container = document.getElementById("ladderContainer");
+    container.innerHTML = "";
+    diagram.rungs.forEach((rung) => {
+      const svg = svgEl("svg", { viewBox: `0 0 ${rung.width} ${rung.height}`, class: "ladder-svg" });
+
+      rung.wires.forEach((w) => {
+        svg.appendChild(svgEl("line", { class: "wire", x1: w.x1, y1: w.y1, x2: w.x2, y2: w.y2 }));
+      });
+
+      rung.elements.forEach((elm) => {
+        if (elm.kind === "rail") {
+          svg.appendChild(svgEl("line", { class: "rail", x1: elm.x, y1: elm.y1, x2: elm.x, y2: elm.y2 }));
+          return;
+        }
+        if (elm.kind === "contact") {
+          const g = svgEl("g", {
+            class: "ladder-el",
+            "data-kind": "contact",
+            "data-variable": elm.variable,
+            "data-negated": elm.negated ? "1" : "0",
+          });
+          const xL = elm.x + elm.w * 0.35;
+          const xR = elm.x + elm.w * 0.65;
+          g.appendChild(svgEl("line", { class: "contact-bar", x1: xL, y1: elm.y, x2: xL, y2: elm.y + elm.h }));
+          g.appendChild(svgEl("line", { class: "contact-bar", x1: xR, y1: elm.y, x2: xR, y2: elm.y + elm.h }));
+          if (elm.negated) {
+            g.appendChild(
+              svgEl("line", { class: "contact-slash", x1: xL - 2, y1: elm.y + elm.h + 2, x2: xR + 2, y2: elm.y - 2 })
+            );
+          }
+          const label = svgEl("text", { class: "ladder-label", x: elm.x + elm.w / 2, y: elm.y - 6 });
+          label.textContent = elm.variable;
+          g.appendChild(label);
+          svg.appendChild(g);
+          return;
+        }
+        if (elm.kind === "coil") {
+          const g = svgEl("g", { class: "ladder-el", "data-kind": "coil", "data-variable": elm.variable, "data-negated": "0" });
+          g.appendChild(
+            svgEl("rect", { class: "coil-shape", x: elm.x, y: elm.y, width: elm.w, height: elm.h, rx: elm.w * 0.28 })
+          );
+          const label = svgEl("text", { class: "ladder-label", x: elm.x + elm.w / 2, y: elm.y - 6 });
+          label.textContent = elm.variable;
+          g.appendChild(label);
+          svg.appendChild(g);
+        }
+      });
+
+      container.appendChild(svg);
+    });
+  }
+
+  function paintLadder(values) {
+    document.querySelectorAll(".ladder-el").forEach((g) => {
+      const raw = !!values[g.dataset.variable];
+      const active = g.dataset.kind === "contact" && g.dataset.negated === "1" ? !raw : raw;
+      g.classList.toggle("energized", active);
+    });
+  }
+
+  let diagramVersion = null;
+  function loadDiagram() {
+    fetch("/api/diagram").then((r) => r.json()).then(buildLadder);
+  }
+  loadDiagram();
+
+  function render(msg) {
+    const { elapsed, outputs, inputs, values, state, diagram_version } = msg;
+    elapsedEl.textContent = `t = ${elapsed.toFixed(1)}s`;
+
+    if (diagramVersion === null) {
+      diagramVersion = diagram_version;
+    } else if (diagram_version !== diagramVersion) {
+      // Project was rebuilt in the Editor (ladder and/or variable indices
+      // changed) — refetch the geometry and redraw from scratch.
+      diagramVersion = diagram_version;
+      loadDiagram();
+    }
+
+    if (state.part_position === null || state.part_position === undefined) {
+      part.style.left = "-50px";
+    } else {
+      const pct = Math.min(1, state.part_position / BELT_LENGTH);
+      part.style.left = `${pct * trackWidth()}px`;
+    }
+
+    setBadge("badge-inicio", outputs.Inicio, false);
+    setBadge("badge-sensor", inputs.Sensor, overrideActive);
+    setBadge("badge-esteira", outputs.Esteira, false);
+    paintLadder(values);
+  }
+
+  async function post(url, body) {
+    await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: body === undefined ? undefined : JSON.stringify(body),
+    });
+  }
+
+  document.getElementById("btnStart").onclick = async () => {
+    await post("/api/inicio", { value: true });
+    setBadge("badge-inicio", true, false);
+  };
+  document.getElementById("btnStop").onclick = async () => {
+    await post("/api/inicio", { value: false });
+    setBadge("badge-inicio", false, false);
+  };
+  document.getElementById("btnForceOn").onclick = async () => {
+    overrideActive = true;
+    await post("/api/override/sensor", { value: true });
+  };
+  document.getElementById("btnForceOff").onclick = async () => {
+    overrideActive = true;
+    await post("/api/override/sensor", { value: false });
+  };
+  document.getElementById("btnRelease").onclick = async () => {
+    overrideActive = false;
+    await post("/api/override/sensor/release");
+  };
+
+  function connect() {
+    const ws = new WebSocket(`ws://${location.host}/ws`);
+    ws.onopen = () => { conn.textContent = "conectado"; conn.className = "ok"; };
+    ws.onclose = () => {
+      conn.textContent = "desconectado — tentando de novo...";
+      conn.className = "bad";
+      setTimeout(connect, 1500);
+    };
+    ws.onerror = () => ws.close();
+    ws.onmessage = (ev) => render(JSON.parse(ev.data));
+  }
+  connect();
+</script>
+</body>
+</html>

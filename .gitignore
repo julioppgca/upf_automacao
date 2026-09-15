@@ -1,0 +1,15 @@
+# Artefatos de build do OpenPLC/Arduino-ESP32 (regeneráveis a partir do projeto)
+**/build/
+
+# Dependências instaladas (Node.js / Python)
+**/node_modules/
+**/.venv/
+**/venv/
+**/__pycache__/
+*.pyc
+
+# Binários grandes de terceiros
+*.AppImage
+
+# Diversos
+.DS_Store

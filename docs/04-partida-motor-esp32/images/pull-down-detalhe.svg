@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="330" viewBox="0 0 760 330" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect x="1" y="1" width="758" height="328" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="380" y="28" font-size="16" font-weight="700" fill="#1e293b" text-anchor="middle">Por que o resistor de pull-down é necessário</text>
+  <line x1="390" y1="45" x2="390" y2="300" stroke="#e2e8f0" stroke-width="2"/>
+
+  <!-- ===================== PAINEL A: repouso (botao solto) ===================== -->
+  <g transform="translate(60,0)">
+    <text x="120" y="65" font-size="13" font-weight="700" fill="#475569" text-anchor="middle">REPOUSO — botão solto</text>
+
+    <text x="120" y="90" font-size="12" font-weight="700" fill="#1e293b" text-anchor="middle">3V3</text>
+    <line x1="120" y1="98" x2="120" y2="118" stroke="#1e293b" stroke-width="3"/>
+
+    <!-- chave aberta -->
+    <circle cx="120" cy="122" r="4" fill="#1e293b"/>
+    <line x1="120" y1="122" x2="150" y2="100" stroke="#dc2626" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="120" cy="150" r="4" fill="#1e293b"/>
+    <text x="185" y="128" font-size="11" fill="#dc2626" text-anchor="middle">aberta</text>
+
+    <line x1="120" y1="154" x2="120" y2="178" stroke="#1e293b" stroke-width="3"/>
+    <circle cx="120" cy="182" r="5" fill="#1e293b"/>
+
+    <!-- callout GPIO -->
+    <line x1="125" y1="182" x2="185" y2="182" stroke="#94a3b8" stroke-width="2.5"/>
+    <rect x="185" y="160" width="130" height="46" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.5"/>
+    <text x="250" y="179" font-size="12" font-weight="700" fill="#16a34a" text-anchor="middle">GPIO23 = 0V</text>
+    <text x="250" y="196" font-size="12" font-weight="700" fill="#16a34a" text-anchor="middle">lê "0" (LOW)</text>
+
+    <line x1="120" y1="182" x2="120" y2="215" stroke="#1e293b" stroke-width="3"/>
+    <rect x="100" y="215" width="40" height="45" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
+    <text x="120" y="234" font-size="10" font-weight="700" fill="#2563eb" text-anchor="middle">10k</text>
+    <text x="120" y="248" font-size="10" font-weight="700" fill="#2563eb" text-anchor="middle">Ω</text>
+
+    <line x1="120" y1="260" x2="120" y2="280" stroke="#1e293b" stroke-width="3"/>
+    <text x="120" y="298" font-size="12" font-weight="700" fill="#1e293b" text-anchor="middle">GND</text>
+  </g>
+
+  <!-- ===================== PAINEL B: acionado (botao pressionado) ===================== -->
+  <g transform="translate(410,0)">
+    <text x="120" y="65" font-size="13" font-weight="700" fill="#475569" text-anchor="middle">ACIONADO — botão pressionado</text>
+
+    <text x="120" y="90" font-size="12" font-weight="700" fill="#1e293b" text-anchor="middle">3V3</text>
+    <line x1="120" y1="98" x2="120" y2="118" stroke="#1e293b" stroke-width="3"/>
+
+    <!-- chave fechada -->
+    <circle cx="120" cy="122" r="4" fill="#1e293b"/>
+    <line x1="120" y1="122" x2="120" y2="150" stroke="#16a34a" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="120" cy="150" r="4" fill="#1e293b"/>
+    <text x="185" y="128" font-size="11" fill="#16a34a" text-anchor="middle">fechada</text>
+
+    <line x1="120" y1="154" x2="120" y2="178" stroke="#1e293b" stroke-width="3"/>
+    <circle cx="120" cy="182" r="5" fill="#1e293b"/>
+
+    <!-- callout GPIO -->
+    <line x1="125" y1="182" x2="185" y2="182" stroke="#94a3b8" stroke-width="2.5"/>
+    <rect x="185" y="160" width="130" height="46" rx="6" fill="#fff7ed" stroke="#ea580c" stroke-width="2.5"/>
+    <text x="250" y="179" font-size="12" font-weight="700" fill="#ea580c" text-anchor="middle">GPIO23 = 3.3V</text>
+    <text x="250" y="196" font-size="12" font-weight="700" fill="#ea580c" text-anchor="middle">lê "1" (HIGH)</text>
+
+    <line x1="120" y1="182" x2="120" y2="215" stroke="#1e293b" stroke-width="3"/>
+    <rect x="100" y="215" width="40" height="45" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
+    <text x="120" y="234" font-size="10" font-weight="700" fill="#2563eb" text-anchor="middle">10k</text>
+    <text x="120" y="248" font-size="10" font-weight="700" fill="#2563eb" text-anchor="middle">Ω</text>
+
+    <line x1="120" y1="260" x2="120" y2="280" stroke="#1e293b" stroke-width="3"/>
+    <text x="120" y="298" font-size="12" font-weight="700" fill="#1e293b" text-anchor="middle">GND</text>
+  </g>
+
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect x="1" y="1" width="758" height="358" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="380" y="28" font-size="16" font-weight="700" fill="#1e293b" text-anchor="middle">Bobinas Set (S) e Reset (R) — comportamento de memória (latch)</text>
+
+  <!-- linhas guia -->
+  <line x1="150" y1="55" x2="150" y2="330" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <line x1="450" y1="55" x2="450" y2="330" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+  <!-- ===== linha SET ===== -->
+  <text x="55" y="86" font-size="12.5" font-weight="700" fill="#16a34a" text-anchor="end">Set</text>
+  <path d="M 60 110 L 150 110 L 150 70 L 220 70 L 220 110 L 700 110"
+        stroke="#16a34a" stroke-width="3" fill="none"/>
+  <text x="185" y="60" font-size="10" fill="#16a34a" text-anchor="middle">pulso de Set</text>
+
+  <!-- ===== linha RESET ===== -->
+  <text x="55" y="176" font-size="12.5" font-weight="700" fill="#dc2626" text-anchor="end">Reset</text>
+  <path d="M 60 200 L 450 200 L 450 160 L 520 160 L 520 200 L 700 200"
+        stroke="#dc2626" stroke-width="3" fill="none"/>
+  <text x="485" y="150" font-size="10" fill="#dc2626" text-anchor="middle">pulso de Reset</text>
+
+  <!-- ===== linha Q (saida latched) ===== -->
+  <text x="55" y="286" font-size="12.5" font-weight="700" fill="#2563eb" text-anchor="end">Q</text>
+  <path d="M 60 310 L 150 310 L 150 270 L 450 270 L 450 310 L 700 310"
+        stroke="#2563eb" stroke-width="3" fill="none"/>
+  <rect x="150" y="270" width="300" height="40" fill="#2563eb" opacity="0.08"/>
+  <text x="300" y="255" font-size="10.5" fill="#1e3a8a" text-anchor="middle">Q permanece "1" mesmo depois do pulso de Set terminar</text>
+
+  <!-- rotulos das transicoes -->
+  <text x="150" y="345" font-size="11" fill="#475569" text-anchor="middle">Set energiza Q</text>
+  <text x="450" y="345" font-size="11" fill="#475569" text-anchor="middle">Reset desenergiza Q</text>
+</svg>

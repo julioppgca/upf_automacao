@@ -1,0 +1,22 @@
+{
+  "ESP32-DOIT DEVKIT V1": [
+    {
+      "pin": "23",
+      "pinType": "digitalInput",
+      "address": "%IX0.0",
+      "alias": ""
+    },
+    {
+      "pin": "22",
+      "pinType": "digitalInput",
+      "address": "%IX0.1",
+      "alias": ""
+    },
+    {
+      "pin": "02",
+      "pinType": "digitalOutput",
+      "address": "%QX0.0",
+      "alias": ""
+    }
+  ]
+}

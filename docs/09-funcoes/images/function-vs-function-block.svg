@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="380" viewBox="0 0 760 380" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect x="1" y="1" width="758" height="378" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="380" y="28" font-size="16" font-weight="700" fill="#1e293b" text-anchor="middle">Função × Bloco de Função — quem guarda estado?</text>
+
+  <!-- divisoria -->
+  <line x1="380" y1="45" x2="380" y2="360" stroke="#e2e8f0" stroke-width="2"/>
+
+  <!-- ===== lado esquerdo: FUNCAO ===== -->
+  <text x="190" y="68" font-size="13.5" font-weight="700" fill="#2563eb" text-anchor="middle">FUNÇÃO — ex.: ADD (sem memória)</text>
+
+  <!-- chamada 1 -->
+  <rect x="60" y="90" width="70" height="46" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="95" y="118" font-size="12" fill="#1e3a8a" text-anchor="middle">ADD</text>
+  <text x="30" y="108" font-size="10.5" fill="#475569" text-anchor="end">A=2</text>
+  <text x="30" y="124" font-size="10.5" fill="#475569" text-anchor="end">B=3</text>
+  <path d="M 130 113 L 165 113" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrow1)"/>
+  <text x="200" y="118" font-size="12" fill="#1e293b" font-weight="700">OUT = 5</text>
+
+  <!-- chamada 2 -->
+  <rect x="60" y="150" width="70" height="46" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="95" y="178" font-size="12" fill="#1e3a8a" text-anchor="middle">ADD</text>
+  <text x="30" y="168" font-size="10.5" fill="#475569" text-anchor="end">A=2</text>
+  <text x="30" y="184" font-size="10.5" fill="#475569" text-anchor="end">B=3</text>
+  <path d="M 130 173 L 165 173" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrow1)"/>
+  <text x="200" y="178" font-size="12" fill="#1e293b" font-weight="700">OUT = 5</text>
+
+  <!-- chamada 3 -->
+  <rect x="60" y="210" width="70" height="46" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="95" y="238" font-size="12" fill="#1e3a8a" text-anchor="middle">ADD</text>
+  <text x="30" y="228" font-size="10.5" fill="#475569" text-anchor="end">A=2</text>
+  <text x="30" y="244" font-size="10.5" fill="#475569" text-anchor="end">B=3</text>
+  <path d="M 130 233 L 165 233" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrow1)"/>
+  <text x="200" y="238" font-size="12" fill="#1e293b" font-weight="700">OUT = 5</text>
+
+  <text x="190" y="290" font-size="10.5" fill="#475569" text-anchor="middle">3 chamadas, sempre com A=2 e B=3</text>
+  <rect x="55" y="305" width="270" height="34" rx="6" fill="#2563eb" opacity="0.08"/>
+  <text x="190" y="326" font-size="11" fill="#1e3a8a" text-anchor="middle" font-weight="700">Mesma entrada → sempre a mesma saída</text>
+
+  <!-- ===== lado direito: FUNCTION BLOCK ===== -->
+  <text x="570" y="68" font-size="13.5" font-weight="700" fill="#c2410c" text-anchor="middle">BLOCO DE FUNÇÃO — ex.: CTU0 (com memória)</text>
+
+  <!-- chamada 1 -->
+  <rect x="440" y="90" width="70" height="46" rx="6" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"/>
+  <text x="475" y="112" font-size="11" fill="#7c2d12" text-anchor="middle">CTU0</text>
+  <text x="475" y="126" font-size="9" fill="#9a3412" text-anchor="middle">(instância)</text>
+  <text x="410" y="118" font-size="10.5" fill="#475569" text-anchor="end">CU=1</text>
+  <path d="M 510 113 L 545 113" stroke="#c2410c" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
+  <text x="580" y="118" font-size="12" fill="#1e293b" font-weight="700">CV = 1</text>
+
+  <!-- chamada 2 -->
+  <rect x="440" y="150" width="70" height="46" rx="6" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"/>
+  <text x="475" y="172" font-size="11" fill="#7c2d12" text-anchor="middle">CTU0</text>
+  <text x="475" y="186" font-size="9" fill="#9a3412" text-anchor="middle">(instância)</text>
+  <text x="410" y="178" font-size="10.5" fill="#475569" text-anchor="end">CU=1</text>
+  <path d="M 510 173 L 545 173" stroke="#c2410c" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
+  <text x="580" y="178" font-size="12" fill="#1e293b" font-weight="700">CV = 2</text>
+
+  <!-- chamada 3 -->
+  <rect x="440" y="210" width="70" height="46" rx="6" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"/>
+  <text x="475" y="232" font-size="11" fill="#7c2d12" text-anchor="middle">CTU0</text>
+  <text x="475" y="246" font-size="9" fill="#9a3412" text-anchor="middle">(instância)</text>
+  <text x="410" y="238" font-size="10.5" fill="#475569" text-anchor="end">CU=1</text>
+  <path d="M 510 233 L 545 233" stroke="#c2410c" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
+  <text x="580" y="238" font-size="12" fill="#1e293b" font-weight="700">CV = 3</text>
+
+  <text x="570" y="290" font-size="10.5" fill="#475569" text-anchor="middle">3 chamadas, sempre com CU=1 (mesmo pulso)</text>
+  <rect x="435" y="305" width="270" height="34" rx="6" fill="#c2410c" opacity="0.08"/>
+  <text x="570" y="326" font-size="11" fill="#7c2d12" text-anchor="middle" font-weight="700">Mesma entrada → saída depende do estado guardado</text>
+
+  <defs>
+    <marker id="arrow1" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrow2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#c2410c"/>
+    </marker>
+  </defs>
+</svg>
