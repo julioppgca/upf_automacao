@@ -23,6 +23,7 @@ cada uma:
 | 08 | [08-termostato-simulado/](08-termostato-simulado/) | [enunciado](08-termostato-simulado/termostato-simulado-enunciado.md) (aluno) / [gabarito](08-termostato-simulado/termostato-simulado-gabarito.md) (professor) *(rascunho — sem montagem ainda)* | — |
 | 09 | [09-funcoes/](09-funcoes/) | [funcoes.md](09-funcoes/funcoes.md) ([PDF](09-funcoes/funcoes.pdf)) *(prévia — em andamento)* | [quadro-resumo.md](09-funcoes/quadro-resumo.md) |
 | 10 | [10-partida-sequencial-motores/](10-partida-sequencial-motores/) | [enunciado](10-partida-sequencial-motores/partida-sequencial-motores-enunciado.md) ([PDF](10-partida-sequencial-motores/partida-sequencial-motores-enunciado.pdf)) (aluno) / [gabarito](10-partida-sequencial-motores/partida-sequencial-motores-gabarito.md) ([PDF](10-partida-sequencial-motores/partida-sequencial-motores-gabarito.pdf)) (professor) *(rascunho — sem montagem ainda)* | — |
+| 11 | [11-funcoes-c-cpp/](11-funcoes-c-cpp/) | [funcoes-c-cpp.md](11-funcoes-c-cpp/funcoes-c-cpp.md) ([PDF](11-funcoes-c-cpp/funcoes-c-cpp.pdf)) + exercício: [enunciado](11-funcoes-c-cpp/exercicio-potenciometro-pwm-enunciado.md) ([PDF](11-funcoes-c-cpp/exercicio-potenciometro-pwm-enunciado.pdf)) | [quadro-resumo.md](11-funcoes-c-cpp/quadro-resumo.md) |
 
 ## Conteúdo de cada módulo
 
@@ -50,6 +51,10 @@ cada uma:
     a decisão Function × Function Block da aula 09: por que escalonar a
     partida de motores, e um Function Block próprio compondo `SR`,
     `R_TRIG` e três `TON` para sequenciar 4 saídas com atraso.
+11. **Funções em C/C++ no OpenPLC** *(prévia)* — POUs escritos em C/C++
+    puro (`setup()`/`loop()`, no estilo Arduino), por que isso ainda é um
+    Function Block, e um exemplo real: um mini servidor HTTP Wi-Fi no
+    ESP32.
 
 ## Convenções
 

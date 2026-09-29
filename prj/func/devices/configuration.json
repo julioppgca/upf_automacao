@@ -4,7 +4,8 @@
   "runtimeIpAddress": "",
   "vendorScreenData": {},
   "vendorScreenDataByBoard": {
-    "OpenPLC Simulator": {}
+    "OpenPLC Simulator": {},
+    "ESP32-DOIT DEVKIT V1": {}
   },
   "selectedPlatformOptions": {}
 }

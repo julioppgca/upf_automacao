@@ -1,0 +1,11 @@
+{
+  "deviceBoard": "ESP32-DOIT DEVKIT V1",
+  "communicationPort": "/dev/ttyUSB0",
+  "runtimeIpAddress": "",
+  "vendorScreenData": {},
+  "vendorScreenDataByBoard": {
+    "OpenPLC Simulator": {},
+    "ESP32-DOIT DEVKIT V1": {}
+  },
+  "selectedPlatformOptions": {}
+}

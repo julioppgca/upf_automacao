@@ -1,0 +1,6 @@
+% Tema: partida de motor / hardware (aula 04)
+\question[3] Por que um botão ligado a uma entrada digital que não tem resistor de pull interno precisa de um resistor de pull-down (ou pull-up) externo?
+
+\begin{solution}
+Sem um resistor de pull, quando o botão está solto a entrada fica ``flutuando'' (não conectada firmemente nem ao nível alto nem ao baixo), captando ruído eletromagnético do ambiente e podendo ler valores aleatórios e instáveis. O resistor de pull-down (ligado ao GND) ou pull-up (ligado à alimentação) garante um nível lógico definido quando o botão está solto, e o botão, ao ser pressionado, sobrepõe esse nível com o oposto.
+\end{solution}

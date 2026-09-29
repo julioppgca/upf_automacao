@@ -1,0 +1,12 @@
+% Tema: introducao ao CLP (aula 01)
+\question[2] O que é o \textbf{ciclo de varredura} (\textit{scan cycle}) de um CLP? Cite as três etapas básicas que se repetem a cada ciclo.
+
+\begin{solution}
+O ciclo de varredura é a sequência repetida de operações que o CLP executa continuamente durante a operação:
+\begin{enumerate}
+  \item \textbf{Leitura das entradas} -- o CLP lê o estado de todas as entradas físicas e grava numa tabela/imagem de entrada.
+  \item \textbf{Execução do programa} -- o programa (Ladder/ST/...) é executado do início ao fim, usando os valores lidos.
+  \item \textbf{Escrita das saídas} -- os valores calculados são escritos de uma vez nas saídas físicas.
+\end{enumerate}
+Esse ciclo se repete indefinidamente, com um tempo de varredura tipicamente da ordem de poucos milissegundos.
+\end{solution}

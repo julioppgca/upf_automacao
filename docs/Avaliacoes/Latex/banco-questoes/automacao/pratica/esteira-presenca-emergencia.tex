@@ -1,0 +1,23 @@
+% Tema: projeto pratico integrando aulas 02-08 (so' Ladder, sem
+% Function/Function Block personalizados, sem Structured Text)
+\question[20] \textbf{Esteira com sensor de presença e parada de emergência}
+
+Monte, no simulador do OpenPLC, o sistema descrito abaixo. Use apenas Ladder e os blocos padrão já vistos em aula (contatos de borda, Set/Reset, \texttt{TON}/\texttt{TOF}) -- sem criar Function/Function Block personalizados e sem Structured Text.
+
+\begin{parts}
+  \part[4] Um botão \texttt{liga} alterna entre armado e desarmado a cada toque (contato de borda + inversão de estado).
+  \part[4] Um sensor de presença (botão) liga a esteira (LED) somente quando o sistema estiver armado \textbf{e} o sensor detectar.
+  \part[5] Quando o sensor deixa de detectar, a esteira continua ligada por mais 3 segundos antes de desligar (\texttt{TOF}).
+  \part[5] Um botão \texttt{emergencia} desliga a esteira imediatamente e desarma o sistema, independentemente de qualquer outra condição -- só volta a funcionar com um novo toque em \texttt{liga}.
+  \part[2] Entregue o projeto do simulador junto com capturas de tela do modo debug mostrando três momentos: a esteira ligando pelo sensor, o \texttt{TOF} contando após o sensor cair, e a emergência interrompendo tudo.
+\end{parts}
+
+\begin{solution}
+\textbf{Ideia geral da solução:}
+\begin{itemize}
+  \item Um bit interno \texttt{armado} é controlado por um contato de borda (\texttt{P}) no botão \texttt{liga} que inverte seu próprio estado a cada toque (mesmo padrão de arme/desarme da aula 08).
+  \item A esteira liga em nível: \texttt{esteira := armado AND sensor}, mas passando por um \texttt{TOF} para segurar o desligamento.
+  \item \texttt{TOF0(IN := armado AND sensor, PT := T\#3s)}; a saída da esteira vem de \texttt{TOF0.Q}.
+  \item O botão \texttt{emergencia} força \texttt{armado} para falso (dominante sobre o toggle) e corta a esteira na hora, independentemente do estado do \texttt{TOF}.
+\end{itemize}
+\end{solution}

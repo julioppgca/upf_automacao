@@ -1,0 +1,150 @@
+% Tema: projeto pratico integrando aulas 02-09 (Function/Function Block
+% ja precisa ter sido lecionado). Implementacao 100% em Ladder -- nenhum
+% trecho em Structured Text, nem no programa principal, nem dentro do
+% bloco pisca_lampada.
+\question[25] \textbf{Controle de nível de caixa d'água com sinalização}
+
+Monte, no simulador do OpenPLC, o sistema descrito abaixo. \textbf{Toda a
+implementação deve ser em Ladder} -- inclusive o bloco do item (a) --,
+sem nenhum trecho em Structured Text.
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+
+  %% ===================== RESERVATORIO =====================
+  \draw[thick] (2,0) rectangle (5,5);
+  \node[above] at (3.5,5.3) {\textbf{Caixa d'água}};
+
+  % Nivel de agua atual (ilustrativo, entre minimo e maximo)
+  \fill[blue!20] (2.05,0.05) rectangle (4.95,2.5);
+  \draw[blue] (2.05,2.5) -- (4.95,2.5);
+
+  % Sensor de nivel baixo (entrada)
+  \draw[dashed, red] (1.7,1) -- (5.3,1);
+  \filldraw[red] (5.3,1) circle (2pt);
+  \node[right] at (5.4,1) {\texttt{nivel\_baixo} (E)};
+
+  % Sensor de nivel alto (entrada)
+  \draw[dashed, red] (1.7,4) -- (5.3,4);
+  \filldraw[red] (5.3,4) circle (2pt);
+  \node[right] at (5.4,4) {\texttt{nivel\_alto} (E)};
+
+  % Saida de consumo (parte de baixo do reservatorio)
+  \draw[->, thick] (3.5,0) -- (3.5,-0.9);
+  \node[below] at (3.5,-0.9) {consumo};
+
+  %% ===================== BOMBA =====================
+  \draw[thick] (0.9,-1.1) rectangle (2.1,-0.3);
+  \node at (1.5,-0.7) {M};
+  \node[below] at (1.5,-1.1) {\texttt{bomba} (S)};
+  \draw[thick] (1.5,-0.3) -- (1.5,3);
+  \draw[->, thick] (1.5,3) -- (2.3,3);
+
+  %% ===================== PAINEL DE CONTROLE =====================
+  \draw[dashed] (-3.3,-0.9) rectangle (-0.5,5.0);
+  \node[above] at (-1.9,5.0) {\textbf{Painel de controle}};
+
+  % Entradas: botoes (labels em uma linha so, pra nao se sobrepor)
+  \node at (-1.9,4.6) {\textit{Entradas}};
+
+  \draw[thick] (-1.9,4.0) circle (0.32);
+  \node[footnotesize] at (-1.9,3.55) {\texttt{habilita\_sistema} (E)};
+
+  \draw[thick, red] (-1.9,2.85) circle (0.32);
+  \node at (-1.9,2.85) {\footnotesize\textbf{!}};
+  \node[footnotesize] at (-1.9,2.4) {\texttt{emergencia\_manual} (E)};
+
+  % Saidas: luzes de sinalizacao, empilhadas (nao lado a lado)
+  \node at (-1.9,1.85) {\textit{Saídas}};
+
+  \filldraw[green!60!black] (-1.9,1.35) circle (0.22);
+  \node[footnotesize] at (-1.9,0.98) {\texttt{led\_verde} (S)};
+
+  \filldraw[red] (-1.9,0.5) circle (0.22);
+  \node[footnotesize] at (-1.9,0.13) {\texttt{led\_vermelho} (S)};
+
+\end{tikzpicture}
+\end{center}
+\begin{center}
+\footnotesize (E) = entrada do sistema \quad (S) = saída do sistema
+\end{center}
+
+\begin{parts}
+
+  \part[5] Crie um bloco \texttt{pisca\_lampada} para piscar uma
+  lâmpada/LED. Entradas: \texttt{habilita} (\texttt{BOOL}) e
+  \texttt{tempo\_pisca} (\texttt{TIME}, ex.: \texttt{T\#500ms}); saída:
+  \texttt{saida} (\texttt{BOOL}), que liga por \texttt{tempo\_pisca} e
+  desliga por \texttt{tempo\_pisca}, repetidamente, enquanto
+  \texttt{habilita} for verdadeiro. \textbf{Esse bloco deveria ser uma
+  Function ou um Function Block? Justifique sua escolha.}
+
+  \part[3] O sistema tem um único botão \texttt{habilita\_sistema}: o
+  primeiro pulso \textbf{habilita} o sistema, o segundo pulso
+  \textbf{desabilita}, e assim por diante (alternância por borda, sem
+  segurar o botão pressionado).
+
+  \part[4] \textbf{Sinalização:} com o sistema habilitado e sem
+  emergência, uma luz verde fica \textbf{acesa fixa}. Em emergência, uma
+  luz vermelha \textbf{pisca}, usando uma instância do
+  \texttt{pisca\_lampada} do item (a). Com o sistema desabilitado, as
+  duas luzes ficam apagadas.
+
+  \part[4] \textbf{Controle da bomba:} com o sistema habilitado, a bomba
+  liga quando o sensor \texttt{nivel\_baixo} indicar água no mínimo, e
+  desliga quando o sensor \texttt{nivel\_alto} indicar água no máximo.
+  Com o sistema desabilitado, a bomba fica desligada, independente dos
+  sensores.
+
+  \part[4] \textbf{Bloqueio de religamento:} depois de desligar, a bomba
+  não pode religar antes de um tempo mínimo configurável (ex.:
+  \texttt{T\#5s}), mesmo que \texttt{nivel\_baixo} volte a indicar
+  antes disso.
+
+  \part[3] \textbf{Emergência:} o sistema entra em emergência quando
+  \texttt{nivel\_baixo} \textbf{e} \texttt{nivel\_alto} estiverem
+  verdadeiros ao mesmo tempo (situação fisicamente impossível --
+  indício de sensor com defeito), \textbf{ou} quando um botão
+  \texttt{emergencia\_manual} for pressionado. A emergência só é
+  avaliada com o sistema habilitado.
+
+  \part[2] Quando terminar, \textbf{chame o professor} para mostrar o
+  sistema funcionando ao vivo (mostre: o \texttt{pisca\_lampada}
+  piscando isoladamente com um \texttt{tempo\_pisca} de sua escolha; a
+  bomba ligando/desligando pelos sensores de nível; o bloqueio impedindo
+  o religamento imediato; e a luz vermelha piscando ao forçar uma
+  condição de emergência). Depois da demonstração, \textbf{envie o
+  projeto pelo Google Classroom}.
+
+\end{parts}
+
+\begin{solution}
+\textbf{Ideia geral da solução:}
+\begin{itemize}
+  \item \textbf{(a)} Deve ser \textbf{Function Block}: o bloco precisa
+  lembrar em que fase do ciclo está e há quanto tempo, entre varreduras
+  -- uma Function não guarda esse tipo de estado. Implementação clássica
+  com dois \texttt{TON} cruzados, só em Ladder:
+  \begin{center}
+  \texttt{TON\_ON (IN := habilita AND NOT TON\_OFF.Q, PT := tempo\_pisca)} \\
+  \texttt{TON\_OFF(IN := habilita AND TON\_ON.Q,      PT := tempo\_pisca)} \\
+  \texttt{saida := TON\_ON.Q AND NOT TON\_OFF.Q}
+  \end{center}
+  \item \textbf{(b)} Um contato de borda de subida (\texttt{P}) no botão
+  \texttt{habilita\_sistema} inverte o bit \texttt{sistema\_habilitado}
+  a cada pulso (mesmo padrão de arme/desarme da aula 08).
+  \item \textbf{(c)} \texttt{led\_verde := sistema\_habilitado AND NOT
+  emergencia}. Uma instância \texttt{PISCA0} do \texttt{pisca\_lampada}
+  com \texttt{habilita := emergencia} e \texttt{tempo\_pisca} à escolha
+  alimenta \texttt{led\_vermelho}.
+  \item \textbf{(d)} Um \texttt{SR} com \texttt{S1 := sistema\_habilitado
+  AND nivel\_baixo} e \texttt{R := (NOT sistema\_habilitado) OR
+  nivel\_alto} controla a bomba -- os dois sensores físicos já fazem o
+  papel da histerese.
+  \item \textbf{(e)} \texttt{TON\_BLOQ(IN := NOT bomba, PT :=
+  T\#5s)}; a condição de Set da bomba no item anterior passa a exigir
+  também \texttt{TON\_BLOQ.Q}.
+  \item \textbf{(f)} \texttt{emergencia := sistema\_habilitado AND
+  ((nivel\_baixo AND nivel\_alto) OR emergencia\_manual)}.
+\end{itemize}
+\end{solution}

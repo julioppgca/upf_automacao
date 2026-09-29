@@ -1,0 +1,10 @@
+% Tema: variaveis no OpenPLC (aula 07)
+\question[3] Diferencie os endereços \texttt{\%IX0.0}, \texttt{\%QW0} e \texttt{\%MW3}.
+
+\begin{solution}
+\begin{itemize}
+  \item \texttt{\%IX0.0} -- entrada (\texttt{I}) digital/booleana (\texttt{X}), byte 0, bit 0.
+  \item \texttt{\%QW0} -- saída (\texttt{Q}) do tipo palavra/\texttt{WORD} (\texttt{W}), posição 0 -- por exemplo, uma saída analógica.
+  \item \texttt{\%MW3} -- memória interna (\texttt{M}) do tipo palavra (\texttt{W}), posição 3 -- uma variável interna do programa, sem ligação direta com E/S física.
+\end{itemize}
+\end{solution}

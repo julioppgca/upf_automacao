@@ -25,13 +25,13 @@
         "instances": [
           {
             "name": "instance0",
-            "program": "main",
-            "task": "task0"
+            "task": "task0",
+            "program": "main"
           },
           {
             "name": "instance1",
-            "program": "compara_contador",
-            "task": "task1"
+            "task": "task1",
+            "program": "compara_contador"
           }
         ],
         "globalVariables": [
@@ -41,7 +41,6 @@
               "definition": "base-type",
               "value": "INT"
             },
-            "class": "global",
             "location": "",
             "documentation": "",
             "debug": false
@@ -52,7 +51,6 @@
               "definition": "base-type",
               "value": "INT"
             },
-            "class": "global",
             "location": "",
             "documentation": "",
             "debug": false

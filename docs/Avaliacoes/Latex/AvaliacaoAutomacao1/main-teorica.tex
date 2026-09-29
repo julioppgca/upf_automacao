@@ -1,0 +1,64 @@
+\documentclass{../avaliacao}
+
+% TODO: ajustar o codigo/nome da disciplina antes de usar de verdade
+\configuraavaliacao
+  {ITec - Instituto de Tecnologia}
+  {XXXXX}
+  {Automação Industrial}
+  {Júlio Santos}
+  {Avaliação \#1 -- Parte Teórica}
+  {outubro de 2026}
+  {../../logo_upf.png}
+
+% Para imprimir o gabarito junto da prova, descomente a linha abaixo:
+% \printanswers
+
+\begin{document}
+
+\imprimecabecalho
+
+\begin{center}
+\textbf{Instruções:} prova individual, \textbf{sem consulta}. Duração: 19h20 às 20h45 (85 min).
+\end{center}
+\vspace{0.5cm}
+
+\begin{questions}
+
+% Espaco de resposta proporcional ao tamanho esperado da resposta --
+% ajuste os valores abaixo depois de ver a paginacao real compilada.
+\input{../banco-questoes/automacao/clp-intro/ciclo-varredura}
+\vspace{3.5cm}
+\input{../banco-questoes/automacao/ladder-basico/porta-and-not}
+\vspace{3.5cm}
+\input{../banco-questoes/automacao/hardware-motor/isolamento-gpio-contator}
+\vspace{2.5cm}
+\input{../banco-questoes/automacao/hardware-motor/pulldown-pullup}
+\vspace{2.5cm}
+\input{../banco-questoes/automacao/timers-edges/borda-subida-duracao}
+\vspace{2cm}
+
+\newpage
+\input{../banco-questoes/automacao/timers-edges/timing-ton-tof}
+\vspace{1cm}
+
+\newpage
+\input{../banco-questoes/automacao/timers-edges/set-reset-prioridade}
+\vspace{2.5cm}
+\input{../banco-questoes/automacao/timers-edges/tipo-time-pt}
+\vspace{2cm}
+\input{../banco-questoes/automacao/variaveis/enderecamento-ix-qw-mw}
+\vspace{2.5cm}
+
+\newpage
+\input{../banco-questoes/automacao/variaveis/conversao-analogica-percentual}
+\vspace{2.5cm}
+\input{../banco-questoes/automacao/termostato-aplicacao/histerese}
+\vspace{2cm}
+\input{../banco-questoes/automacao/termostato-aplicacao/bloqueio-religamento}
+\vspace{2cm}
+
+\tabelapontuacao
+
+\end{questions}
+
+\end{document}

@@ -1,0 +1,10 @@
+% Tema: Ladder basico, portas logicas (aulas 02/03)
+\question[4] Descreva (em palavras ou desenhando) o rung em Ladder de uma saída \texttt{Q} que liga quando os contatos \texttt{A} \textbf{E} \texttt{B} estiverem fechados, mas \textbf{não} liga quando \texttt{C} estiver fechado.
+
+\begin{solution}
+Um rung com \texttt{A} e \texttt{B} em série (dois contatos NA), e um contato \texttt{C} também em série mas do tipo NF (normalmente fechado), todos alimentando a bobina \texttt{Q}:
+\begin{center}
+\texttt{---| A |---| B |---|/C|---( Q )---}
+\end{center}
+Lógica equivalente: $Q = A \cdot B \cdot \overline{C}$.
+\end{solution}

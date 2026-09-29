@@ -1,0 +1,10 @@
+% Tema: variaveis no OpenPLC (aula 07)
+\question[4] Uma entrada analógica bruta chega como um valor inteiro de 0 a 65535 (\texttt{WORD}). Explique (com fórmula ou raciocínio) como converter essa leitura para uma faixa de 0 a 100 (percentual).
+
+\begin{solution}
+Basta uma regra de três simples:
+\[
+\text{percentual} = \text{leitura} \times \dfrac{100}{65535}
+\]
+Ou seja, dividir o valor bruto pelo valor máximo possível (65535) e multiplicar por 100, mapeando linearmente a faixa 0--65535 para 0--100.
+\end{solution}

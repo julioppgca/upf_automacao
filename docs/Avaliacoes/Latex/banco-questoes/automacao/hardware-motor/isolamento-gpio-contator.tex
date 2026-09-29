@@ -1,0 +1,6 @@
+% Tema: partida de motor / hardware (aula 04)
+\question[3] Por que a saída digital (GPIO) de um microcontrolador nunca deve acionar diretamente a bobina de um contator? O que deve ser colocado entre os dois?
+
+\begin{solution}
+A bobina de um contator normalmente opera em tensão/corrente muito maior do que uma GPIO consegue fornecer (a GPIO tipicamente fornece poucos miliampères em 3,3V/5V), e contatores geram picos de tensão indutivos ao desenergizar, que podem danificar o microcontrolador. Por isso, usa-se um \textbf{módulo relé isolado (opto-acoplado)} entre a GPIO e a bobina do contator: a GPIO aciona a bobina de baixa potência do relé, e os contatos do relé (eletricamente isolados) fecham o circuito de potência que energiza o contator.
+\end{solution}

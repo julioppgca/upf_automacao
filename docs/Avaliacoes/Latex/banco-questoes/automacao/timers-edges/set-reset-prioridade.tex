@@ -1,0 +1,6 @@
+% Tema: bordas, set/reset, temporizadores (aula 06)
+\question[4] As bobinas Set (\texttt{S}) e Reset (\texttt{R}) do mesmo bit são ativadas ao mesmo tempo, no mesmo ciclo de varredura. Qual o valor final do bit, e como isso é decidido, pensando em Ladder (não em código)?
+
+\begin{solution}
+Quem ``vence'' é a bobina do \textbf{rung que for resolvido por último} -- o CLP executa os rungs de cima para baixo, na ordem em que aparecem no programa. Se o rung de Reset vier depois do rung de Set, o Reset prevalece (``Reset dominante''); se o Set vier depois, o Set prevalece. Não há uma regra fixa da norma para Ladder -- depende da ordem em que o programador colocou os rungs.
+\end{solution}

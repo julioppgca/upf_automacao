@@ -10,6 +10,7 @@ PROGRAM main
     bt2 : BOOL AT %IX0.1;
     MEU_CONTADOR0 : meu_contador;
     MEU_CONTADOR1 : meu_contador;
+    SERVIDOR0 : servidor;
   END_VAR
 
 {
@@ -863,7 +864,8 @@ PROGRAM main
           "targetHandle": "input"
         }
       ],
-      "selectedNodes": []
+      "selectedNodes": [],
+      "handleBranches": []
     },
     {
       "id": "rung_main_f04d697a-cdbc-4ccd-81f4-b13e55d5fd3a",
@@ -2526,7 +2528,7 @@ PROGRAM main
         100
       ],
       "reactFlowViewport": [
-        300,
+        502,
         120
       ],
       "nodes": [
@@ -2619,10 +2621,188 @@ PROGRAM main
           "dragging": false
         },
         {
+          "id": "BLOCK_a8d1a5dc-b316-44f0-affe-b5cec61582fe",
+          "type": "block",
+          "position": {
+            "x": 143,
+            "y": 14
+          },
+          "data": {
+            "handles": [
+              {
+                "glbPosition": {
+                  "x": 143,
+                  "y": 50
+                },
+                "relPosition": {
+                  "x": 0,
+                  "y": 36
+                },
+                "id": "EN",
+                "position": "left",
+                "type": "target",
+                "isConnectable": false,
+                "style": {
+                  "top": 36,
+                  "left": 0
+                }
+              },
+              {
+                "glbPosition": {
+                  "x": 239,
+                  "y": 50
+                },
+                "relPosition": {
+                  "x": 96,
+                  "y": 36
+                },
+                "id": "ENO",
+                "position": "right",
+                "type": "source",
+                "isConnectable": false,
+                "style": {
+                  "top": 36,
+                  "right": 0
+                }
+              }
+            ],
+            "inputHandles": [
+              {
+                "glbPosition": {
+                  "x": 143,
+                  "y": 50
+                },
+                "relPosition": {
+                  "x": 0,
+                  "y": 36
+                },
+                "id": "EN",
+                "position": "left",
+                "type": "target",
+                "isConnectable": false,
+                "style": {
+                  "top": 36,
+                  "left": 0
+                }
+              }
+            ],
+            "outputHandles": [
+              {
+                "glbPosition": {
+                  "x": 239,
+                  "y": 50
+                },
+                "relPosition": {
+                  "x": 96,
+                  "y": 36
+                },
+                "id": "ENO",
+                "position": "right",
+                "type": "source",
+                "isConnectable": false,
+                "style": {
+                  "top": 36,
+                  "right": 0
+                }
+              }
+            ],
+            "inputConnector": {
+              "glbPosition": {
+                "x": 143,
+                "y": 50
+              },
+              "relPosition": {
+                "x": 0,
+                "y": 36
+              },
+              "id": "EN",
+              "position": "left",
+              "type": "target",
+              "isConnectable": false,
+              "style": {
+                "top": 36,
+                "left": 0
+              }
+            },
+            "outputConnector": {
+              "glbPosition": {
+                "x": 239,
+                "y": 50
+              },
+              "relPosition": {
+                "x": 96,
+                "y": 36
+              },
+              "id": "ENO",
+              "position": "right",
+              "type": "source",
+              "isConnectable": false,
+              "style": {
+                "top": 36,
+                "right": 0
+              }
+            },
+            "numericId": "2415307",
+            "variant": {
+              "name": "servidor",
+              "type": "function-block",
+              "variables": [
+                {
+                  "name": "EN",
+                  "class": "input",
+                  "type": {
+                    "definition": "generic-type",
+                    "value": "BOOL"
+                  }
+                },
+                {
+                  "name": "ENO",
+                  "class": "output",
+                  "type": {
+                    "definition": "generic-type",
+                    "value": "BOOL"
+                  }
+                }
+              ],
+              "documentation": "",
+              "extensible": false
+            },
+            "variable": {
+              "id": "80988c69-a537-482f-8868-6183a831c7c8",
+              "name": "SERVIDOR0",
+              "type": {
+                "definition": "derived",
+                "value": "servidor"
+              },
+              "class": "local",
+              "location": "",
+              "documentation": "",
+              "debug": false
+            },
+            "executionOrder": 0,
+            "executionControl": true,
+            "lockExecutionControl": true,
+            "connectedVariables": [],
+            "draggable": true,
+            "selectable": true,
+            "deletable": true
+          },
+          "width": 96,
+          "height": 60,
+          "measured": {
+            "width": 96,
+            "height": 60
+          },
+          "draggable": true,
+          "selectable": true,
+          "selected": false,
+          "dragging": false
+        },
+        {
           "id": "right-rail-rung_main_b5868c17-45e7-448b-b890-6bb9d025dc3b",
           "type": "powerRail",
           "position": {
-            "x": 297,
+            "x": 499,
             "y": 30
           },
           "data": {
@@ -2644,7 +2824,7 @@ PROGRAM main
                   "top": 20,
                   "left": -3
                 },
-                "x": 297
+                "x": 499
               }
             ],
             "inputHandles": [
@@ -2710,14 +2890,22 @@ PROGRAM main
       ],
       "edges": [
         {
-          "id": "e_left-rail-rung_main_b5868c17-45e7-448b-b890-6bb9d025dc3b_right-rail-rung_main_b5868c17-45e7-448b-b890-6bb9d025dc3b__left-rail_right-rail",
+          "id": "e_left-rail-rung_main_b5868c17-45e7-448b-b890-6bb9d025dc3b_BLOCK_a8d1a5dc-b316-44f0-affe-b5cec61582fe__left-rail_EN",
           "source": "left-rail-rung_main_b5868c17-45e7-448b-b890-6bb9d025dc3b",
-          "target": "right-rail-rung_main_b5868c17-45e7-448b-b890-6bb9d025dc3b",
+          "target": "BLOCK_a8d1a5dc-b316-44f0-affe-b5cec61582fe",
           "sourceHandle": "left-rail",
+          "targetHandle": "EN"
+        },
+        {
+          "id": "e_BLOCK_a8d1a5dc-b316-44f0-affe-b5cec61582fe_right-rail-rung_main_b5868c17-45e7-448b-b890-6bb9d025dc3b__ENO_right-rail",
+          "source": "BLOCK_a8d1a5dc-b316-44f0-affe-b5cec61582fe",
+          "target": "right-rail-rung_main_b5868c17-45e7-448b-b890-6bb9d025dc3b",
+          "sourceHandle": "ENO",
           "targetHandle": "right-rail"
         }
       ],
-      "selectedNodes": []
+      "selectedNodes": [],
+      "handleBranches": []
     }
   ]
 }
