@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="450" viewBox="0 0 940 450" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect x="1" y="1" width="938" height="448" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="470.0" y="28" font-size="16" fill="#1e293b" text-anchor="middle" font-weight="700">Sourcing × sinking: um lado fornece corrente, o outro absorve</text>
+  <rect x="20" y="50" width="440" height="380" rx="8" fill="#fff7ed" stroke="#fdba74" stroke-width="1.5"/>
+  <text x="28" y="66" font-size="11" fill="#64748b" text-anchor="start" font-weight="600">(a) sensor PNP (source) → entrada sink</text>
+  <polyline points="40,95 440,95" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="44" y="89" font-size="12" fill="#dc2626" text-anchor="start" font-weight="700">+24 V</text>
+  <polyline points="40,380 440,380" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="44" y="398" font-size="12" fill="#2563eb" text-anchor="start" font-weight="700">0 V</text>
+  <rect x="60" y="130" width="150" height="190" rx="8" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <text x="135" y="150" font-size="12" fill="#1e293b" text-anchor="middle" font-weight="700">sensor PNP</text>
+  <rect x="72" y="195" width="42" height="40" rx="4" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
+  <text x="93" y="219" font-size="10" fill="#64748b" text-anchor="middle" font-weight="400">lógica</text>
+  <polyline points="114,215 130.2,215" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="130.2,200.6 130.2,229.4" fill="none" stroke="#1e293b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="130.2,208.7 150.0,197.0 150.0,188.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="130.2,221.3 150.0,233.0 150.0,242.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="148.2,197.9 134.7,206.9" fill="none" stroke="#1e293b" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="134.7,206.9 138.6,201.1 141.6,205.6" fill="#1e293b"/>
+  <circle cx="137.39999999999998" cy="215" r="23.400000000000002" fill="none" stroke="#1e293b" stroke-width="1.5"/>
+  <polyline points="80,95 80,165" fill="none" stroke="#92400e" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="80" cy="95" r="3.2" fill="#dc2626"/>
+  <polyline points="80,380 80,300" fill="none" stroke="#1d4ed8" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="80" cy="380" r="3.2" fill="#2563eb"/>
+  <polyline points="150.0,188.0 150.0,165 80,165" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="150.0,242.0 150.0,270 210,270" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="210,270 282,270" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="228" y="262" font-size="10" fill="#1e293b" text-anchor="start" font-weight="600">OUT</text>
+  <rect x="278" y="160" width="150" height="160" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <text x="353" y="182" font-size="12" fill="#2563eb" text-anchor="middle" font-weight="700">entrada sink</text>
+  <circle cx="282" cy="270" r="4" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <text x="292" y="262" font-size="11" fill="#1e293b" text-anchor="start" font-weight="600">IN</text>
+  <polyline points="286,270 318,270" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="318,270 326.0,270" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="326.0" y="263" width="34" height="14" rx="0" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <polyline points="360.0,270 368,270" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="343.0" y="258" font-size="11" fill="#1e293b" text-anchor="middle" font-weight="400"></text>
+  <polyline points="368,270 393,270" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="393,270 393.0,276.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="393.0,294.0 393,300" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="384.0,276.0 402.0,276.0 393.0,294.0" fill="#ffffff" stroke="#1e293b" stroke-width="2" stroke-linejoin="round"/>
+  <polyline points="384.0,294.0 402.0,294.0" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="393,300 286,300" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="282" cy="300" r="4" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <text x="292" y="316" font-size="11" fill="#1e293b" text-anchor="start" font-weight="600">COM</text>
+  <text x="406" y="236" font-size="9" fill="#64748b" text-anchor="middle" font-weight="400">LED do</text>
+  <text x="406" y="247" font-size="9" fill="#64748b" text-anchor="middle" font-weight="400">opto</text>
+  <polyline points="278,300 262,300 262,380" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="262" cy="380" r="3.2" fill="#2563eb"/>
+  <polyline points="225,282 268,282" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="268,282 261.6,284.7 261.6,279.3" fill="#ea580c"/>
+  <text x="240" y="345" font-size="11" fill="#ea580c" text-anchor="middle" font-weight="600">corrente: +24 V → sensor → IN → COM → 0 V</text>
+  <text x="86" y="120" font-size="10" fill="#92400e" text-anchor="start" font-weight="400">marrom</text>
+  <text x="86" y="334" font-size="10" fill="#1d4ed8" text-anchor="start" font-weight="400">azul</text>
+  <rect x="480" y="50" width="440" height="380" rx="8" fill="#fff7ed" stroke="#fdba74" stroke-width="1.5"/>
+  <text x="488" y="66" font-size="11" fill="#64748b" text-anchor="start" font-weight="600">(b) sensor NPN (sink) → entrada source</text>
+  <polyline points="500,95 900,95" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="504" y="89" font-size="12" fill="#dc2626" text-anchor="start" font-weight="700">+24 V</text>
+  <polyline points="500,380 900,380" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="504" y="398" font-size="12" fill="#2563eb" text-anchor="start" font-weight="700">0 V</text>
+  <rect x="520" y="130" width="150" height="190" rx="8" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <text x="595" y="150" font-size="12" fill="#1e293b" text-anchor="middle" font-weight="700">sensor NPN</text>
+  <rect x="532" y="195" width="42" height="40" rx="4" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
+  <text x="553" y="219" font-size="10" fill="#64748b" text-anchor="middle" font-weight="400">lógica</text>
+  <polyline points="574,215 590.2,215" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="590.2,200.6 590.2,229.4" fill="none" stroke="#1e293b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="590.2,208.7 610.0,197.0 610.0,188.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="590.2,221.3 610.0,233.0 610.0,242.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="593.8000000000001,223.1 607.3,231.2" fill="none" stroke="#1e293b" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="607.3,231.2 600.4,230.2 603.2,225.5" fill="#1e293b"/>
+  <circle cx="597.4000000000001" cy="215" r="23.400000000000002" fill="none" stroke="#1e293b" stroke-width="1.5"/>
+  <polyline points="540,95 540,165" fill="none" stroke="#92400e" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="540" cy="95" r="3.2" fill="#dc2626"/>
+  <polyline points="540,380 540,300" fill="none" stroke="#1d4ed8" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="540" cy="380" r="3.2" fill="#2563eb"/>
+  <polyline points="610.0,188.0 610.0,172 650,172 650,270 670,270" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="610.0,242.0 610.0,300 540,300" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="670,270 742,270" fill="none" stroke="#111827" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="688" y="262" font-size="10" fill="#1e293b" text-anchor="start" font-weight="600">OUT</text>
+  <rect x="738" y="160" width="150" height="160" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <text x="813" y="182" font-size="12" fill="#2563eb" text-anchor="middle" font-weight="700">entrada source</text>
+  <circle cx="742" cy="270" r="4" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <text x="752" y="262" font-size="11" fill="#1e293b" text-anchor="start" font-weight="600">IN</text>
+  <polyline points="746,270 778,270" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="778,270 786.0,270" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="786.0" y="263" width="34" height="14" rx="0" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <polyline points="820.0,270 828,270" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="803.0" y="258" font-size="11" fill="#1e293b" text-anchor="middle" font-weight="400"></text>
+  <polyline points="828,270 853,270" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="853,300 853.0,294.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="853.0,276.0 853,270" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="862.0,294.0 844.0,294.0 853.0,276.0" fill="#ffffff" stroke="#1e293b" stroke-width="2" stroke-linejoin="round"/>
+  <polyline points="862.0,276.0 844.0,276.0" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="853,300 746,300" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="742" cy="300" r="4" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <text x="752" y="316" font-size="11" fill="#1e293b" text-anchor="start" font-weight="600">COM</text>
+  <text x="866" y="236" font-size="9" fill="#64748b" text-anchor="middle" font-weight="400">LED do</text>
+  <text x="866" y="247" font-size="9" fill="#64748b" text-anchor="middle" font-weight="400">opto</text>
+  <polyline points="738,300 722,300 722,95" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="722" cy="95" r="3.2" fill="#dc2626"/>
+  <polyline points="728,282 685,282" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="685,282 691.4,279.3 691.4,284.7" fill="#ea580c"/>
+  <text x="700" y="345" font-size="11" fill="#ea580c" text-anchor="middle" font-weight="600">corrente: +24 V → COM → IN → sensor → 0 V</text>
+  <text x="546" y="120" font-size="10" fill="#92400e" text-anchor="start" font-weight="400">marrom</text>
+  <text x="546" y="334" font-size="10" fill="#1d4ed8" text-anchor="start" font-weight="400">azul</text>
+</svg>

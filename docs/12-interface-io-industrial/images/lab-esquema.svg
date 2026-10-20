@@ -1,0 +1,229 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="600" viewBox="0 0 1060 600" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect x="1" y="1" width="1058" height="598" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="530.0" y="28" font-size="16" fill="#1e293b" text-anchor="middle" font-weight="700">Laboratório: dois ESP32 trocando sinais só por luz (2× PC817, sem GND comum)</text>
+  <rect x="20" y="50" width="360" height="530" rx="8" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="28" y="66" font-size="11" fill="#64748b" text-anchor="start" font-weight="600">ESP32 A (USB do computador)</text>
+  <rect x="680" y="50" width="360" height="530" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <text x="688" y="66" font-size="11" fill="#64748b" text-anchor="start" font-weight="600">ESP32 B (power bank ou carregador)</text>
+  <rect x="160" y="110" width="110" height="400" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
+  <text x="215.0" y="130" font-size="13" fill="#2563eb" text-anchor="middle" font-weight="700">ESP32 A</text>
+  <polyline points="146,210 160,210" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="166" y="214" font-size="11" fill="#1e293b" text-anchor="start" font-weight="400">GPIO23</text>
+  <polyline points="146,360 160,360" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="166" y="364" font-size="11" fill="#1e293b" text-anchor="start" font-weight="400">GPIO4</text>
+  <polyline points="270,150 284,150" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="264" y="154" font-size="11" fill="#1e293b" text-anchor="end" font-weight="400">GPIO2</text>
+  <polyline points="270,325 284,325" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="264" y="329" font-size="11" fill="#1e293b" text-anchor="end" font-weight="400">3V3</text>
+  <polyline points="270,385 284,385" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="264" y="389" font-size="11" fill="#1e293b" text-anchor="end" font-weight="400">GPIO22</text>
+  <polyline points="270,480 284,480" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="264" y="484" font-size="11" fill="#1e293b" text-anchor="end" font-weight="400">GND</text>
+  <rect x="790" y="110" width="110" height="400" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.5"/>
+  <text x="845.0" y="130" font-size="13" fill="#16a34a" text-anchor="middle" font-weight="700">ESP32 B</text>
+  <polyline points="776,150 790,150" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="796" y="154" font-size="11" fill="#1e293b" text-anchor="start" font-weight="400">3V3</text>
+  <polyline points="776,210 790,210" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="796" y="214" font-size="11" fill="#1e293b" text-anchor="start" font-weight="400">GPIO22</text>
+  <polyline points="776,325 790,325" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="796" y="329" font-size="11" fill="#1e293b" text-anchor="start" font-weight="400">GPIO2</text>
+  <polyline points="776,480 790,480" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="796" y="484" font-size="11" fill="#1e293b" text-anchor="start" font-weight="400">GND</text>
+  <polyline points="900,210 914,210" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="894" y="214" font-size="11" fill="#1e293b" text-anchor="end" font-weight="400">GPIO23</text>
+  <polyline points="900,360 914,360" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="894" y="364" font-size="11" fill="#1e293b" text-anchor="end" font-weight="400">GPIO4</text>
+  <rect x="445" y="125" width="150" height="110" rx="6" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <text x="520.0" y="117" font-size="12" fill="#1e293b" text-anchor="middle" font-weight="700">U1  (A → B)</text>
+  <polyline points="445,150 483,150 483,159" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="483,159 483.0,171.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="483.0,189.0 483,201" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="474.0,171.0 492.0,171.0 483.0,189.0" fill="#ffffff" stroke="#1e293b" stroke-width="2" stroke-linejoin="round"/>
+  <polyline points="474.0,189.0 492.0,189.0" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="483,201 483,210 445,210" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="499,168.0 527,176.0" fill="none" stroke="#ea580c" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="527,176.0 522.0,176.6 523.1,172.9" fill="#ea580c"/>
+  <polyline points="499,180.0 527,188.0" fill="none" stroke="#ea580c" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="527,188.0 522.0,188.6 523.1,184.9" fill="#ea580c"/>
+  <polyline points="533,164.0 533,196.0" fill="none" stroke="#1e293b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="533,173.0 555,160.0 555,154.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="533,187.0 555,200.0 555,206.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="537,189.0 552,198.0" fill="none" stroke="#1e293b" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="552,198.0 545.1,197.0 547.9,192.3" fill="#1e293b"/>
+  <polyline points="555,154.0 555,150 595,150" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="555,206.0 555,210 595,210" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="441" y="146" font-size="10" fill="#64748b" text-anchor="end" font-weight="400">1</text>
+  <text x="441" y="206" font-size="10" fill="#64748b" text-anchor="end" font-weight="400">2</text>
+  <text x="599" y="146" font-size="10" fill="#64748b" text-anchor="start" font-weight="400">4</text>
+  <text x="599" y="206" font-size="10" fill="#64748b" text-anchor="start" font-weight="400">3</text>
+  <polyline points="520.0,131 520.0,229" fill="none" stroke="#dc2626" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+  <rect x="445" y="300" width="150" height="110" rx="6" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <text x="520.0" y="292" font-size="12" fill="#1e293b" text-anchor="middle" font-weight="700">U2  (B → A)</text>
+  <polyline points="595,325 557,325 557,334" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="557,334 557.0,346.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="557.0,364.0 557,376" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="548.0,346.0 566.0,346.0 557.0,364.0" fill="#ffffff" stroke="#1e293b" stroke-width="2" stroke-linejoin="round"/>
+  <polyline points="548.0,364.0 566.0,364.0" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="557,376 557,385 595,385" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="541,343.0 513,351.0" fill="none" stroke="#ea580c" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="513,351.0 516.9,347.9 518.0,351.6" fill="#ea580c"/>
+  <polyline points="541,355.0 513,363.0" fill="none" stroke="#ea580c" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="513,363.0 516.9,359.9 518.0,363.6" fill="#ea580c"/>
+  <polyline points="507,339.0 507,371.0" fill="none" stroke="#1e293b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="507,348.0 485,335.0 485,329.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="507,362.0 485,375.0 485,381.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="503,364.0 488,373.0" fill="none" stroke="#1e293b" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="488,373.0 492.1,367.3 494.9,372.0" fill="#1e293b"/>
+  <polyline points="485,329.0 485,325 445,325" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="485,381.0 485,385 445,385" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="599" y="321" font-size="10" fill="#64748b" text-anchor="start" font-weight="400">1</text>
+  <text x="599" y="381" font-size="10" fill="#64748b" text-anchor="start" font-weight="400">2</text>
+  <text x="441" y="321" font-size="10" fill="#64748b" text-anchor="end" font-weight="400">4</text>
+  <text x="441" y="381" font-size="10" fill="#64748b" text-anchor="end" font-weight="400">3</text>
+  <polyline points="520.0,306 520.0,404" fill="none" stroke="#dc2626" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+  <polyline points="284,150 317.0,150" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="317.0" y="143" width="34" height="14" rx="0" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <polyline points="351.0,150 384,150" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="334.0" y="138" font-size="11" fill="#1e293b" text-anchor="middle" font-weight="400">R1  330 Ω</text>
+  <polyline points="384,150 445,150" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="445,210 410,210 410,225" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="410,225 410,233" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="399,233 421,233" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="403,237.5 417,237.5" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="407,242 413,242" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="410" y="257" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600">GND A</text>
+  <polyline points="284,325 445,325" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="284,385 445,385" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="350" cy="385" r="3.2" fill="#1e293b"/>
+  <polyline points="350,385 350,393.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="343" y="393.0" width="14" height="34" rx="0" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <polyline points="350,427.0 350,435" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="338" y="407.0" font-size="12" fill="#1e293b" text-anchor="end" font-weight="600">R3</text>
+  <text x="338" y="422.0" font-size="11" fill="#64748b" text-anchor="end" font-weight="400">10 kΩ</text>
+  <polyline points="350,435 350,443" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="339,443 361,443" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="343,447.5 357,447.5" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="347,452 353,452" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="350" y="467" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600">GND A</text>
+  <polyline points="284,480 310,480 310,490" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="310,490 310,498" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="299,498 321,498" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="303,502.5 317,502.5" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="307,507 313,507" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="310" y="522" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600">GND A</text>
+  <polyline points="146,210 80,210" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="80" cy="210" r="3.2" fill="#1e293b"/>
+  <polyline points="80,150 80,168.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="80,192.0 80,210" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="80" cy="168.0" r="3" fill="#fff" stroke="#1e293b" stroke-width="2"/>
+  <circle cx="80" cy="192.0" r="3" fill="#fff" stroke="#1e293b" stroke-width="2"/>
+  <polyline points="68,164.0 68,196.0" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="68,180.0 54,180.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="54,174.0 54,186.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="48" y="184.0" font-size="12" fill="#1e293b" text-anchor="end" font-weight="600">S1</text>
+  <polyline points="80,150 80,140" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="71,140 89,140" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="80" y="135" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="700">3V3 (A)</text>
+  <polyline points="80,210 80,218.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="73" y="218.0" width="14" height="34" rx="0" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <polyline points="80,252.0 80,260" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="68" y="232.0" font-size="12" fill="#1e293b" text-anchor="end" font-weight="600">R5</text>
+  <text x="68" y="247.0" font-size="11" fill="#64748b" text-anchor="end" font-weight="400">10 kΩ</text>
+  <polyline points="80,260 80,268" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="69,268 91,268" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="73,272.5 87,272.5" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="77,277 83,277" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="146,360 80,360" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="80,360 80,368.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="73" y="368.0" width="14" height="34" rx="0" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <polyline points="80,402.0 80,410" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="68" y="382.0" font-size="12" fill="#1e293b" text-anchor="end" font-weight="600">R7</text>
+  <text x="68" y="397.0" font-size="11" fill="#64748b" text-anchor="end" font-weight="400">330 Ω</text>
+  <polyline points="80,410 80.0,421.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="80.0,439.0 80,450" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="71.0,421.0 89.0,421.0 80.0,439.0" fill="#ffffff" stroke="#1e293b" stroke-width="2" stroke-linejoin="round"/>
+  <polyline points="71.0,439.0 89.0,439.0" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="66.0,425.0 54.0,431.0" fill="none" stroke="#ea580c" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="54.0,431.0 57.2,427.2 59.0,430.7" fill="#ea580c"/>
+  <polyline points="66.0,435.0 54.0,441.0" fill="none" stroke="#ea580c" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="54.0,441.0 57.2,437.2 59.0,440.7" fill="#ea580c"/>
+  <polyline points="80,450 80,458" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="69,458 91,458" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="73,462.5 87,462.5" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="77,467 83,467" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="110" y="440" font-size="11" fill="#1e293b" text-anchor="start" font-weight="600">LED1</text>
+  <polyline points="595,150 776,150" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="595,210 776,210" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="710" cy="210" r="3.2" fill="#1e293b"/>
+  <polyline points="710,210 710,218.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="703" y="218.0" width="14" height="34" rx="0" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <polyline points="710,252.0 710,260" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="722" y="232.0" font-size="12" fill="#1e293b" text-anchor="start" font-weight="600">R4</text>
+  <text x="722" y="247.0" font-size="11" fill="#64748b" text-anchor="start" font-weight="400">10 kΩ</text>
+  <polyline points="710,260 710,268" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="699,268 721,268" fill="none" stroke="#16a34a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="703,272.5 717,272.5" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="707,277 713,277" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="710" y="292" font-size="11" fill="#16a34a" text-anchor="middle" font-weight="600">GND B</text>
+  <polyline points="595,325 676,325" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="676,325 709.0,325" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="709.0" y="318" width="34" height="14" rx="0" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <polyline points="743.0,325 776,325" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="726.0" y="313" font-size="11" fill="#1e293b" text-anchor="middle" font-weight="400">R2  330 Ω</text>
+  <polyline points="595,385 630,385 630,400" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="630,400 630,408" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="619,408 641,408" fill="none" stroke="#16a34a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="623,412.5 637,412.5" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="627,417 633,417" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="630" y="432" font-size="11" fill="#16a34a" text-anchor="middle" font-weight="600">GND B</text>
+  <polyline points="776,480 750,480 750,490" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="750,490 750,498" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="739,498 761,498" fill="none" stroke="#16a34a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="743,502.5 757,502.5" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="747,507 753,507" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="750" y="522" font-size="11" fill="#16a34a" text-anchor="middle" font-weight="600">GND B</text>
+  <polyline points="914,210 980,210" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="980" cy="210" r="3.2" fill="#1e293b"/>
+  <polyline points="980,150 980,168.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="980,192.0 980,210" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="980" cy="168.0" r="3" fill="#fff" stroke="#1e293b" stroke-width="2"/>
+  <circle cx="980" cy="192.0" r="3" fill="#fff" stroke="#1e293b" stroke-width="2"/>
+  <polyline points="968,164.0 968,196.0" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="968,180.0 954,180.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="954,174.0 954,186.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="948" y="184.0" font-size="12" fill="#1e293b" text-anchor="end" font-weight="600">S2</text>
+  <polyline points="980,150 980,140" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="971,140 989,140" fill="none" stroke="#16a34a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="980" y="135" font-size="11" fill="#16a34a" text-anchor="middle" font-weight="700">3V3 (B)</text>
+  <polyline points="980,210 980,218.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="973" y="218.0" width="14" height="34" rx="0" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <polyline points="980,252.0 980,260" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="968" y="232.0" font-size="12" fill="#1e293b" text-anchor="end" font-weight="600">R6</text>
+  <text x="968" y="247.0" font-size="11" fill="#64748b" text-anchor="end" font-weight="400">10 kΩ</text>
+  <polyline points="980,260 980,268" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="969,268 991,268" fill="none" stroke="#16a34a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="973,272.5 987,272.5" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="977,277 983,277" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="914,360 980,360" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="980,360 980,368.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="973" y="368.0" width="14" height="34" rx="0" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <polyline points="980,402.0 980,410" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="968" y="382.0" font-size="12" fill="#1e293b" text-anchor="end" font-weight="600">R8</text>
+  <text x="968" y="397.0" font-size="11" fill="#64748b" text-anchor="end" font-weight="400">330 Ω</text>
+  <polyline points="980,410 980.0,421.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="980.0,439.0 980,450" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="971.0,421.0 989.0,421.0 980.0,439.0" fill="#ffffff" stroke="#1e293b" stroke-width="2" stroke-linejoin="round"/>
+  <polyline points="971.0,439.0 989.0,439.0" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="966.0,425.0 954.0,431.0" fill="none" stroke="#ea580c" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="954.0,431.0 957.2,427.2 959.0,430.7" fill="#ea580c"/>
+  <polyline points="966.0,435.0 954.0,441.0" fill="none" stroke="#ea580c" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="954.0,441.0 957.2,437.2 959.0,440.7" fill="#ea580c"/>
+  <polyline points="980,450 980,458" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="969,458 991,458" fill="none" stroke="#16a34a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="973,462.5 987,462.5" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="977,467 983,467" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="950" y="440" font-size="11" fill="#1e293b" text-anchor="end" font-weight="600">LED2</text>
+  <polyline points="520,92 520,560" fill="none" stroke="#dc2626" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 5"/>
+  <text x="520" y="86" font-size="11" fill="#dc2626" text-anchor="middle" font-weight="600">barreira de isolação</text>
+  <text x="520" y="585" font-size="11" fill="#dc2626" text-anchor="middle" font-weight="700">nenhum fio atravessa esta linha — só luz</text>
+</svg>

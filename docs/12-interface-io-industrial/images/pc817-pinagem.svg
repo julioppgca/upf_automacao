@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="250" viewBox="0 0 560 250" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect x="1" y="1" width="558" height="248" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="280.0" y="28" font-size="16" fill="#1e293b" text-anchor="middle" font-weight="700">PC817 (DIP-4) visto de cima</text>
+  <rect x="200" y="70" width="160" height="120" rx="6" fill="#334155" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="222" cy="92" r="7" fill="#94a3b8" stroke="#94a3b8" stroke-width="2"/>
+  <text x="280.0" y="135.0" font-size="16" fill="#f8fafc" text-anchor="middle" font-weight="700">PC817</text>
+  <rect x="178" y="93" width="22" height="14" rx="0" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"/>
+  <text x="170" y="105" font-size="13" fill="#1e293b" text-anchor="end" font-weight="600">1  Anodo (+)</text>
+  <rect x="178" y="153" width="22" height="14" rx="0" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"/>
+  <text x="170" y="165" font-size="13" fill="#1e293b" text-anchor="end" font-weight="600">2  Catodo (−)</text>
+  <rect x="360" y="153" width="22" height="14" rx="0" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"/>
+  <text x="390" y="165" font-size="13" fill="#1e293b" text-anchor="start" font-weight="600">3  Emissor (E)</text>
+  <rect x="360" y="93" width="22" height="14" rx="0" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"/>
+  <text x="390" y="105" font-size="13" fill="#1e293b" text-anchor="start" font-weight="600">4  Coletor (C)</text>
+  <text x="222" y="60" font-size="11" fill="#64748b" text-anchor="middle" font-weight="400">marca (pino 1)</text>
+  <text x="110" y="220" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600">lado do LED (quem envia)</text>
+  <text x="450" y="220" font-size="11" fill="#16a34a" text-anchor="middle" font-weight="600">lado do transistor (quem recebe)</text>
+</svg>

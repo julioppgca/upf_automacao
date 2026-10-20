@@ -72,7 +72,8 @@ pre {
     border: 1px solid #e1e4e8;
     border-radius: 4px;
     padding: .8em 1em;
-    overflow-x: auto;
+    white-space: pre-wrap;      /* no PDF nao ha rolagem: quebra a linha em vez de cortar */
+    overflow-wrap: anywhere;
     page-break-inside: avoid;
     line-height: 1.35;
 }

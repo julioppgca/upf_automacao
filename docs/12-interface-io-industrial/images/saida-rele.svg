@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="400" viewBox="0 0 900 400" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect x="1" y="1" width="898" height="398" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="450.0" y="28" font-size="16" fill="#1e293b" text-anchor="middle" font-weight="700">Saída a relé: GPIO → transistor → bobina; o contato é que isola</text>
+  <rect x="20" y="50" width="520" height="330" rx="8" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="28" y="66" font-size="11" fill="#64748b" text-anchor="start" font-weight="600">LADO LÓGICA (ESP32 + 5 V da USB/fonte)</text>
+  <rect x="610" y="50" width="270" height="330" rx="8" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+  <text x="618" y="66" font-size="11" fill="#64748b" text-anchor="start" font-weight="600">LADO DA CARGA (até 240 VCA / 28 VCC)</text>
+  <circle cx="60" cy="260" r="4" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <text x="60" y="242" font-size="12" fill="#1e293b" text-anchor="middle" font-weight="700">GPIO</text>
+  <polyline points="64,260 102.0,260" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="102.0" y="253" width="34" height="14" rx="0" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <polyline points="136.0,260 174,260" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="119.0" y="248" font-size="11" fill="#1e293b" text-anchor="middle" font-weight="400">R_B  330 Ω</text>
+  <polyline points="174,260 192.0,260" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="192.0,244.0 192.0,276.0" fill="none" stroke="#1e293b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="192.0,253.0 214.0,240.0 214.0,230.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="192.0,267.0 214.0,280.0 214.0,290.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="196.0,269.0 211.0,278.0" fill="none" stroke="#1e293b" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="211.0,278.0 204.1,277.0 206.9,272.3" fill="#1e293b"/>
+  <circle cx="200.0" cy="260" r="26.0" fill="none" stroke="#1e293b" stroke-width="1.5"/>
+  <text x="232.0" y="258" font-size="12" fill="#1e293b" text-anchor="start" font-weight="600">Q1</text>
+  <text x="232.0" y="272" font-size="11" fill="#64748b" text-anchor="start" font-weight="400">P2N2222A</text>
+  <polyline points="214.0,290.0 214.0,298.0" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="203.0,298.0 225.0,298.0" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="207.0,302.5 221.0,302.5" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="211.0,307.0 217.0,307.0" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="214.0,110 214.0,100" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="205.0,100 223.0,100" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="214.0" y="95" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="700">+5 V</text>
+  <polyline points="214.0,110 214.0,130" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="214.0,130 214.0,150.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="198.0" y="150.0" width="32" height="30" rx="0" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <polyline points="198.0,180.0 230.0,150.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="214.0,180.0 214.0,200" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="190.0" y="163.0" font-size="12" fill="#1e293b" text-anchor="end" font-weight="600">K1</text>
+  <text x="190.0" y="177.0" font-size="11" fill="#64748b" text-anchor="end" font-weight="400">SRD-05VDC (70 Ω)</text>
+  <polyline points="214.0,200 214.0,230.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="214.0" cy="130" r="3.2" fill="#1e293b"/>
+  <circle cx="214.0" cy="210" r="3.2" fill="#1e293b"/>
+  <polyline points="214.0,130 284.0,130" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="214.0,210 284.0,210" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="284.0,210 284.0,179.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="284.0,161.0 284.0,130" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="293.0,179.0 275.0,179.0 284.0,161.0" fill="#ffffff" stroke="#1e293b" stroke-width="2" stroke-linejoin="round"/>
+  <polyline points="293.0,161.0 275.0,161.0" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="298.0" y="168.0" font-size="12" fill="#1e293b" text-anchor="start" font-weight="600">D1</text>
+  <text x="298.0" y="182.0" font-size="11" fill="#64748b" text-anchor="start" font-weight="400">1N4007</text>
+  <text x="40" y="340.0" font-size="11" fill="#64748b" text-anchor="start" font-weight="400">I_bobina = 5 V / 70 Ω = 71 mA → I_B = 7,6 mA (β forçado ≈ 10)</text>
+  <text x="40" y="354.3" font-size="11" fill="#64748b" text-anchor="start" font-weight="400">D1 (roda-livre): sem ele, a bobina gera pico de tensão que queima Q1</text>
+  <polyline points="420,165 630,165" fill="none" stroke="#64748b" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="3 4"/>
+  <text x="500" y="158" font-size="10" fill="#64748b" text-anchor="middle" font-weight="400">acoplamento magnético</text>
+  <circle cx="690" cy="120" r="4" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <text x="700" y="124" font-size="12" fill="#1e293b" text-anchor="start" font-weight="600">NA</text>
+  <circle cx="690" cy="220" r="4" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <text x="700" y="224" font-size="12" fill="#1e293b" text-anchor="start" font-weight="600">NF</text>
+  <circle cx="650" cy="170" r="4" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <text x="640" y="174" font-size="12" fill="#1e293b" text-anchor="end" font-weight="600">COM</text>
+  <polyline points="654,170 686,216" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="694,120 760,120 760,150" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="760" cy="168" r="16" fill="none" stroke="#1e293b" stroke-width="2"/>
+  <polyline points="748.8,156.8 771.2,179.2" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="771.2,156.8 748.8,179.2" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="784" y="172" font-size="11" fill="#1e293b" text-anchor="start" font-weight="400">carga</text>
+  <polyline points="760,186 760,260" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="760" cy="264" r="4" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <text x="760" y="290" font-size="12" fill="#1e293b" text-anchor="middle" font-weight="700">N</text>
+  <polyline points="646,174 646,260" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="646" cy="264" r="4" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <text x="646" y="290" font-size="12" fill="#1e293b" text-anchor="middle" font-weight="700">L</text>
+  <text x="625" y="330.0" font-size="11" fill="#64748b" text-anchor="start" font-weight="400">Contato form C (SL-C): 7 A 240 VCA</text>
+  <text x="625" y="344.3" font-size="11" fill="#64748b" text-anchor="start" font-weight="400">resistivo; 3 A carga indutiva</text>
+  <polyline points="575,100 575,370" fill="none" stroke="#dc2626" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 5"/>
+  <text x="575" y="94" font-size="11" fill="#dc2626" text-anchor="middle" font-weight="600">isolação 1500 VCA</text>
+</svg>

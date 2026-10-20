@@ -24,6 +24,7 @@ cada uma:
 | 09 | [09-funcoes/](09-funcoes/) | [funcoes.md](09-funcoes/funcoes.md) ([PDF](09-funcoes/funcoes.pdf)) *(prévia — em andamento)* | [quadro-resumo.md](09-funcoes/quadro-resumo.md) |
 | 10 | [10-partida-sequencial-motores/](10-partida-sequencial-motores/) | [enunciado](10-partida-sequencial-motores/partida-sequencial-motores-enunciado.md) ([PDF](10-partida-sequencial-motores/partida-sequencial-motores-enunciado.pdf)) (aluno) / [gabarito](10-partida-sequencial-motores/partida-sequencial-motores-gabarito.md) ([PDF](10-partida-sequencial-motores/partida-sequencial-motores-gabarito.pdf)) (professor) *(rascunho — sem montagem ainda)* | — |
 | 11 | [11-funcoes-c-cpp/](11-funcoes-c-cpp/) | [funcoes-c-cpp.md](11-funcoes-c-cpp/funcoes-c-cpp.md) ([PDF](11-funcoes-c-cpp/funcoes-c-cpp.pdf)) + exercício: [enunciado](11-funcoes-c-cpp/exercicio-potenciometro-pwm-enunciado.md) ([PDF](11-funcoes-c-cpp/exercicio-potenciometro-pwm-enunciado.pdf)) | [quadro-resumo.md](11-funcoes-c-cpp/quadro-resumo.md) |
+| 12 | [12-interface-io-industrial/](12-interface-io-industrial/) | [interface-io-industrial.md](12-interface-io-industrial/interface-io-industrial.md) ([PDF](12-interface-io-industrial/interface-io-industrial.pdf)) + laboratório: [enunciado](12-interface-io-industrial/laboratorio-optoacoplador-enunciado.md) ([PDF](12-interface-io-industrial/laboratorio-optoacoplador-enunciado.pdf)) (aluno) / [gabarito](12-interface-io-industrial/laboratorio-optoacoplador-gabarito.md) (professor) | [quadro-resumo.md](12-interface-io-industrial/quadro-resumo.md) |
 
 ## Conteúdo de cada módulo
 
@@ -53,8 +54,15 @@ cada uma:
     `R_TRIG` e três `TON` para sequenciar 4 saídas com atraso.
 11. **Funções em C/C++ no OpenPLC** *(prévia)* — POUs escritos em C/C++
     puro (`setup()`/`loop()`, no estilo Arduino), por que isso ainda é um
-    Function Block, e um exemplo real: um mini servidor HTTP Wi-Fi no
-    ESP32.
+    Function Block, um primeiro exemplo simples (pisca-pisca com
+    `millis()`, testado no OpenPLC Simulator — projeto `prj/c_pisca`) e um
+    exemplo real: um mini servidor HTTP Wi-Fi no ESP32.
+12. **Interface de E/S industrial** — como ligar sinais de 24 VCC,
+    127/220 VCA, 0–10 V e 4–20 mA ao ESP32: sink × source (PNP/NPN),
+    optoacopladores, saídas a relé, transistor, SSR e triac, entrada e
+    saída analógica, com todos os cálculos feitos a partir dos datasheets.
+    Laboratório: dois ESP32 trocando sinais só por dois PC817, sem GND
+    comum.
 
 ## Convenções
 

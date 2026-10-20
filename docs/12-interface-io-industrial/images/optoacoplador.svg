@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="330" viewBox="0 0 760 330" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect x="1" y="1" width="758" height="328" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="380.0" y="28" font-size="16" fill="#1e293b" text-anchor="middle" font-weight="700">Optoacoplador: a luz atravessa a barreira, a corrente não</text>
+  <rect x="20" y="50" width="330" height="260" rx="8" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="28" y="66" font-size="11" fill="#64748b" text-anchor="start" font-weight="600">CIRCUITO A (quem envia)</text>
+  <rect x="410" y="50" width="330" height="260" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <text x="418" y="66" font-size="11" fill="#64748b" text-anchor="start" font-weight="600">CIRCUITO B (quem recebe)</text>
+  <rect x="305" y="120" width="150" height="110" rx="6" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <text x="380.0" y="112" font-size="12" fill="#1e293b" text-anchor="middle" font-weight="700">PC817</text>
+  <polyline points="305,145 343,145 343,154" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="343,154 343.0,166.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="343.0,184.0 343,196" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="334.0,166.0 352.0,166.0 343.0,184.0" fill="#ffffff" stroke="#1e293b" stroke-width="2" stroke-linejoin="round"/>
+  <polyline points="334.0,184.0 352.0,184.0" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="343,196 343,205 305,205" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="359,163.0 387,171.0" fill="none" stroke="#ea580c" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="387,171.0 382.0,171.6 383.1,167.9" fill="#ea580c"/>
+  <polyline points="359,175.0 387,183.0" fill="none" stroke="#ea580c" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="387,183.0 382.0,183.6 383.1,179.9" fill="#ea580c"/>
+  <polyline points="393,159.0 393,191.0" fill="none" stroke="#1e293b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="393,168.0 415,155.0 415,149.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="393,182.0 415,195.0 415,201.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="397,184.0 412,193.0" fill="none" stroke="#1e293b" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="412,193.0 405.1,192.0 407.9,187.3" fill="#1e293b"/>
+  <polyline points="415,149.0 415,145 455,145" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="415,201.0 415,205 455,205" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="301" y="141" font-size="10" fill="#64748b" text-anchor="end" font-weight="400">1</text>
+  <text x="301" y="201" font-size="10" fill="#64748b" text-anchor="end" font-weight="400">2</text>
+  <text x="459" y="141" font-size="10" fill="#64748b" text-anchor="start" font-weight="400">4</text>
+  <text x="459" y="201" font-size="10" fill="#64748b" text-anchor="start" font-weight="400">3</text>
+  <polyline points="380.0,126 380.0,224" fill="none" stroke="#dc2626" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+  <circle cx="60" cy="145" r="4" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <text x="60" y="112.0" font-size="11" fill="#1e293b" text-anchor="middle" font-weight="600">GPIO do</text>
+  <text x="60" y="126.3" font-size="11" fill="#1e293b" text-anchor="middle" font-weight="600">ESP32 A</text>
+  <polyline points="64,145 102.0,145" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="102.0" y="138" width="34" height="14" rx="0" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <polyline points="136.0,145 174,145" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="119.0" y="133" font-size="11" fill="#1e293b" text-anchor="middle" font-weight="400">R  330 Ω</text>
+  <polyline points="174,145 240,145 240,145 305,145" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="305,205 240,205 240,255" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="240,255 240,263" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="229,263 251,263" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="233,267.5 247,267.5" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="237,272 243,272" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="240" y="287" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600">GND A</text>
+  <text x="40" y="200.0" font-size="11" fill="#2563eb" text-anchor="start" font-weight="400">GPIO = 1 → LED aceso</text>
+  <text x="40" y="214.3" font-size="11" fill="#2563eb" text-anchor="start" font-weight="400">I_F ≈ 6,7 mA</text>
+  <polyline points="560,120 560,110" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="551,110 569,110" fill="none" stroke="#16a34a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="560" y="105" font-size="11" fill="#16a34a" text-anchor="middle" font-weight="700">3V3 (B)</text>
+  <polyline points="560,120 560,145 455,145" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="455,205 560,205 560,230" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="560" cy="230" r="3.2" fill="#1e293b"/>
+  <polyline points="560,230 650,230" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="650" cy="230" r="4" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <text x="660" y="234" font-size="12" fill="#1e293b" text-anchor="start" font-weight="600">GPIO do ESP32 B</text>
+  <polyline points="560,230 560,233.0" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="553" y="233.0" width="14" height="34" rx="0" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+  <polyline points="560,267.0 560,270" fill="none" stroke="#1e293b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="548" y="247.0" font-size="12" fill="#1e293b" text-anchor="end" font-weight="600">R_PD</text>
+  <text x="548" y="262.0" font-size="11" fill="#64748b" text-anchor="end" font-weight="400">10 kΩ</text>
+  <polyline points="560,270 560,278" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="549,278 571,278" fill="none" stroke="#16a34a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="553,282.5 567,282.5" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="557,287 563,287" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="600" y="296" font-size="11" fill="#16a34a" text-anchor="middle" font-weight="600">GND B</text>
+  <text x="600" y="150.0" font-size="11" fill="#16a34a" text-anchor="start" font-weight="400">LED aceso →</text>
+  <text x="600" y="164.3" font-size="11" fill="#16a34a" text-anchor="start" font-weight="400">transistor conduz →</text>
+  <text x="600" y="178.6" font-size="11" fill="#16a34a" text-anchor="start" font-weight="400">GPIO B lê 1</text>
+  <polyline points="380,92 380,300" fill="none" stroke="#dc2626" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 5"/>
+  <text x="380" y="86" font-size="11" fill="#dc2626" text-anchor="middle" font-weight="600">barreira de isolação</text>
+  <text x="380" y="318" font-size="11" fill="#dc2626" text-anchor="middle" font-weight="700">GND A e GND B NÃO se ligam</text>
+</svg>

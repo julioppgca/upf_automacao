@@ -1,7 +1,7 @@
 # Exercício: Potenciômetro no navegador, PWM no LED
 
 > **Pré-requisito:** aula [Funções em C/C++ no OpenPLC](funcoes-c-cpp.md),
-> em especial o **Nível 3** (seção 7) — o `server_ap` com página web que
+> em especial o **Nível 3** (seção 8) — o `server_ap` com página web que
 > mostra uma entrada e aciona uma saída remotamente.
 
 ## Objetivo
@@ -14,7 +14,7 @@ com liga/desliga:
    leitura bruta `WORD`, 0–65535).
 2. **Ofereça, na própria página, um controle deslizante (slider)** que
    ajuste o brilho de um LED via PWM — reaproveitando o formulário
-   `/pwm` esboçado na aula (seção 7, "Detalhes de HTML").
+   `/pwm` esboçado na aula (seção 8, "Detalhes de HTML").
 
 ---
 

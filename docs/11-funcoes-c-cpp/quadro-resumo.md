@@ -22,6 +22,21 @@ escondido em variáveis globais/`static` do C++, não em `VAR_OUTPUT`).
 Pinos (`VAR_INPUT`/`VAR_OUTPUT`) viram um `#define <pino> (*(vars->PINO))`
 por pino — use o **nome direto**, nunca `vars->pino`.
 
+## Primeiro exemplo: `pisca_c` (roda no simulador)
+
+| Parte | No `pisca_c` |
+|---|---|
+| Pinos | `habilita` (Input BOOL), `saida` (Output BOOL) |
+| Memória | globais `estado`, `ultima_troca` (uma só para todas as instâncias!) |
+| `setup()` | `ultima_troca = millis();` |
+| `loop()` | se passou 500 ms: `estado = !estado`; sempre: `saida = estado` |
+| No `main` | `botao` (%IX0.0) → `PISCA_C0` → `led` (%QX0.0) |
+
+- Esperar tempo = **`millis()`**, nunca `delay()` (o `delay` congela a
+  varredura inteira).
+- Testa sem placa: placa **OpenPLC Simulator** → ▶ → *Force True* no
+  `botao` → gráfico do debugger mostra a onda quadrada.
+
 ## Os três níveis do exemplo `server_ap`
 
 | Nível | O que tem | Pinos |
@@ -54,6 +69,10 @@ por pino — use o **nome direto**, nunca `vars->pino`.
   **inteira** do CLP, sem nenhum erro visível no Editor.
 
 ## Debug: `printf`/`Serial.print` num terminal separado
+
+- **`printf` derruba o debugger do Editor**: os dois usam a mesma
+  `Serial` a 115200 (Modbus RTU). Ou debug pelo Editor (sem `printf`), ou
+  pelo terminal serial (Editor desconectado).
 
 - Nada disso aparece no OpenPLC Editor — é preciso um terminal serial
   à parte (ex.: **Serial Monitor do VS Code**), na mesma porta e no

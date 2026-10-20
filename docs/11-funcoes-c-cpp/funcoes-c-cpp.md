@@ -28,10 +28,13 @@ uma porta direta para esse ambiente: você pode escrever um POU inteiro em
 implementação é uma escolha **por POU**, e aqui a escolha é "nenhuma das
 cinco da norma, e sim C/C++ direto".
 
-É a válvula de escape para quando ST/Ladder/FBD não alcançam. O exemplo
-desta aula evolui em **três níveis**: um servidor Wi-Fi isolado (seção 3),
-depois conectado a pinos do Ladder (seção 6), e por fim uma página que lê
-e comanda o CLP remotamente (seção 7).
+É a válvula de escape para quando ST/Ladder/FBD não alcançam. A aula
+começa por um **primeiro exemplo bem simples** — um pisca-pisca em C, sem
+Wi-Fi e sem biblioteca extra, que roda até no **OpenPLC Simulator**, sem
+placa nenhuma (seção 3). Depois, o exemplo do servidor Wi-Fi evolui em
+**três níveis**: um servidor isolado (seção 4), depois conectado a pinos
+do Ladder (seção 7), e por fim uma página que lê e comanda o CLP
+remotamente (seção 8).
 
 ---
 
@@ -47,72 +50,245 @@ papel reservado — o mesmo modelo de um sketch Arduino:
 
 Por trás dos panos, o compilador do OpenPLC (STruC++) gera uma classe
 C++ para o seu POU. É esse código gerado — não visível no Editor, mas
-produzido no diretório de build — que mostra exatamente o que acontece a
-cada varredura. O trecho abaixo é de uma versão anterior do exemplo desta
-aula, um POU chamado `servidor` (mais simples que o `server_ap` da seção
-3, sem pinos declarados) — mas o mecanismo é idêntico para qualquer POU
-em C/C++:
+produzido na pasta `build/` do projeto — que mostra exatamente o que
+acontece a cada varredura. O trecho abaixo foi gerado a partir do
+`pisca_c`, o primeiro exemplo da seção 3 (um bloco com uma entrada
+`habilita` e uma saída `saida`), mas o mecanismo é idêntico para qualquer
+POU em C/C++:
 
 ```cpp
-// Gerado automaticamente pelo compilador a partir do POU "servidor"
-SERVIDOR::SERVIDOR()
-    : HASBEENINITIALIZED(0)
-{
-}
-
-void SERVIDOR::operator()() {
-    SERVIDOR_VARS vars;
+// build/.../src/pou_PISCA_C.cpp - gerado automaticamente
+void PISCA_C::operator()() {
+    PISCA_C_VARS vars;
+      vars.HABILITA = &HABILITA;   // ponteiros para os pinos DESTA instancia
+      vars.SAIDA = &SAIDA;
     if (HASBEENINITIALIZED == false) {
-        servidor_setup(&vars);
+        pisca_c_setup(&vars);      // o seu setup()
         HASBEENINITIALIZED = true;
     }
-    servidor_loop(&vars);
+    pisca_c_loop(&vars);           // o seu loop()
 }
 ```
 
 Repare: isso é **exatamente** o comportamento de instância da aula 09.
 `HASBEENINITIALIZED` é memória própria daquela instância — se você
-declarar duas instâncias do mesmo POU em C (`SERVIDOR0`, `SERVIDOR1`,
-como fizemos com `MEU_CONTADOR0`/`MEU_CONTADOR1`), cada uma teria seu
+declarar duas instâncias do mesmo POU em C (`PISCA_C0`, `PISCA_C1`, como
+fizemos com `MEU_CONTADOR0`/`MEU_CONTADOR1`), cada uma teria seu
 `HASBEENINITIALIZED` e chamaria seu próprio `setup()` de forma
 independente na primeira vez que rodasse. **É um Function Block por
-definição — só que a memória, em vez de aparecer como `VAR_OUTPUT`
-visível na tabela de variáveis, fica escondida dentro do seu código C++**
-(variáveis globais, `static`, ou objetos como o `WebServer server` do
-exemplo a seguir).
+definição.**
 
-Se o POU declarar `VAR_INPUT`/`VAR_OUTPUT`, esses pinos viram campos de um
-struct (`SERVIDOR_VARS` aqui, vazio porque este POU não tem pinos)
-acessível através de um ponteiro `vars`. Mas o compilador não te deixa
-escrever `vars->nome_do_pino` toda vez — para cada pino declarado, ele
-gera automaticamente um `#define` que permite usar **o nome do pino
-direto**, sem prefixo nenhum:
+Os pinos `VAR_INPUT`/`VAR_OUTPUT` viram campos de um struct
+(`PISCA_C_VARS`), acessível através de um ponteiro `vars`. Mas o
+compilador não te obriga a escrever `vars->...` toda vez — para cada pino
+declarado, ele gera automaticamente um `#define` que permite usar **o
+nome do pino direto**, sem prefixo nenhum (trecho real de
+`c_blocks_code.cpp`):
 
 ```cpp
-#define habilita           (*(vars->HABILITA))
-#define cliente_conectado  (*(vars->CLIENTE_CONECTADO))
+// PISCA_C — Variables Table names bound to the interface struct
+#define habilita (*(vars->HABILITA))
+#define saida (*(vars->SAIDA))
 ```
 
 Ou seja: dentro do `setup()`/`loop()`, você escreve só `habilita` ou
-`cliente_conectado` — nunca `vars->habilita`. Escrever `vars->habilita`
-faz o pré-processador expandir a macro **depois** do `vars->`, gerando
-`vars->(*(vars->HABILITA))`, que não compila. A seção 6 mostra isso na
-prática, com pinos de verdade. `EN`/`ENO` continuam existindo — decidem
-se o bloco chega a ser chamado naquela varredura — mas, diferente dos
-blocos padrão, ficam **travados** como visíveis (você não escolhe
-escondê-los).
+`saida` — nunca `vars->habilita`. Escrever `vars->habilita` faz o
+pré-processador expandir a macro **depois** do `vars->`, gerando
+`vars->(*(vars->HABILITA))`, que não compila.
+
+### Cuidado: variáveis globais do C **não** são por instância
+
+Os pinos são por instância (cada instância tem seu `HABILITA`/`SAIDA`),
+mas as **variáveis globais** que você escreve no corpo C/C++ (como
+`estado` e `ultima_troca` do `pisca_c`, ou o `WebServer server` do
+`server_ap`) existem **uma única vez no programa inteiro** — são do
+*tipo* do bloco, não da instância. Se o `main` tiver `PISCA_C0` e
+`PISCA_C1`, os dois vão ler e escrever **o mesmo** `estado`, e um bagunça
+o pisca do outro. Nesta aula cada bloco em C tem **uma instância só**, e
+aí isso não aparece. Se precisar de duas instâncias independentes, o
+estado tem que morar num lugar que seja por instância — por exemplo, num
+pino `VAR_OUTPUT` a mais (ex.: `estado : BOOL`), que vira campo da
+instância como `saida`.
 
 Uma segunda pegadinha, que só aparece quando o POU tem funções auxiliares
-além de `setup()`/`loop()` (como as rotas de um servidor web, seção 7):
+além de `setup()`/`loop()` (como as rotas de um servidor web, seção 8):
 **só `setup()`/`loop()` recebem o ponteiro `vars`**. Qualquer outra função
 que você escrever — por exemplo, uma chamada de volta (*callback*) de
 biblioteca, como as rotas do `WebServer` — **não enxerga os pinos**, nem
 pelo `#define`, porque esse `#define` também depende de `vars` estar em
-escopo. A seção 7 mostra como contornar isso.
+escopo. A seção 8 mostra como contornar isso.
 
 ---
 
-## 3. Nível 1 — servidor HTTP simples em Access Point (`server_ap`)
+## 3. Primeiro exemplo — pisca-pisca em C/C++ (`pisca_c`)
+
+Antes de Wi-Fi e servidor web, o menor exemplo útil: um bloco em C/C++
+que faz uma saída **piscar** enquanto uma entrada estiver ligada. É o
+equivalente a um pisca feito com dois `TON` em Ladder (aula 06), só que
+escrito em C. Ele não usa nenhuma biblioteca além do `Arduino.h` (para
+`millis()`), então dá para testar **no OpenPLC Simulator, sem placa
+nenhuma**.
+
+Projeto pronto: `prj/c_pisca`.
+
+### Passo 1 — criar o projeto
+
+**New Project → PLC Project**, nome `c_pisca`, uma pasta vazia, linguagem
+base **Ladder Diagram**, tarefa cíclica `T#20ms` (o padrão) — igual à
+aula 05. A placa já vem como **OpenPLC Simulator**, e é ela que vamos
+usar para testar.
+
+### Passo 2 — criar o Function Block em C/C++
+
+Clique no **`+`** ao lado do nome do projeto → **Function Block**. Dê o
+nome `pisca_c` e, em **Language**, escolha **C/C++** (a última da lista,
+abaixo das linguagens da norma e de Python):
+
+![Criando o Function Block pisca_c com linguagem C/C++](capturas/pisca-01.png)
+
+O Editor abre o POU já com um modelo pronto. Vale ler o comentário do
+topo: ele resume o modelo inteiro — `setup()` roda uma vez quando o bloco
+inicializa, `loop()` roda a cada varredura, e as variáveis da tabela são
+acessadas **pelo nome**, direto no código:
+
+![Modelo gerado pelo Editor para um bloco C/C++](capturas/pisca-02.png)
+
+### Passo 3 — declarar os pinos e escrever o código
+
+Na tabela de variáveis do `pisca_c`, crie (botão **`+`** da tabela):
+
+| Name | Class | Type | Para quê |
+|---|---|---|---|
+| `habilita` | Input | BOOL | `TRUE` = pisca; `FALSE` = saída desligada |
+| `saida` | Output | BOOL | a saída que pisca |
+
+Depois apague o código do modelo e cole o corpo abaixo:
+
+```cpp
+#include <Arduino.h>
+
+const unsigned long MEIO_PERIODO_MS = 500;  // tempo ligado = tempo desligado
+
+unsigned long ultima_troca = 0;   // instante (ms) da ultima troca da saida
+bool estado = false;              // estado atual do pisca
+
+// Roda UMA vez, na primeira varredura
+void setup()
+{
+    ultima_troca = millis();
+}
+
+// Roda a CADA varredura (aqui, a cada 20 ms)
+void loop()
+{
+    if (!habilita)
+    {
+        estado = false;                        // desabilitado: saida apagada
+    }
+    else if (millis() - ultima_troca >= MEIO_PERIODO_MS)
+    {
+        estado = !estado;                      // passou meio periodo: inverte
+        ultima_troca = millis();
+    }
+
+    saida = estado;                            // escreve no pino de saida
+}
+```
+
+![Pinos habilita/saida na tabela e o corpo do pisca_c](capturas/pisca-03.png)
+
+No print, as caixas marcam as três partes do bloco:
+
+- **Pinos** (tabela): `habilita` e `saida` — é por eles que o bloco
+  conversa com o Ladder.
+- **Memória** (variáveis globais `estado` e `ultima_troca`): o que precisa
+  sobreviver de uma varredura para a outra. É isso que faz dele um
+  Function Block (aula 09) — veja o cuidado com globais na seção 2.
+- **`setup()`/`loop()`**: `setup()` só anota o instante inicial;
+  `loop()` decide, a cada 20 ms, se já está na hora de inverter a saída.
+  Os pinos são usados **pelo nome** (`habilita`, `saida`), sem `vars->`.
+
+**Por que `millis()` e não `delay(500)`?** O jeito "de Arduino" de piscar
+seria `saida = true; delay(500); saida = false; delay(500);`. Dentro do
+CLP isso é um erro grave: o `delay` **para a varredura inteira** — todos os
+rungs, de todos os programas, ficam 1 s congelados a cada chamada (seção
+5). Com `millis()`, o `loop()` só **consulta o relógio** e volta na hora;
+ele roda e termina em microssegundos, a varredura segue normal, e a troca
+acontece numa das varreduras seguintes. É o mesmo princípio de um `TON`:
+medir o tempo que passou, nunca esperar parado.
+
+### Passo 4 — usar o bloco no `main`
+
+No `main`, crie as variáveis `botao` (BOOL, Location `%IX0.0`) e `led`
+(BOOL, Location `%QX0.0`). Em **Create new rung**, arraste o `pisca_c` da
+biblioteca (**User-defined POUs**) para o rung, ponha um contato
+`botao` antes e uma bobina `led` depois. O Editor cria sozinho a
+instância `PISCA_C0` na tabela:
+
+![Rung do main: botao → pisca_c (PISCA_C0) → led](capturas/pisca-04.png)
+
+Como o `pisca_c` tem pinos, o bloco aparece com eles (`habilita` à
+esquerda, `saida` à direita), e o fio do rung passa por eles direto. No
+programa em texto, fica:
+
+```pascal
+PROGRAM main
+  VAR
+    botao : BOOL AT %IX0.0;
+    led : BOOL AT %QX0.0;
+    PISCA_C0 : pisca_c;
+  END_VAR
+```
+
+Salve (**Ctrl+S**).
+
+### Passo 5 — testar no simulador
+
+Com a placa **OpenPLC Simulator**, clique no **▶** da barra lateral. O
+Editor compila (console: *Compiling Structured Text to C++ with
+STruC++...*, *Installing Arduino core...*), sobe o simulador e conecta o
+debugger sozinho (*Debugger connected*). No `main`, clique duas vezes no
+contato `botao` → **Force True**. O rung fica verde até o bloco, e a
+bobina `led` passa a alternar entre verde (ligada) e azul (desligada):
+
+![Debug ao vivo: botao forçado em TRUE, led ligado neste instante](capturas/pisca-05.png)
+
+Para ver o pisca "de verdade", use o gráfico do debugger: na coluna
+**Debug** da tabela de variáveis, clique no ícone de `botao` e no de
+`PISCA_C0`; no painel **Debugger**, expanda `main.PISCA_C0` e clique no
+olho ao lado de `saida`. Aparece uma **onda quadrada de 1 s** — 500 ms
+ligada, 500 ms desligada:
+
+![Gráfico do debugger: saida do PISCA_C0 piscando a cada 500 ms](capturas/pisca-06.png)
+
+Repare que os pinos do bloco em C (`habilita`, `saida`) aparecem no
+debugger como os de qualquer bloco padrão. As variáveis globais do C
+(`estado`, `ultima_troca`) **não aparecem** — só os pinos.
+
+Agora force o `botao` em **FALSE**: a `saida` para de piscar e fica
+desligada — é o `if (!habilita)` do `loop()` agindo:
+
+![botao em FALSE: a saida para de piscar e fica em FALSE](capturas/pisca-07.png)
+
+Para parar o simulador, clique no **■** (o mesmo botão do ▶).
+
+> **Na placa:** para rodar no ESP32 em vez do simulador, troque a placa em
+> **Device → Configuration** para *ESP32-DOIT DEVKIT V1* e mapeie
+> `%IX0.0`/`%QX0.0` no **Pin Mapping** (ex.: GPIO 22 = entrada, GPIO 2 =
+> LED da placa, como na seção 7). O código do bloco não muda nada.
+
+> **Atenção — `Serial`/`printf` derruba o debugger.** Na primeira versão
+> deste exemplo, o `setup()` tinha `Serial.begin(115200)` e um `printf`.
+> Compilou normal, o debugger conectou — e caiu segundos depois
+> (*simulator unresponsive → LOST*). Tirando essas duas linhas, tudo
+> funcionou. O motivo está no código gerado: o debugger do Editor conversa
+> com o CLP por Modbus **na própria `Serial`, a 115200** (`MBSERIAL_IFACE
+> Serial` em `defines.h`). Um `printf` dentro do bloco joga bytes no meio
+> dessa conversa. Detalhes na seção 5.
+
+---
+
+## 4. Nível 1 — servidor HTTP simples em Access Point (`server_ap`)
 
 Em vez de **entrar** numa rede Wi-Fi existente, o ESP32 **cria a própria
 rede** — modo **Access Point (AP)**. Isso não depende de nenhuma
@@ -257,12 +433,12 @@ trilho-esquerdo ──▶ EN [ server_ap ] ENO ──▶ trilho-direito
 ```
 
 Para testar: transfira para o ESP32, abra um terminal serial separado
-(seção 4) para acompanhar os `printf`, e confirme pelo efeito observável
+(seção 5) para acompanhar os `printf`, e confirme pelo efeito observável
 de fora — conectar no Wi-Fi `ESP32-OpenPLC` e acessar `http://192.168.4.1`.
 
 ---
 
-## 4. Travamentos silenciosos e como depurar com `printf`/`Serial`
+## 5. Travamentos silenciosos e como depurar com `printf`/`Serial`
 
 ### O risco: travar a varredura inteira, sem nenhum aviso
 
@@ -287,7 +463,7 @@ Se a rede não existisse, ou a senha estivesse errada, esse laço nunca
 terminava — e a primeira varredura do CLP ficava presa para sempre,
 literalmente para sempre, sem nenhuma mensagem de erro em lugar nenhum.
 Foi assim que a aula acabou migrando para o modo Access Point da seção
-3: além de não depender de rede de terceiros, elimina esse laço de
+4: além de não depender de rede de terceiros, elimina esse laço de
 espera (`softAP()` é síncrono).
 
 O mesmo tipo de armadilha apareceu de novo mais adiante nesta aula, de um
@@ -295,7 +471,7 @@ jeito mais sutil: numa versão intermediária do exemplo, o Access Point só
 subia quando um pino de entrada estivesse `TRUE` — só que, sem o AP no
 ar, não havia como alcançar a página pra ligar/observar esse pino em
 primeiro lugar. Não era um travamento de scan, mas o mesmo princípio: uma
-dependência circular que só aparece quando se testa de verdade. A seção 7
+dependência circular que só aparece quando se testa de verdade. A seção 8
 mostra a versão corrigida.
 
 ### A ferramenta: `printf`/`Serial.print`
@@ -315,6 +491,33 @@ No ESP32 (Arduino core), `printf` sai pela mesma porta serial que
 `Serial.print` — é só uma forma mais prática de montar a mensagem com
 `%s`/`%d` em vez de concatenar `String`. **O `Serial.begin(115200)` tem
 que rodar antes**, ou nada sai.
+
+### `printf` e o debugger do Editor não convivem
+
+A `Serial` que o seu bloco usa para `printf` **é a mesma** que o OpenPLC
+usa para o debugger/Modbus. Dá para ver isso no código gerado
+(`build/<placa>/src/defines.h`):
+
+```cpp
+#define MBSERIAL_IFACE Serial
+#define MBSERIAL_BAUD 115200
+```
+
+Ou seja: enquanto o Editor está em modo debug, ele está conversando com o
+CLP por Modbus RTU nessa porta, a 115200. Um `printf` dentro do bloco
+joga texto no meio desses quadros Modbus, e a conexão cai. Foi o que
+aconteceu ao testar o `pisca_c` da seção 3 com um `printf` no `setup()`:
+o debugger conectou e, segundos depois, *simulator unresponsive →
+enter-recovery → LOST*. Sem o `printf`, ficou estável. Na prática:
+
+- **Ou** você depura pelo Editor (debug ao vivo, gráfico, forçar
+  variáveis) — e o bloco **não** usa `Serial`/`printf`;
+- **ou** você depura pelo terminal serial (abaixo) — e o Editor fica
+  **desconectado**.
+
+Para passar informação do C para o debug do Editor sem `printf`, declare
+um pino a mais (`VAR_OUTPUT`) e escreva nele: ele aparece no debugger
+como qualquer outro pino (seção 3, passo 5).
 
 ### Onde esses `printf` aparecem? Em lugar nenhum do Editor
 
@@ -346,21 +549,22 @@ para o que está acontecendo lá dentro.
 
 ---
 
-## 5. Cuidados e limites de usar C/C++ dentro do OpenPLC
+## 6. Cuidados e limites de usar C/C++ dentro do OpenPLC
 
 Sair da norma tem preço. Antes de escrever um POU em C/C++, vale pesar:
 
-- **Perde portabilidade.** O código usa `Arduino.h`/`WiFi.h` — só compila
-  para alvos que tenham essas bibliotecas disponíveis (aqui, ESP32).
-  Trocar de hardware pode quebrar o POU inteiro.
-- **Perde a disciplina de varredura determinística.** Ver seção 4 —
+- **Perde portabilidade.** O código só compila para alvos que tenham as
+  bibliotecas que ele usa. O `pisca_c` (só `Arduino.h`/`millis()`) roda
+  no simulador e no ESP32; o `server_ap` (`WiFi.h`/`WebServer.h`) só no
+  ESP32. Trocar de hardware pode quebrar o POU inteiro.
+- **Perde a disciplina de varredura determinística.** Ver seção 5 —
   qualquer chamada bloqueante dentro de `loop()` trava o CLP inteiro,
   silenciosamente, o oposto do que um `TON` faz com segurança dentro do
   modelo IEC (nunca bloqueia o scan).
 - **Perde visibilidade de debug live.** Sem `VAR_INPUT`/`VAR_OUTPUT`,
   nada do POU aparece no modo debug do Editor — só no terminal serial
-  (seção 4), ou observando o efeito de fora (ex.: acessar a página HTTP).
-  A seção 6 mostra como recuperar parte dessa visibilidade, declarando
+  (seção 5), ou observando o efeito de fora (ex.: acessar a página HTTP).
+  A seção 7 mostra como recuperar parte dessa visibilidade, declarando
   pinos de verdade.
 - **Ainda assim é um Function Block "de verdade".** Tudo que a aula 09
   disse sobre instância e memória continua valendo — só que, em vez dos
@@ -368,7 +572,7 @@ Sair da norma tem preço. Antes de escrever um POU em C/C++, vale pesar:
 
 ---
 
-## 6. Nível 2 — AP com entrada e saída conectadas ao Ladder
+## 7. Nível 2 — AP com entrada e saída conectadas ao Ladder
 
 O nível 1 não trocou nenhum dado com o resto do programa — só `EN`/`ENO`,
 sem fios. Isso funciona, mas desperdiça a maior vantagem de estar dentro
@@ -381,7 +585,7 @@ POU. A diferença é só **como acessar esses pinos dentro do código C++**
 
 Este nível é deliberadamente simples — só prova que os pinos chegam vivos
 dentro do bloco, sem página nenhuma envolvida ainda (isso fica pro nível
-3, seção 7):
+3, seção 8):
 
 Os pinos são declarados em sintaxe IEC, não C++:
 
@@ -451,7 +655,7 @@ No Editor, o POU ganha as duas linhas de pino na tabela de variáveis
   o erro que apareceu ao testar este exemplo pela primeira vez).
 - O AP sobe sozinho em `setup()`, sem depender de nenhum pino. Uma versão
   anterior deste exemplo tentava ligar/desligar o AP por um pino de
-  entrada — e caiu na armadilha citada na seção 4: sem o AP no ar, não
+  entrada — e caiu na armadilha citada na seção 5: sem o AP no ar, não
   tinha como alcançar a página pra controlar esse mesmo pino. Pinos de
   entrada aqui servem só pra **trocar dados com o Ladder**, nunca pra
   decidir se o servidor existe ou não.
@@ -479,8 +683,11 @@ No Editor, isso vira uma instância `SERVER_AP0` na tabela de variáveis do
 
 A partir daqui, `SERVER_AP0` aparece na tabela de variáveis com
 `entrada` e `led_saida` visíveis — inclusive no modo debug do Editor,
-recuperando parte da visibilidade que a seção 5 disse que se perde com
-C/C++ puro.
+recuperando parte da visibilidade que a seção 6 disse que se perde com
+C/C++ puro. **Mas:** para usar o debug do Editor, tire o
+`Serial.begin`/`printf` do `setup()` — eles disputam a mesma porta serial
+com o debugger (seção 5). Use o `printf` só enquanto estiver depurando
+pelo terminal serial, com o Editor desconectado.
 
 `liga` e `led` são pinos físicos de verdade — no **Pin Mapping** da placa
 (aba **Configuration**), `liga` está no GPIO 22 (entrada digital) e `led`
@@ -490,7 +697,7 @@ no GPIO 2 (saída digital):
 
 ---
 
-## 7. Nível 3 — detecção de entrada e acionamento remoto de saída pela página
+## 8. Nível 3 — detecção de entrada e acionamento remoto de saída pela página
 
 O nível 2 provou que os pinos chegam vivos no C++. Este nível junta as
 duas pontas que fazem esse exemplo valer a pena: **mostrar** o estado de
@@ -596,7 +803,7 @@ void setup()
     // O AP sobe uma unica vez aqui, sem depender de nenhum pino -
     // se dependesse de "entrada", nao teria como alcancar a pagina
     // pra ver/mudar esse estado antes do AP existir (paradoxo do ovo
-    // e da galinha, seção 4). softAP() e' sincrono, sem loop de espera.
+    // e da galinha, seção 5). softAP() e' sincrono, sem loop de espera.
     WiFi.mode(WIFI_AP);
     bool ok = WiFi.softAP(ap_ssid, ap_password);
     printf("server_ap: AP %s (IP=%s)\n", ok ? "iniciado" : "falhou",
@@ -623,7 +830,7 @@ void loop()
 
 Todo o mecanismo de interação é feito de **requisições HTTP simples**,
 sem JavaScript. Vale entender as três peças, porque o exercício da
-seção 8 pede pra você estender exatamente isso:
+seção 9 pede pra você estender exatamente isso:
 
 - **Rota = `server.on(caminho, funcao)`.** Cada URL que a página pode
   chamar precisa de uma rota registrada em `setup()`. Aqui há três:
@@ -643,7 +850,7 @@ seção 8 pede pra você estender exatamente isso:
   `entrada` aparece "ao vivo" sem precisar de JavaScript nenhum.
 
 O que falta para **mandar um valor** (não só ligar/desligar) é uma quarta
-peça, que o exercício da seção 8 vai pedir (agora em
+peça, que o exercício da seção 9 vai pedir (agora em
 [exercicio-potenciometro-pwm-enunciado.md](exercicio-potenciometro-pwm-enunciado.md)):
 um **formulário** com um controle deslizante, e uma rota que lê esse
 valor:
@@ -700,7 +907,7 @@ de verdade.
 
 ---
 
-## 8. Exercício proposto
+## 9. Exercício proposto
 
 A aula continua num exercício separado, aplicando os três níveis acima
 com **valores** (não só liga/desliga): mostrar a leitura de um
@@ -711,7 +918,7 @@ controla o brilho de um LED.
 
 ---
 
-## 9. Ideias para outros POUs em C/C++ (aplicações)
+## 10. Ideias para outros POUs em C/C++ (aplicações)
 
 Sem código completo aqui — são pontos de partida para exercícios futuros,
 no mesmo espírito da seção de aplicações da aula 09:
@@ -730,18 +937,22 @@ no mesmo espírito da seção de aplicações da aula 09:
 
 ---
 
-## 10. Quadro-resumo
+## 11. Quadro-resumo
 
 | Pergunta | Resposta rápida |
 |---|---|
 | Um POU em C/C++ no OpenPLC é Function ou Function Block? | Function Block — guarda estado (variáveis globais/estáticas do próprio C++) entre varreduras |
 | O que roda só uma vez? | `setup()` — na primeira varredura daquela instância |
 | O que roda toda varredura? | `loop()` |
+| Como esperar um tempo dentro de `loop()`? | Com `millis()` (comparar o tempo que passou e sair), nunca `delay()` — igual ao `pisca_c` da seção 3 |
+| Variáveis globais do C são por instância? | **Não** — existem uma vez só para todas as instâncias; só os pinos são por instância |
 | Onde ficam os pinos `VAR_INPUT`/`VAR_OUTPUT` dentro do código? | Como campos de um struct (`vars`); acesse pelo **nome do pino direto** (`entrada`), nunca `vars->entrada` — o `#define` gerado já faz a ponte |
 | Por que uma rota do `WebServer` (`handleRoot`...) não pode ler um pino direto? | Ela não recebe o ponteiro `vars` — só `setup()`/`loop()` recebem. `loop()` precisa copiar o valor pra uma global antes |
 | Maior risco de escrever C/C++ dentro de um POU? | Bloquear a varredura inteira do CLP com um `delay()`/laço infinito, de forma silenciosa (sem erro nenhum no Editor) |
 | Onde aparecem os `printf`/`Serial.print`? | Em nenhum lugar do Editor — só num terminal serial separado (ex.: Serial Monitor do VS Code), na mesma porta e baud rate |
+| Dá pra usar `printf` e o debugger do Editor juntos? | Não — os dois usam a mesma `Serial` (115200); o `printf` derruba a conexão de debug |
+| Como testar um bloco em C sem placa? | Placa **OpenPLC Simulator** + ▶, desde que o código só use `Arduino.h` (nada de `WiFi.h`) |
 | Por que o AP não pode depender de um pino de entrada pra subir? | Sem o AP no ar não há como alcançar a página pra controlar esse pino — paradoxo do ovo e da galinha |
 | Como a página manda um botão liga/desliga pro C++? | Um link (`<a href="/rota">`) que dispara um `GET` simples numa rota registrada com `server.on(...)` |
 | Como a página manda um **valor** (não só liga/desliga)? | Um `<form method="GET">` com `<input type="range">`; o valor chega via `server.arg("nome")` como texto |
-| O que se perde ao sair da norma IEC 61131-3? | Portabilidade entre alvos e disciplina de scan determinística — visibilidade de debug se recupera parcialmente com `VAR_INPUT`/`VAR_OUTPUT` (seção 6) |
+| O que se perde ao sair da norma IEC 61131-3? | Portabilidade entre alvos e disciplina de scan determinística — visibilidade de debug se recupera parcialmente com `VAR_INPUT`/`VAR_OUTPUT` (seção 7) |
