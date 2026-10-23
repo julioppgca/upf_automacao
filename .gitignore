@@ -13,3 +13,6 @@
 
 # Diversos
 .DS_Store
+
+# Cache local do matplotlib e libs usadas pelo gerar-aula.py da aula 13
+work/
