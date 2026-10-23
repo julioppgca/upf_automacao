@@ -25,6 +25,7 @@ cada uma:
 | 10 | [10-partida-sequencial-motores/](10-partida-sequencial-motores/) | [enunciado](10-partida-sequencial-motores/partida-sequencial-motores-enunciado.md) ([PDF](10-partida-sequencial-motores/partida-sequencial-motores-enunciado.pdf)) (aluno) / [gabarito](10-partida-sequencial-motores/partida-sequencial-motores-gabarito.md) ([PDF](10-partida-sequencial-motores/partida-sequencial-motores-gabarito.pdf)) (professor) *(rascunho — sem montagem ainda)* | — |
 | 11 | [11-funcoes-c-cpp/](11-funcoes-c-cpp/) | [funcoes-c-cpp.md](11-funcoes-c-cpp/funcoes-c-cpp.md) ([PDF](11-funcoes-c-cpp/funcoes-c-cpp.pdf)) + exercício: [enunciado](11-funcoes-c-cpp/exercicio-potenciometro-pwm-enunciado.md) ([PDF](11-funcoes-c-cpp/exercicio-potenciometro-pwm-enunciado.pdf)) | [quadro-resumo.md](11-funcoes-c-cpp/quadro-resumo.md) |
 | 12 | [12-interface-io-industrial/](12-interface-io-industrial/) | [interface-io-industrial.md](12-interface-io-industrial/interface-io-industrial.md) ([PDF](12-interface-io-industrial/interface-io-industrial.pdf)) + laboratório: [enunciado](12-interface-io-industrial/laboratorio-optoacoplador-enunciado.md) ([PDF](12-interface-io-industrial/laboratorio-optoacoplador-enunciado.pdf)) (aluno) / [gabarito](12-interface-io-industrial/laboratorio-optoacoplador-gabarito.md) (professor) | [quadro-resumo.md](12-interface-io-industrial/quadro-resumo.md) |
+| 13 | [13-controle-pid/](13-controle-pid/) | [controle-pid.md](13-controle-pid/controle-pid.md) ([PDF](13-controle-pid/controle-pid.pdf)) — versão 3 | [quadro-resumo.md](13-controle-pid/quadro-resumo.md) |
 
 ## Conteúdo de cada módulo
 
@@ -63,6 +64,8 @@ cada uma:
     saída analógica, com todos os cálculos feitos a partir dos datasheets.
     Laboratório: dois ESP32 trocando sinais só por dois PC817, sem GND
     comum.
+
+13. **Controle P, PI e PID** — proporcional e erro permanente; integral como área e memória; PI contínuo e discreto; amostragem e windup; termo D, filtragem e ruído. Versão 3: modelo do aquecedor deduzido do balanço de energia, equações resolvidas passo a passo, tabelas com o SP e o cálculo de cada retângulo da integral discreta.
 
 ## Convenções
 

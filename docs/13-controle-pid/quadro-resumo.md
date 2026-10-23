@@ -1,0 +1,26 @@
+# Quadro-resumo: P, integral, PI e D
+
+- Planta: 10·dy/dt + y = 20 + 0,5·u. SP = 40 °C.
+- De onde vem: C·dy/dt = q_in − q_out, com q_in = 2,5·u W e q_out = (y − 20)/R; C = 50 J/°C, R = 0,2 °C/W.
+- τ = R·C = 10 s (velocidade); K = 0,5 °C/% (graus por % de potência); 100% → no máximo 70 °C.
+- Receita (u constante): y(t) = y_eq + (y(0) − y_eq)·e^(−t/τ). Em τ: 63,2% do caminho; em 5τ: 99,3%.
+- São necessários 40% de potência para manter 40 °C.
+- P contínuo e discreto: u = Kp·e; com Kp = 2, sem base, PV final = 30 °C.
+- P com Kp = 2: 5·dy/dt + y = 30 → y = 30 − 10·e^(−t/5); erro permanente = 20/(1 + 0,5·Kp).
+- Planta discreta (Ts = 1 s): y[k+1] = 20 + 0,904837·(y[k] − 20) + 0,047581·u[k].
+- O erro permanente produz a potência que sustenta o equilíbrio.
+- Área do erro = erro × tempo; unidade °C·s.
+- Erro positivo soma área; negativo subtrai; zero preserva o acumulado.
+- Discreto: retângulo à direita ΔA[k] = e[k]·Ts; A[k] = A[k−1] + ΔA[k]; fs = 1/Ts.
+- Mais amostras produzem retângulos mais estreitos, não área artificialmente maior.
+- PI: u = P + I; I[k] = Ki·A[k] = I[k−1] + Ki·Ts·e[k]. Ex.: k = 1 → ΔA = 18,097 °C·s, I = 3,619%, u = 39,813%.
+- PI com Ti = Kp/Ki = τ = 10 s: u fica em 40% e y = 40 − 20·e^(−t/10).
+- Erro zero não significa integral zero: I pode sustentar 40% de potência.
+- O controlador atualiza a correção imediatamente; a planta responde gradualmente.
+- Windup: integral cresce enquanto o atuador já está limitado.
+- Anti-windup: rejeitar integração que agrava a saturação.
+- D contínuo: Kd·de/dt. Discreto: Kd·Δe/Ts.
+- Derivar PV com sinal negativo evita o salto causado diretamente pelo SP.
+- Filtrar D reduz a amplificação de ruído. Tf = 0,5 s, Ts = 1 s: D[k] = (1/3)·D[k−1] − (4/3)·(y[k] − y[k−1]).
+- D não elimina sozinho o erro constante do aquecedor.
+- PI é mais comum em muitas malhas industriais; D exige benefício demonstrado.

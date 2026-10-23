@@ -1,0 +1,1584 @@
+<!doctype html><html lang="pt-BR"><meta charset="utf-8"><title>Controle PID</title><style>@page { size:A4; margin:2cm 2.2cm; @bottom-center {content:counter(page) " / " counter(pages); font-size:9pt; color:#888;} }
+body{font-family:Georgia,"DejaVu Serif",serif;font-size:10.5pt;line-height:1.5;color:#1a1a1a}
+h1,h2,h3,h4{font-family:Arial,sans-serif;line-height:1.25;color:#111;break-after:avoid}
+h1{font-size:20pt;border-bottom:2px solid #333;padding-bottom:.2em}h2{font-size:15pt;margin-top:1.6em;border-bottom:1px solid #ccc;padding-bottom:.15em}h3{font-size:12.5pt;margin-top:1.3em}
+p{margin:.5em 0;text-align:justify}img{max-width:100%;display:block;margin:.8em auto;break-inside:avoid}
+.equation img{max-width:100%;max-height:1.8cm;width:auto}table{border-collapse:collapse;margin:1em auto;width:100%;font-size:9.3pt;break-inside:avoid}th,td{border:1px solid #bbb;padding:.4em .5em;text-align:left;vertical-align:top}th{background:#f0f0f0;font-family:Arial,sans-serif}
+pre{background:#f6f8fa;border:1px solid #e1e4e8;padding:.8em 1em;white-space:pre-wrap;overflow-wrap:anywhere;break-inside:avoid;line-height:1.35}code{font-family:Consolas,monospace;font-size:8.6pt}
+blockquote{border-left:3px solid #ccc;margin:1em 0;padding-left:1em;color:#555}li{margin:.25em 0}</style><body><h1>Controle P, PI e PID: entender antes de implementar</h1>
+<blockquote>
+<p><strong>Versão 3.</strong> A aula segue sempre o mesmo aquecedor. Primeiro deduzimos o modelo dele a partir da física e resolvemos a equação passo a passo. Depois estudamos o proporcional e o seu erro permanente, revisamos a integral como área e memória, construímos o PI (contínuo e discreto, com o cálculo de cada retângulo) e discutimos amostragem e windup. Por último, a derivada, a sua implementação filtrada e a sensibilidade ao ruído. Todas as tabelas mostram o <strong>setpoint (SP)</strong> ao lado da temperatura medida (PV), para comparar.</p>
+</blockquote>
+<h2>0. O processo usado em toda a aula</h2>
+<p>Considere um pequeno bloco metálico aquecido por uma resistência elétrica. O ar em volta está a 20 °C e queremos manter o bloco a 40 °C. A potência da resistência é comandada de 0 a 100%. Usaremos sempre este mesmo processo para comparar os controladores.</p>
+<table>
+<thead>
+<tr>
+<th>Símbolo</th>
+<th>Significado</th>
+<th>Unidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>r ou SP</td>
+<td>temperatura desejada (setpoint): 40 °C</td>
+<td>°C</td>
+</tr>
+<tr>
+<td>y ou PV</td>
+<td>temperatura medida (variável de processo)</td>
+<td>°C</td>
+</tr>
+<tr>
+<td>e = r − y</td>
+<td>erro: quanto falta para chegar ao desejado</td>
+<td>°C</td>
+</tr>
+<tr>
+<td>u</td>
+<td>potência efetivamente aplicada</td>
+<td>%</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Malha de controle: SP, erro, controlador, planta e realimentação" src="images/malha.png" /></p>
+<p>O controlador compara o SP com a PV medida, calcula o erro e decide a potência u. A planta (o aquecedor) responde a essa potência, a temperatura muda, o sensor mede de novo e o ciclo se repete. Para entender o que cada controlador faz, precisamos primeiro saber <strong>como a planta responde à potência</strong>.</p>
+<h3>0.1 De onde vem o modelo: balanço de energia</h3>
+<p>A temperatura do bloco muda porque entra e sai energia. Em cada instante:</p>
+<p><img alt="Balanço de energia do bloco: potência que entra, calor guardado e calor perdido" src="images/aquecedor-balanco.png" /></p>
+<ul>
+<li><strong>Energia que entra:</strong> a resistência entrega no máximo 250 W. Com o comando em u %, entrega q_in = 250·u/100 = 2,5·u watts.</li>
+<li><strong>Energia que sai:</strong> o bloco perde calor para o ar. Pela <strong>lei de resfriamento de Newton</strong>, a perda é proporcional à diferença de temperatura: q_out = (y − 20)/R. O número R = 0,2 °C/W é a <strong>resistência térmica</strong>: para cada watt perdido, o bloco precisa estar 0,2 °C acima do ar. Quanto mais quente o bloco, mais calor ele perde.</li>
+<li><strong>Energia guardada:</strong> a diferença entre o que entra e o que sai fica no bloco e aumenta a temperatura. A <strong>capacidade térmica</strong> C = 50 J/°C diz quantos joules são necessários para subir 1 °C (é aproximadamente um bloco de alumínio de 55 g).</li>
+</ul>
+<p>Juntando as três ideias, a taxa de variação da energia guardada é a potência que entra menos a que sai:</p>
+<p class="equation"><img src="images/equacao-01.png" alt="Equação 1"></p>
+
+<p>Agora substituímos cada termo pelos números, um passo de cada vez.</p>
+<p><strong>Passo 1 — substituir C, q_in e q_out:</strong></p>
+<p class="equation"><img src="images/equacao-02.png" alt="Equação 2"></p>
+
+<p><strong>Passo 2 — fazer a divisão por 0,2</strong> (dividir por 0,2 é multiplicar por 5):</p>
+<p class="equation"><img src="images/equacao-03.png" alt="Equação 3"></p>
+
+<p><strong>Passo 3 — dividir a equação inteira por 5</strong>, para deixar y com coeficiente 1:</p>
+<p class="equation"><img src="images/equacao-04.png" alt="Equação 4"></p>
+
+<p><strong>Passo 4 — passar o y para o lado esquerdo:</strong></p>
+<p class="equation"><img src="images/equacao-05.png" alt="Equação 5"></p>
+
+<p>Esta é a equação do aquecedor usada na aula toda. Os dois números que aparecem nela têm significado físico:</p>
+<table>
+<thead>
+<tr>
+<th>Número</th>
+<th>De onde vem</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10 s (constante de tempo τ)</td>
+<td>τ = R·C = 0,2 °C/W × 50 J/°C = 10 s</td>
+<td>quão <strong>devagar</strong> a temperatura responde</td>
+</tr>
+<tr>
+<td>0,5 °C/% (ganho K)</td>
+<td>K = R × 2,5 W/% = 0,2 × 2,5 = 0,5</td>
+<td>quantos graus acima do ambiente cada 1% de potência sustenta</td>
+</tr>
+<tr>
+<td>20 °C</td>
+<td>temperatura do ar</td>
+<td>para onde o bloco volta se desligar</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Por que primeira ordem?</strong> O modelo tem um único "reservatório" de energia (o bloco, com uma temperatura só) e uma perda proporcional à diferença de temperatura. Por isso aparece só a primeira derivada. Um forno real tem mais coisas: o sensor demora a acompanhar o bloco, o calor leva tempo para atravessar o material (atraso de transporte), a perda muda com a temperatura e com ventilação. Essas dinâmicas extras precisariam ser identificadas em ensaio. Também escolhemos números redondos para que as contas sejam fáceis: um bloco real costuma ter τ de minutos, não de 10 s. As equações são as mesmas; só a escala de tempo muda.</p>
+<h3>0.2 Equilíbrio: quanto de potência é preciso para cada temperatura</h3>
+<p>No equilíbrio a temperatura não muda mais, então dy/dt = 0. A equação fica:</p>
+<p class="equation"><img src="images/equacao-06.png" alt="Equação 6"></p>
+
+<p>Para manter <strong>40 °C</strong>, isolamos u: 40 = 20 + 0,5u → 0,5u = 20 → <strong>u = 40%</strong>. Essa potência precisa ficar ligada <strong>o tempo todo</strong>, porque o bloco a 40 °C perde (40 − 20)/0,2 = 100 W, exatamente os 2,5 × 40 = 100 W que a resistência entrega. Com 100% de potência, o máximo alcançável é 20 + 0,5 × 100 = <strong>70 °C</strong>. Esses dois números (40% para o SP; 70 °C no máximo) vão explicar a limitação do P e o windup.</p>
+<h3>0.3 Resolvendo a equação passo a passo (potência constante)</h3>
+<p>Ligamos a resistência em u = 40% constante, com o bloco inicialmente a 20 °C, <strong>sem controlador</strong>. Como a temperatura evolui?</p>
+<p><strong>Passo 1 — medir a distância até o equilíbrio.</strong> Defina x = y − y_eq (quanto falta para o equilíbrio). Com u constante, y_eq é constante, então dx/dt = dy/dt e y = x + y_eq. Substituindo na equação do aquecedor:</p>
+<p class="equation"><img src="images/equacao-07.png" alt="Equação 7"></p>
+
+<p>(os termos y_eq e 20 + 0,5u se cancelam, porque são iguais).</p>
+<p><strong>Passo 2 — interpretar.</strong> A equação diz dx/dt = −x/10: a distância até o equilíbrio diminui a uma taxa proporcional a ela mesma. Longe do equilíbrio, aproxima rápido; perto, aproxima devagar. A função que tem essa propriedade é a exponencial:</p>
+<p class="equation"><img src="images/equacao-08.png" alt="Equação 8"></p>
+
+<p>(Confira: derivando, dx/dt = −x(0)e^(−t/10)/10 = −x/10.)</p>
+<p><strong>Passo 3 — voltar para y.</strong> Como y = y_eq + x, a solução geral, que vamos reutilizar várias vezes, é:</p>
+<p class="equation"><img src="images/equacao-09.png" alt="Equação 9"></p>
+
+<p><strong>Receita:</strong> para qualquer equação da forma τ·dy/dt + y = (valor final), a resposta parte de y(0) e se aproxima exponencialmente do valor final, com constante de tempo τ.</p>
+<p><strong>Passo 4 — números.</strong> Com u = 40%: y_eq = 40 °C, y(0) = 20 °C, τ = 10 s:</p>
+<p class="equation"><img src="images/equacao-10.png" alt="Equação 10"></p>
+
+<p>Por exemplo, em t = 10 s: e^(−1) = 0,3679, então y = 40 − 20 × 0,3679 = 32,64 °C.</p>
+<!--BEGIN MALHA_ABERTA-->
+
+<table>
+<thead>
+<tr>
+<th>t (s)</th>
+<th>u (%)</th>
+<th>SP (°C)</th>
+<th>PV (°C)</th>
+<th>Falta para o SP (°C)</th>
+<th>Caminho percorrido 20 → 40</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>40</td>
+<td>40,000</td>
+<td>20,000</td>
+<td>20,000</td>
+<td>0,0 %</td>
+</tr>
+<tr>
+<td>5</td>
+<td>40</td>
+<td>40,000</td>
+<td>27,869</td>
+<td>12,131</td>
+<td>39,3 %</td>
+</tr>
+<tr>
+<td>10</td>
+<td>40</td>
+<td>40,000</td>
+<td>32,642</td>
+<td>7,358</td>
+<td>63,2 %</td>
+</tr>
+<tr>
+<td>20</td>
+<td>40</td>
+<td>40,000</td>
+<td>37,293</td>
+<td>2,707</td>
+<td>86,5 %</td>
+</tr>
+<tr>
+<td>30</td>
+<td>40</td>
+<td>40,000</td>
+<td>39,004</td>
+<td>0,996</td>
+<td>95,0 %</td>
+</tr>
+<tr>
+<td>50</td>
+<td>40</td>
+<td>40,000</td>
+<td>39,865</td>
+<td>0,135</td>
+<td>99,3 %</td>
+</tr>
+</tbody>
+</table>
+<!--END MALHA_ABERTA-->
+
+<p><img alt="Resposta do aquecedor sem controle a degraus de 40% e 100% de potência" src="images/planta-degrau.png" /></p>
+<p><strong>Como ler a constante de tempo:</strong> depois de τ = 10 s, a temperatura percorreu 63,2% do caminho (de 20 para 32,64 °C); depois de 3τ, 95%; depois de 5τ = 50 s, 99,3%, e na prática "chegou".</p>
+<p><strong>Então para que um controlador, se 40% fixo já leva a 40 °C?</strong> Por dois motivos. Primeiro, os 40% só valem se o ar estiver a 20 °C e a perda for exatamente R = 0,2 °C/W. Se a sala esfriar, alguém abrir uma porta ou o bloco receber uma peça fria, os mesmos 40% levam a outra temperatura, e ninguém corrige. O controlador <strong>mede</strong> a PV e ajusta a potência. Segundo, em malha aberta são ~50 s para chegar; um controlador pode aplicar mais potência no começo e reduzir perto do SP.</p>
+<p>O modelo é didático: não inclui atraso de transporte, ruído ou não linearidades. A saída é limitada a 0–100%, salvo quando explicitamente analisamos o modelo linear sem saturação.</p>
+<hr />
+<h2>1. Controle proporcional: atuar na proporção do erro</h2>
+<h3>1.1 A ideia física</h3>
+<p>O controlador P responde ao erro <strong>que existe agora</strong>. Se a temperatura está muito abaixo do desejado, aplica mais potência. À medida que a temperatura se aproxima do SP, o erro diminui e a potência também diminui.</p>
+<p>Na forma contínua, sem uma potência base:</p>
+<p class="equation"><img src="images/equacao-11.png" alt="Equação 11"></p>
+
+<p class="equation"><img src="images/equacao-12.png" alt="Equação 12"></p>
+
+<p>Usaremos Kp = 2 %/°C. Cada grau de erro gera dois pontos percentuais de potência.</p>
+<table>
+<thead>
+<tr>
+<th>SP (°C)</th>
+<th>PV (°C)</th>
+<th>Erro = SP − PV</th>
+<th>Potência P = 2·erro</th>
+<th>Potência que manteria essa PV</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>40</td>
+<td>20</td>
+<td>20 °C</td>
+<td>40%</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>40</td>
+<td>25</td>
+<td>15 °C</td>
+<td>30%</td>
+<td>10%</td>
+</tr>
+<tr>
+<td>40</td>
+<td>30</td>
+<td>10 °C</td>
+<td>20%</td>
+<td>20%</td>
+</tr>
+<tr>
+<td>40</td>
+<td>35</td>
+<td>5 °C</td>
+<td>10%</td>
+<td>30%</td>
+</tr>
+<tr>
+<td>40</td>
+<td>40</td>
+<td>0 °C</td>
+<td>0%</td>
+<td>40%</td>
+</tr>
+</tbody>
+</table>
+<p>A última coluna vem do equilíbrio da seção 0.2 (u = (PV − 20)/0,5). Compare as duas colunas de potência: abaixo de 30 °C, o P entrega <strong>mais</strong> do que o necessário para manter a temperatura, e o bloco esquenta; acima de 30 °C, entrega <strong>menos</strong>, e o bloco esfria. As duas colunas só se igualam em 30 °C. Em 40 °C o P mandaria desligar o aquecedor, mas são necessários 40% para sustentar essa temperatura. Logo, com essa lei de controle, <strong>40 °C não é um equilíbrio possível</strong>.</p>
+<h3>1.2 Onde o processo realmente para? (passo a passo)</h3>
+<p>No equilíbrio a temperatura não varia (dy/dt = 0), então vale a relação da seção 0.2:</p>
+<p class="equation"><img src="images/equacao-13.png" alt="Equação 13"></p>
+
+<p><strong>Passo 1 — substituir a lei do P</strong>, u∞ = 2(40 − y∞):</p>
+<p class="equation"><img src="images/equacao-14.png" alt="Equação 14"></p>
+
+<p><strong>Passo 2 — multiplicar</strong> 0,5 × 2 = 1:</p>
+<p class="equation"><img src="images/equacao-15.png" alt="Equação 15"></p>
+
+<p><strong>Passo 3 — juntar os y∞ de um lado:</strong> y∞ + y∞ = 60 → 2y∞ = 60 →</p>
+<p class="equation"><img src="images/equacao-16.png" alt="Equação 16"></p>
+
+<p><strong>Conferência:</strong> em 30 °C há erro de 10 °C; esse erro gera 2 × 10 = 20% de potência; 20% sustenta 20 + 0,5 × 20 = 30 °C. A malha se equilibra <strong>com erro</strong>.</p>
+<h3>1.3 Resposta contínua passo a passo</h3>
+<p><strong>Passo 1 — substituir u = 2(40 − y) na equação do aquecedor:</strong></p>
+<p class="equation"><img src="images/equacao-17.png" alt="Equação 17"></p>
+
+<p><strong>Passo 2 — passar o −y para a esquerda:</strong></p>
+<p class="equation"><img src="images/equacao-18.png" alt="Equação 18"></p>
+
+<p><strong>Passo 3 — dividir por 2</strong>, para ficar na forma da receita da seção 0.3 (y com coeficiente 1):</p>
+<p class="equation"><img src="images/equacao-19.png" alt="Equação 19"></p>
+
+<p>Agora a equação diz: valor final 30 °C e constante de tempo <strong>5 s</strong> (a metade dos 10 s da planta sozinha: a malha fechada é mais rápida, mas para no lugar errado).</p>
+<p><strong>Passo 4 — aplicar a receita</strong> com y(0) = 20, valor final 30 e τ = 5 s:</p>
+<p class="equation"><img src="images/equacao-20.png" alt="Equação 20"></p>
+
+<p class="equation"><img src="images/equacao-21.png" alt="Equação 21"></p>
+
+<p><strong>Exemplo em t = 5 s:</strong> e^(−1) = 0,3679 → y = 30 − 3,679 = 26,321 °C; erro = 13,679 °C; potência = 2 × 13,679 = 27,358%.</p>
+<p>A tabela abaixo usa essas soluções contínuas. Cada linha é uma fotografia do processo em um instante; não é uma atualização discreta do controlador.</p>
+<!--BEGIN P_CONT-->
+
+<table>
+<thead>
+<tr>
+<th>t (s)</th>
+<th>SP (°C)</th>
+<th>PV (°C)</th>
+<th>Erro = SP − PV (°C)</th>
+<th>P = u (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>40,000</td>
+<td>20,000</td>
+<td>20,000</td>
+<td>40,000</td>
+</tr>
+<tr>
+<td>1</td>
+<td>40,000</td>
+<td>21,813</td>
+<td>18,187</td>
+<td>36,375</td>
+</tr>
+<tr>
+<td>5</td>
+<td>40,000</td>
+<td>26,321</td>
+<td>13,679</td>
+<td>27,358</td>
+</tr>
+<tr>
+<td>10</td>
+<td>40,000</td>
+<td>28,647</td>
+<td>11,353</td>
+<td>22,707</td>
+</tr>
+<tr>
+<td>20</td>
+<td>40,000</td>
+<td>29,817</td>
+<td>10,183</td>
+<td>20,366</td>
+</tr>
+<tr>
+<td>40</td>
+<td>40,000</td>
+<td>29,997</td>
+<td>10,003</td>
+<td>20,007</td>
+</tr>
+<tr>
+<td>60</td>
+<td>40,000</td>
+<td>30,000</td>
+<td>10,000</td>
+<td>20,000</td>
+</tr>
+<tr>
+<td>limite</td>
+<td>40,000</td>
+<td>30,000</td>
+<td>10,000</td>
+<td>20,000</td>
+</tr>
+</tbody>
+</table>
+<!--END P_CONT-->
+
+<p><strong>Como ler:</strong> a coluna SP fica sempre em 40 °C, mas a PV nunca passa de 30 °C. No início, o erro de 20 °C gera 40% de potência. A temperatura sobe, o que reduz o erro e a potência. Aos 20 s, o processo já está muito perto de 30 °C e a atuação se aproxima de 20%.</p>
+<p><img alt="P: temperatura, erro e potência em função do tempo" src="images/p-resposta.png" /></p>
+<p>No gráfico, a linha da temperatura para abaixo do SP tracejado, o erro converge para 10 °C e a potência converge para 20%. Os pontos e degraus indicam a versão discreta que veremos a seguir.</p>
+<h3>1.4 Por que o erro não chega a zero neste exemplo?</h3>
+<p>Pela equação e(t) = 10 + 10e^(−t/5), o erro é maior que 10 °C para todo tempo finito e tende a 10 °C quando o tempo cresce. Ele não apenas demora a desaparecer: <strong>há um erro permanente de equilíbrio</strong>.</p>
+<p>Para um ganho Kp positivo qualquer, repetimos a conta da seção 1.2 com Kp no lugar de 2:</p>
+<p class="equation"><img src="images/equacao-22.png" alt="Equação 22"></p>
+
+<p>E o erro é o que falta para o SP:</p>
+<p class="equation"><img src="images/equacao-23.png" alt="Equação 23"></p>
+
+<p>O 20 do numerador é a distância entre o SP (40 °C) e o ambiente (20 °C). Para zerar a fração, Kp teria que ser infinito.</p>
+<table>
+<thead>
+<tr>
+<th>Kp (%/°C)</th>
+<th>Conta</th>
+<th>Erro permanente (°C)</th>
+<th>SP (°C)</th>
+<th>PV final (°C)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0,5</td>
+<td>20 / (1 + 0,25)</td>
+<td>16,00</td>
+<td>40</td>
+<td>24,00</td>
+</tr>
+<tr>
+<td>2</td>
+<td>20 / (1 + 1)</td>
+<td>10,00</td>
+<td>40</td>
+<td>30,00</td>
+</tr>
+<tr>
+<td>10</td>
+<td>20 / (1 + 5)</td>
+<td>3,33</td>
+<td>40</td>
+<td>36,67</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Aumento do ganho P e redução do erro permanente" src="images/p-ganhos.png" /></p>
+<p>Este gráfico compara <strong>modelos lineares sem saturação</strong> para isolar o efeito do ganho. Com Kp = 10, o comando inicial seria 200%, impossível no atuador real; o limite de 100% alteraria o transitório. Os equilíbrios indicados continuam dentro da faixa disponível.</p>
+<p>Aumentar Kp reduz o erro neste processo, mas não o zera com ganho finito. Ganhos elevados também tornam o sistema mais sensível a ruído e, em plantas com atraso ou dinâmicas adicionais, podem causar oscilação e instabilidade.</p>
+<p><strong>O alcance dessa conclusão:</strong> não é correto afirmar que todo controle P sempre tem erro diferente de zero. Uma planta integradora pode atingir erro nulo com P em certas condições. Também podemos usar uma base u = ub + Kp·e: se ub for exatamente 40%, este aquecedor pode equilibrar em 40 °C com e = 0. Contudo, perdas ou condições diferentes exigem outra potência base. Aqui analisamos uma planta autorregulante, sem base, que exige potência não nula para manter o SP.</p>
+<h3>1.5 Controle P em tempo discreto</h3>
+<p>No CLP, a medição e o cálculo ocorrem a cada Ts segundos. O índice k identifica cada amostra:</p>
+<p class="equation"><img src="images/equacao-24.png" alt="Equação 24"></p>
+
+<p class="equation"><img src="images/equacao-25.png" alt="Equação 25"></p>
+
+<p>Não aparece Ts multiplicando Kp: o proporcional é uma multiplicação instantânea e não calcula área nem inclinação. Entretanto, Ts determina quando a saída será atualizada. Entre duas chamadas, o atuador <strong>mantém</strong> o último comando.</p>
+<p><strong>Como a planta evolui entre duas amostras.</strong> Durante um intervalo, u[k] fica constante. Então vale a receita da seção 0.3, aplicada durante Ts segundos, partindo de y[k] e indo em direção ao equilíbrio desse intervalo, y_eq = 20 + 0,5u[k]:</p>
+<p class="equation"><img src="images/equacao-26.png" alt="Equação 26"></p>
+
+<p>Chamando a = e^(−Ts/10) e substituindo y_eq:</p>
+<p class="equation"><img src="images/equacao-27.png" alt="Equação 27"></p>
+
+<p>Separando o que multiplica y[k] e o que multiplica u[k]:</p>
+<p class="equation"><img src="images/equacao-28.png" alt="Equação 28"></p>
+
+<p>Com Ts = 1 s: a = e^(−0,1) = <strong>0,904837</strong> e 0,5(1 − a) = <strong>0,047581</strong>. Esses dois números resumem o aquecedor em uma amostra: 90,48% do desvio em relação a 20 °C permanece, e cada 1% de potência mantida por 1 s acrescenta 0,0476 °C.</p>
+<p><strong>Ordem de cálculo em cada amostra:</strong> medir y[k] → calcular e[k] → calcular u[k] → manter u[k] durante Ts → obter y[k+1].</p>
+<p><strong>Amostra k = 0 (t = 0 s):</strong></p>
+<ul>
+<li>y[0] = 20,000 °C; e[0] = 40 − 20 = 20,000 °C; u[0] = 2 × 20 = 40,000%.</li>
+<li>y[1] = 20 + 0,904837 × (20 − 20) + 0,047581 × 40 = 20 + 0 + 1,903 = <strong>21,903 °C</strong>.</li>
+</ul>
+<p><strong>Amostra k = 1 (t = 1 s):</strong></p>
+<ul>
+<li>e[1] = 40 − 21,903 = 18,097 °C; u[1] = 2 × 18,097 = 36,193%.</li>
+<li>y[2] = 20 + 0,904837 × 1,903 + 0,047581 × 36,193 = 20 + 1,722 + 1,722 = <strong>23,444 °C</strong>.</li>
+</ul>
+<p>A tabela mostra as primeiras amostras com cada parcela da conta (as colunas 5 e 6 são os dois termos da equação de y[k+1]):</p>
+<!--BEGIN P_PASSO-->
+
+<table>
+<thead>
+<tr>
+<th>k</th>
+<th>y[k] (°C)</th>
+<th>e[k] = 40 − y[k]</th>
+<th>u[k] = 2·e[k] (%)</th>
+<th>a·(y[k] − 20)</th>
+<th>0,04758·u[k]</th>
+<th>y[k+1] = 20 + col.5 + col.6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>20,000</td>
+<td>20,000</td>
+<td>40,000</td>
+<td>0,000</td>
+<td>1,903</td>
+<td>21,903</td>
+</tr>
+<tr>
+<td>1</td>
+<td>21,903</td>
+<td>18,097</td>
+<td>36,193</td>
+<td>1,722</td>
+<td>1,722</td>
+<td>23,444</td>
+</tr>
+<tr>
+<td>2</td>
+<td>23,444</td>
+<td>16,556</td>
+<td>33,111</td>
+<td>3,117</td>
+<td>1,575</td>
+<td>24,692</td>
+</tr>
+<tr>
+<td>3</td>
+<td>24,692</td>
+<td>15,308</td>
+<td>30,616</td>
+<td>4,245</td>
+<td>1,457</td>
+<td>25,702</td>
+</tr>
+<tr>
+<td>4</td>
+<td>25,702</td>
+<td>14,298</td>
+<td>28,596</td>
+<td>5,160</td>
+<td>1,361</td>
+<td>26,520</td>
+</tr>
+</tbody>
+</table>
+<!--END P_PASSO-->
+
+<p>Continuando a mesma conta até 60 s:</p>
+<!--BEGIN P_DISC-->
+
+<table>
+<thead>
+<tr>
+<th>k = t (s)</th>
+<th>SP (°C)</th>
+<th>PV (°C)</th>
+<th>Erro (°C)</th>
+<th>u mantida (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>40,000</td>
+<td>20,000</td>
+<td>20,000</td>
+<td>40,000</td>
+</tr>
+<tr>
+<td>1</td>
+<td>40,000</td>
+<td>21,903</td>
+<td>18,097</td>
+<td>36,193</td>
+</tr>
+<tr>
+<td>2</td>
+<td>40,000</td>
+<td>23,444</td>
+<td>16,556</td>
+<td>33,111</td>
+</tr>
+<tr>
+<td>5</td>
+<td>40,000</td>
+<td>26,520</td>
+<td>13,480</td>
+<td>26,960</td>
+</tr>
+<tr>
+<td>10</td>
+<td>40,000</td>
+<td>28,789</td>
+<td>11,211</td>
+<td>22,422</td>
+</tr>
+<tr>
+<td>20</td>
+<td>40,000</td>
+<td>29,853</td>
+<td>10,147</td>
+<td>20,293</td>
+</tr>
+<tr>
+<td>40</td>
+<td>40,000</td>
+<td>29,998</td>
+<td>10,002</td>
+<td>20,004</td>
+</tr>
+<tr>
+<td>60</td>
+<td>40,000</td>
+<td>30,000</td>
+<td>10,000</td>
+<td>20,000</td>
+</tr>
+</tbody>
+</table>
+<!--END P_DISC-->
+
+<p>As curvas contínua e discreta são próximas, mas não idênticas: no contínuo, a potência muda a todo instante; no discreto, fica constante entre amostras (por exemplo, em t = 1 s a PV discreta é 21,903 °C e a contínua é 21,813 °C, porque o discreto manteve os 40% do início durante o segundo inteiro). O equilíbrio do P discreto estável continua sendo 30 °C, pois, em regime permanente, as mesmas relações de erro e potência precisam ser satisfeitas.</p>
+<h3>1.6 Limitações do P para guardar</h3>
+<p>O P reage imediatamente ao erro, mas não guarda informação do passado. Neste processo, reduzir o erro também reduz a potência necessária para continuar aquecendo. O resultado é o erro permanente. Aumentar o ganho ajuda até certo ponto, mas não substitui memória e pode prejudicar estabilidade, suavidade e limites da atuação.</p>
+<hr />
+<h2>2. Revisão: o que é uma integral?</h2>
+<h3>2.1 Área, duração e sinal</h3>
+<p>Uma integral soma pequenas áreas entre uma curva e o eixo do tempo. No gráfico do erro, a altura é medida em °C e a largura em segundos. A área tem unidade °C·s.</p>
+<p>Se e = 4 °C durante 2 s, a área é a de um retângulo:</p>
+<p class="equation"><img src="images/equacao-29.png" alt="Equação 29"></p>
+
+<p>Se o mesmo erro dura 5 s, a área é 20 °C·s. O tamanho do erro e o tempo durante o qual ele existe importam.</p>
+<p>A notação contínua é:</p>
+<p class="equation"><img src="images/equacao-30.png" alt="Equação 30"></p>
+
+<p>τ é apenas o nome da variável usada dentro da soma contínua. O limite superior t indica até onde acumulamos a área.</p>
+<h3>2.2 A integral tem memória</h3>
+<p>Erros positivos aumentam a área acumulada. Erros negativos a diminuem. Quando o erro é zero, não acrescentamos área, mas <strong>o total anterior permanece</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Intervalo</th>
+<th>Erro</th>
+<th>Conta</th>
+<th>Área acrescentada</th>
+<th>Área ao final</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0–1 s</td>
+<td>+4 °C</td>
+<td>4 × 1</td>
+<td>+4 °C·s</td>
+<td>0 + 4 = 4 °C·s</td>
+</tr>
+<tr>
+<td>1–2 s</td>
+<td>+4 °C</td>
+<td>4 × 1</td>
+<td>+4 °C·s</td>
+<td>4 + 4 = 8 °C·s</td>
+</tr>
+<tr>
+<td>2–3 s</td>
+<td>0 °C</td>
+<td>0 × 1</td>
+<td>0 °C·s</td>
+<td>8 + 0 = 8 °C·s</td>
+</tr>
+<tr>
+<td>3–4 s</td>
+<td>−2 °C</td>
+<td>−2 × 1</td>
+<td>−2 °C·s</td>
+<td>8 − 2 = 6 °C·s</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Erro por trechos e sua área acumulada" src="images/integral-memoria.png" /></p>
+<p>Entre 2 e 3 s, o erro é zero, mas a área acumulada continua em 8 °C·s. Entre 3 e 4 s, o erro é negativo, então a área cai. A curva da área sobe, para ou desce de acordo com o sinal do erro.</p>
+<h3>2.3 Área em tempo discreto: retângulos</h3>
+<p>O computador não conhece a curva inteira. Tem apenas as amostras e[0], e[1], e[2]…, tomadas a cada Ts. Para cada intervalo entre duas amostras, de t[k−1] a t[k], aproximamos a área por um <strong>retângulo</strong> de largura Ts. Falta decidir a <strong>altura</strong> do retângulo, e há duas escolhas comuns:</p>
+<ul>
+<li><strong>Retângulo à esquerda:</strong> altura = erro no <strong>início</strong> do intervalo, e[k−1]. Área ΔA[k] = e[k−1]·Ts.</li>
+<li><strong>Retângulo à direita:</strong> altura = erro no <strong>fim</strong> do intervalo, e[k]. Área ΔA[k] = e[k]·Ts.</li>
+</ul>
+<p>A área total é a anterior mais o retângulo novo. Com o retângulo à direita, que é o que usaremos no PI desta aula:</p>
+<p class="equation"><img src="images/equacao-31.png" alt="Equação 31"></p>
+
+<p class="equation"><img src="images/equacao-32.png" alt="Equação 32"></p>
+
+<p>A vantagem do retângulo à direita é usar o erro que acabou de ser medido, sem precisar guardar o anterior. Começamos com A[0] = 0 (não há área antes do início do experimento) e somamos o primeiro retângulo em k = 1, cobrindo o intervalo de 0 a 1·Ts.</p>
+<p>Uma terceira opção é o <strong>trapézio</strong>, com a média das duas alturas:</p>
+<p class="equation"><img src="images/equacao-33.png" alt="Equação 33"></p>
+
+<h3>2.4 Como a frequência de amostragem influencia a conta</h3>
+<p>A frequência de amostragem fs é o número de amostras por segundo:</p>
+<p class="equation"><img src="images/equacao-34.png" alt="Equação 34"></p>
+
+<p><strong>Primeiro caso: erro constante.</strong> Se e = 4 °C por 2 s, usar Ts = 1 s produz 2 retângulos de área 4 × 1 = 4. Usar Ts = 0,5 s produz 4 retângulos de área 4 × 0,5 = 2. Nos dois casos, o total é 8 °C·s, que é o valor correto.</p>
+<p>Amostragem mais rápida não deve aumentar artificialmente a integral. Ela produz mais parcelas, mas cada parcela tem uma largura menor. Somar apenas os valores de erro, sem multiplicar por Ts, faz o resultado depender indevidamente da quantidade de chamadas (no exemplo, daria 4 + 4 = 8 com Ts = 1 s, mas 4 + 4 + 4 + 4 = 16 com Ts = 0,5 s).</p>
+<p><strong>Segundo caso: erro variável.</strong> Considere e(t) = 4 + 2t, entre 0 e 2 s. A área exata é:</p>
+<p class="equation"><img src="images/equacao-35.png" alt="Equação 35"></p>
+
+<p>Com Ts = 1 s, as amostras são e(0) = 4, e(1) = 6 e e(2) = 8. As contas ficam:</p>
+<ul>
+<li>à esquerda: e(0)·1 + e(1)·1 = 4 + 6 = <strong>10</strong> °C·s (subestima: o erro está subindo e usamos a altura menor de cada intervalo);</li>
+<li>à direita: e(1)·1 + e(2)·1 = 6 + 8 = <strong>14</strong> °C·s (superestima: usamos a altura maior);</li>
+<li>trapézio: (4 + 6)/2 + (6 + 8)/2 = 5 + 7 = <strong>12</strong> °C·s.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Ts (s)</th>
+<th>fs (Hz)</th>
+<th>Retângulos à esquerda</th>
+<th>Retângulos à direita</th>
+<th>Área exata</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1,00</td>
+<td>1</td>
+<td>4 + 6 = 10,0</td>
+<td>6 + 8 = 14,0</td>
+<td>12,0</td>
+</tr>
+<tr>
+<td>0,50</td>
+<td>2</td>
+<td>(4 + 5 + 6 + 7)·0,5 = 11,0</td>
+<td>(5 + 6 + 7 + 8)·0,5 = 13,0</td>
+<td>12,0</td>
+</tr>
+<tr>
+<td>0,25</td>
+<td>4</td>
+<td>11,5</td>
+<td>12,5</td>
+<td>12,0</td>
+</tr>
+</tbody>
+</table>
+<p>Áreas em °C·s. A regra do trapézio dá 12 neste exemplo porque o erro é uma reta; isso não torna o trapézio exato para qualquer curva.</p>
+<p><img alt="Aproximação da área por retângulos à esquerda com dois períodos de amostragem" src="images/integral-retangulos.png" /></p>
+<p><strong>Leitura:</strong> os retângulos largos deixam uma faixa maior sem representar. Reduzir Ts diminui esse erro de aproximação para esta curva. Porém, amostrar rápido não recupera informação que o sensor não mede, nem elimina atrasos ou ruído.</p>
+<p>Se o intervalo real variar, a largura correta é o tempo decorrido entre chamadas, Δtk. Usar um Ts fixo enquanto o programa executa com intervalos diferentes também distorce a integral. Em CLP, prefira uma tarefa periódica e confirme o período.</p>
+<hr />
+<h2>3. Controle PI: proporcional mais memória integral</h2>
+<h3>3.1 Construção contínua</h3>
+<p>O PI soma a resposta ao erro presente e uma parcela baseada na área acumulada:</p>
+<p class="equation"><img src="images/equacao-36.png" alt="Equação 36"></p>
+
+<p class="equation"><img src="images/equacao-37.png" alt="Equação 37"></p>
+
+<p class="equation"><img src="images/equacao-38.png" alt="Equação 38"></p>
+
+<p>Kp tem unidade %/°C e Ki tem unidade %/(°C·s). O ganho Ki converte a área do erro em potência.</p>
+<p><strong>Exemplo de área:</strong> Ki = 0,2 e erro de 5 °C durante 3 s acrescentam área de 5 × 3 = 15 °C·s. Portanto, a integral aumenta 0,2 × 15 = 3%. Se o erro depois zerar, esses 3% permanecem.</p>
+<p>Outra forma de enxergar a integral é pela sua taxa de mudança:</p>
+<p class="equation"><img src="images/equacao-39.png" alt="Equação 39"></p>
+
+<p>Com erro positivo, I cresce; com erro negativo, I diminui; com erro zero, I para de mudar. Assim, <strong>erro zero significa integral constante, não integral nula</strong>.</p>
+<h3>3.2 Por que o PI consegue eliminar o erro permanente? (passo a passo)</h3>
+<p><strong>Passo 1 — no equilíbrio, nada varia</strong>, inclusive I. Pela equação acima, dI/dt = Ki·e = 0. Como Ki ≠ 0, a única saída é <strong>e∞ = 0</strong>.</p>
+<p><strong>Passo 2 — com erro zero, a PV é o SP:</strong> y∞ = 40 °C, e a parcela proporcional vale P∞ = 2 × 0 = 0.</p>
+<p><strong>Passo 3 — a planta ainda precisa de 40%</strong> para ficar em 40 °C (seção 0.2). Como u = P + I e P = 0, toda a potência vem da integral:</p>
+<p class="equation"><img src="images/equacao-40.png" alt="Equação 40"></p>
+
+<p>A integral guarda a potência necessária para compensar as perdas. O P já não precisa manter um erro para gerar essa potência. Compare com o P puro, que precisava de 10 °C de erro para gerar 20%.</p>
+<p>Esse resultado depende de estabilidade e referência alcançável. Uma planta limitada a 70 °C não chegará a 80 °C por receber uma integral maior. Também não significa que o erro será exatamente zero em todo instante ou que um sensor digital terá precisão infinita.</p>
+<h3>3.3 PI contínuo: solução passo a passo</h3>
+<p>Adote Kp = 2, Ki = 0,2, I(0) = 0 e y(0) = 20 °C. Repare em uma coincidência que torna a conta simples: Kp/Ki = 2/0,2 = 10 s, igual à constante de tempo τ da planta. (Esse quociente se chama tempo integral, Ti; escolher Ti = τ é um ajuste clássico para plantas de primeira ordem.)</p>
+<p>Vamos mostrar que, com esses ganhos, a solução é a mesma exponencial de constante de tempo 10 s da malha aberta com 40%:</p>
+<p class="equation"><img src="images/equacao-41.png" alt="Equação 41"></p>
+
+<p><strong>Passo 1 — parcela P:</strong></p>
+<p class="equation"><img src="images/equacao-42.png" alt="Equação 42"></p>
+
+<p><strong>Passo 2 — parcela I, integrando o erro</strong> (a integral de e^(−τ/10) é −10e^(−τ/10)):</p>
+<p class="equation"><img src="images/equacao-43.png" alt="Equação 43"></p>
+
+<p><strong>Passo 3 — somar:</strong></p>
+<p class="equation"><img src="images/equacao-44.png" alt="Equação 44"></p>
+
+<p>A potência fica em 40% o tempo todo: o que o P perde à medida que o erro cai, a I ganha.</p>
+<p><strong>Passo 4 — conferir na equação da planta.</strong> Derivando y: dy/dt = 2e^(−t/10). Então o lado esquerdo da equação do aquecedor vale:</p>
+<p class="equation"><img src="images/equacao-45.png" alt="Equação 45"></p>
+
+<p>e o lado direito vale 20 + 0,5 × 40 = 40. Os dois lados são iguais para todo t, então a solução está correta.</p>
+<p><strong>Exemplo em t = 10 s:</strong> e^(−1) = 0,3679 → y = 40 − 7,358 = 32,642 °C; erro = 7,358 °C; P = 14,715%; I = 40 × (1 − 0,3679) = 25,285%; u = 40%.</p>
+<!--BEGIN PI_CONT-->
+
+<table>
+<thead>
+<tr>
+<th>t (s)</th>
+<th>SP (°C)</th>
+<th>PV (°C)</th>
+<th>Erro (°C)</th>
+<th>P (%)</th>
+<th>I (%)</th>
+<th>u (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>40,000</td>
+<td>20,000</td>
+<td>20,000</td>
+<td>40,000</td>
+<td>0,000</td>
+<td>40,000</td>
+</tr>
+<tr>
+<td>1</td>
+<td>40,000</td>
+<td>21,903</td>
+<td>18,097</td>
+<td>36,193</td>
+<td>3,807</td>
+<td>40,000</td>
+</tr>
+<tr>
+<td>5</td>
+<td>40,000</td>
+<td>27,869</td>
+<td>12,131</td>
+<td>24,261</td>
+<td>15,739</td>
+<td>40,000</td>
+</tr>
+<tr>
+<td>10</td>
+<td>40,000</td>
+<td>32,642</td>
+<td>7,358</td>
+<td>14,715</td>
+<td>25,285</td>
+<td>40,000</td>
+</tr>
+<tr>
+<td>20</td>
+<td>40,000</td>
+<td>37,293</td>
+<td>2,707</td>
+<td>5,413</td>
+<td>34,587</td>
+<td>40,000</td>
+</tr>
+<tr>
+<td>40</td>
+<td>40,000</td>
+<td>39,634</td>
+<td>0,366</td>
+<td>0,733</td>
+<td>39,267</td>
+<td>40,000</td>
+</tr>
+<tr>
+<td>60</td>
+<td>40,000</td>
+<td>39,950</td>
+<td>0,050</td>
+<td>0,099</td>
+<td>39,901</td>
+<td>40,000</td>
+</tr>
+<tr>
+<td>limite</td>
+<td>40,000</td>
+<td>40,000</td>
+<td>0,000</td>
+<td>0,000</td>
+<td>40,000</td>
+<td>40,000</td>
+</tr>
+</tbody>
+</table>
+<!--END PI_CONT-->
+
+<p><strong>O que a tabela mostra:</strong> a PV se aproxima do SP de 40 °C (em vez de parar em 30 °C), o erro diminui, a parcela P diminui e a integral aumenta até sustentar os 40%. Neste exemplo, P + I permanece em 40% durante todo o transitório. Isso decorre dos ganhos escolhidos (Ti = τ) e não é uma propriedade geral de PI: com outros ganhos, a resposta pode ser mais lenta, mais rápida ou ultrapassar o SP.</p>
+<p><img alt="PI: comparação com P, erro e troca de contribuição entre P e I" src="images/pi-resposta.png" /></p>
+<p>No P, a temperatura para em 30 °C. No PI, ela se aproxima de 40 °C. Observe que o erro do PI tende a zero; neste modelo ideal, a aproximação é assintótica. Isso é diferente de permanecer com um erro de 10 °C, como no P.</p>
+<h3>3.4 A correção começa imediatamente; o processo é que demora</h3>
+<p>É comum dizer que o erro se acumula “antes de o controlador corrigir a saída”. Precisamos distinguir a conta do controlador e a resposta física da planta.</p>
+<p>No contínuo, I começa a mudar assim que existe erro. No discreto, o novo valor de I entra na saída no mesmo instante de atualização. O controlador <strong>não espera juntar uma área mínima</strong> para só depois atuar.</p>
+<p>Quem demora a responder é o processo: a potência pode aumentar agora, mas a temperatura sobe aos poucos (constante de tempo de 10 s). Durante esse tempo, ainda há erro e a integral continua crescendo. Em uma planta com atraso de transporte, a medição pode até ficar quase parada por algum tempo após a mudança da atuação.</p>
+<p>Esse acúmulo é normal até certo ponto. Torna-se problemático se Ki for excessivo ou, principalmente, se a integral continuar crescendo quando a atuação já está saturada. Esse segundo fenômeno é o windup.</p>
+<h3>3.5 PI em tempo discreto: o cálculo de cada retângulo</h3>
+<p>No CLP, a integral é a soma dos retângulos da seção 2.3 (à direita, altura e[k], largura Ts), multiplicada por Ki:</p>
+<p class="equation"><img src="images/equacao-46.png" alt="Equação 46"></p>
+
+<p class="equation"><img src="images/equacao-47.png" alt="Equação 47"></p>
+
+<p class="equation"><img src="images/equacao-48.png" alt="Equação 48"></p>
+
+<p class="equation"><img src="images/equacao-49.png" alt="Equação 49"></p>
+
+<p class="equation"><img src="images/equacao-50.png" alt="Equação 50"></p>
+
+<p>As duas formas de I[k] são a mesma conta: somar a área e depois multiplicar por Ki, ou já somar Ki·e[k]·Ts a cada chamada (é assim que se programa, guardando só I). Começamos com A[0] = 0, I[0] = 0 e u[0] = Kp·e[0]. A partir de k = 1, cada amostra acrescenta o retângulo do intervalo que acabou de terminar.</p>
+<p>Usamos o mesmo aquecedor, Ts = 1 s, Kp = 2 e Ki = 0,2. A planta evolui entre amostras com a mesma equação da seção 1.5: y[k+1] = 20 + 0,904837·(y[k] − 20) + 0,047581·u[k].</p>
+<p><strong>Amostra k = 0 (t = 0 s):</strong> ainda não passou tempo nenhum, então não há retângulo.</p>
+<ul>
+<li>y[0] = 20,000 °C; e[0] = 20,000 °C; A[0] = 0; I[0] = 0.</li>
+<li>P[0] = 2 × 20 = 40,000%; u[0] = 40 + 0 = 40,000%.</li>
+<li>y[1] = 20 + 0,904837 × 0 + 0,047581 × 40 = <strong>21,903 °C</strong>.</li>
+</ul>
+<p><strong>Amostra k = 1 (t = 1 s):</strong> primeiro retângulo, cobrindo de 0 a 1 s.</p>
+<ul>
+<li>e[1] = 40 − 21,903 = 18,097 °C.</li>
+<li>ΔA[1] = e[1] × Ts = 18,097 × 1 = 18,097 °C·s (altura 18,097 °C, largura 1 s).</li>
+<li>A[1] = A[0] + ΔA[1] = 0 + 18,097 = 18,097 °C·s.</li>
+<li>I[1] = Ki × A[1] = 0,2 × 18,097 = 3,619%.</li>
+<li>P[1] = 2 × 18,097 = 36,193%; u[1] = 36,193 + 3,619 = <strong>39,813%</strong>.</li>
+<li>y[2] = 20 + 0,904837 × 1,903 + 0,047581 × 39,813 = 20 + 1,722 + 1,894 = <strong>23,616 °C</strong>.</li>
+</ul>
+<p><strong>Amostra k = 2 (t = 2 s):</strong> segundo retângulo, de 1 a 2 s.</p>
+<ul>
+<li>e[2] = 40 − 23,616 = 16,384 °C.</li>
+<li>ΔA[2] = 16,384 × 1 = 16,384 °C·s.</li>
+<li>A[2] = 18,097 + 16,384 = 34,480 °C·s.</li>
+<li>I[2] = 0,2 × 34,480 = 6,896%.</li>
+<li>P[2] = 2 × 16,384 = 32,767%; u[2] = 32,767 + 6,896 = <strong>39,663%</strong>.</li>
+</ul>
+<p><strong>Amostra k = 3 (t = 3 s):</strong> e[3] = 14,841 °C; ΔA[3] = 14,841 °C·s; A[3] = 34,480 + 14,841 = 49,321 °C·s; I[3] = 9,864%; P[3] = 29,681%; u[3] = <strong>39,545%</strong>.</p>
+<p>A tabela reúne as primeiras amostras, com cada coluna da conta:</p>
+<!--BEGIN PI_PASSO-->
+
+<table>
+<thead>
+<tr>
+<th>k</th>
+<th>y[k] (°C)</th>
+<th>e[k] (°C)</th>
+<th>ΔA[k] = e[k]·Ts (°C·s)</th>
+<th>A[k] = A[k−1] + ΔA[k]</th>
+<th>I[k] = 0,2·A[k] (%)</th>
+<th>P[k] = 2·e[k] (%)</th>
+<th>u[k] = P + I (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>20,000</td>
+<td>20,000</td>
+<td>— (k = 0)</td>
+<td>0,000</td>
+<td>0,000</td>
+<td>40,000</td>
+<td>40,000</td>
+</tr>
+<tr>
+<td>1</td>
+<td>21,903</td>
+<td>18,097</td>
+<td>18,097</td>
+<td>18,097</td>
+<td>3,619</td>
+<td>36,193</td>
+<td>39,813</td>
+</tr>
+<tr>
+<td>2</td>
+<td>23,616</td>
+<td>16,384</td>
+<td>16,384</td>
+<td>34,480</td>
+<td>6,896</td>
+<td>32,767</td>
+<td>39,663</td>
+</tr>
+<tr>
+<td>3</td>
+<td>25,160</td>
+<td>14,840</td>
+<td>14,840</td>
+<td>49,321</td>
+<td>9,864</td>
+<td>29,681</td>
+<td>39,545</td>
+</tr>
+<tr>
+<td>4</td>
+<td>26,550</td>
+<td>13,450</td>
+<td>13,450</td>
+<td>62,771</td>
+<td>12,554</td>
+<td>26,900</td>
+<td>39,454</td>
+</tr>
+<tr>
+<td>5</td>
+<td>27,804</td>
+<td>12,196</td>
+<td>12,196</td>
+<td>74,966</td>
+<td>14,993</td>
+<td>24,392</td>
+<td>39,385</td>
+</tr>
+</tbody>
+</table>
+<!--END PI_PASSO-->
+
+<p><img alt="PI discreto: retângulos de altura e[k] e largura Ts, e a área acumulada que forma a integral" src="images/pi-retangulos.png" /></p>
+<p>No gráfico de cima, cada barra verde é um retângulo: largura de 1 s e altura igual ao erro medido no <strong>fim</strong> do intervalo (ponto verde). No de baixo, a escada é a soma das barras: a área A[k] no eixo da esquerda e a integral I[k] = 0,2·A[k] no eixo da direita. Quando o erro diminui, cada degrau é menor, mas a escada <strong>nunca desce</strong> enquanto o erro for positivo.</p>
+<p><strong>Por que o discreto não dá exatamente os 3,807% do contínuo em t = 1 s?</strong> No contínuo, o erro foi caindo de 20 para ~18 °C durante o primeiro segundo, e a área exata é ≈ 19,03 °C·s (0,2 × 19,03 = 3,807%). O retângulo à direita usa a altura do fim, 18,097 °C, durante o segundo inteiro, e por isso conta um pouco menos: 18,097 °C·s. Como o erro está diminuindo, o retângulo à direita subestima a área. Com Ts menor, a diferença diminui (seção 2.4).</p>
+<p>Continuando a mesma conta até 60 s, mostrando também a área acumulada A:</p>
+<!--BEGIN PI_DISC-->
+
+<table>
+<thead>
+<tr>
+<th>k = t (s)</th>
+<th>SP (°C)</th>
+<th>PV (°C)</th>
+<th>Erro (°C)</th>
+<th>ΔA (°C·s)</th>
+<th>A (°C·s)</th>
+<th>P (%)</th>
+<th>I (%)</th>
+<th>u (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>40,000</td>
+<td>20,000</td>
+<td>20,000</td>
+<td>0,000</td>
+<td>0,000</td>
+<td>40,000</td>
+<td>0,000</td>
+<td>40,000</td>
+</tr>
+<tr>
+<td>1</td>
+<td>40,000</td>
+<td>21,903</td>
+<td>18,097</td>
+<td>18,097</td>
+<td>18,097</td>
+<td>36,193</td>
+<td>3,619</td>
+<td>39,813</td>
+</tr>
+<tr>
+<td>2</td>
+<td>40,000</td>
+<td>23,616</td>
+<td>16,384</td>
+<td>16,384</td>
+<td>34,480</td>
+<td>32,767</td>
+<td>6,896</td>
+<td>39,663</td>
+</tr>
+<tr>
+<td>5</td>
+<td>40,000</td>
+<td>27,804</td>
+<td>12,196</td>
+<td>12,196</td>
+<td>74,966</td>
+<td>24,392</td>
+<td>14,993</td>
+<td>39,385</td>
+</tr>
+<tr>
+<td>10</td>
+<td>40,000</td>
+<td>32,467</td>
+<td>7,533</td>
+<td>7,533</td>
+<td>121,015</td>
+<td>15,066</td>
+<td>24,203</td>
+<td>39,269</td>
+</tr>
+<tr>
+<td>20</td>
+<td>40,000</td>
+<td>37,027</td>
+<td>2,973</td>
+<td>2,973</td>
+<td>167,652</td>
+<td>5,946</td>
+<td>33,530</td>
+<td>39,477</td>
+</tr>
+<tr>
+<td>40</td>
+<td>40,000</td>
+<td>39,488</td>
+<td>0,512</td>
+<td>0,512</td>
+<td>194,176</td>
+<td>1,023</td>
+<td>38,835</td>
+<td>39,858</td>
+</tr>
+<tr>
+<td>60</td>
+<td>40,000</td>
+<td>39,905</td>
+<td>0,095</td>
+<td>0,095</td>
+<td>198,898</td>
+<td>0,190</td>
+<td>39,780</td>
+<td>39,969</td>
+</tr>
+</tbody>
+</table>
+<!--END PI_DISC-->
+
+<p>Áreas em °C·s e parcelas em %. Valores arredondados apenas para apresentação; a simulação usa precisão completa. Confira em qualquer linha: I = 0,2 × A e u = P + I; e na coluna SP, que a PV se aproxima de 40 °C.</p>
+<h3>3.6 Amostrar mais rápido muda o ganho integral?</h3>
+<p>Ki continua sendo o ganho contínuo. O coeficiente usado por chamada é Ki·Ts. Com Ki = 0,2, ele vale 0,2 × 1 = 0,2 para Ts = 1 s e 0,2 × 0,1 = 0,02 para Ts = 0,1 s. No segundo caso, temos dez vezes mais chamadas por segundo, cada uma acumulando um décimo da área para um mesmo erro constante: no fim de 1 s, 10 × 0,02 = 0,2 por °C de erro, igual ao caso com Ts = 1 s.</p>
+<p><img alt="PI com diferentes períodos de amostragem e ganhos contínuos mantidos" src="images/pi-amostragem.png" /></p>
+<p>O gráfico mantém Kp e Ki e recalcula Ki·Ts. Ts maior torna a atuação menos frequente e altera a aproximação integral. Dependendo dos ganhos e da planta, isso pode aumentar oscilações e comprometer a estabilidade. Reduzir Ts não substitui uma sintonia adequada.</p>
+<h3>3.7 Windup: a integral cresce além do que o atuador entrega</h3>
+<p>Agora a referência é 80 °C. O aquecedor, mesmo em 100%, alcança no máximo 20 + 0,5 × 100 = 70 °C (seção 0.2). O erro permanece positivo e o integrador tenta pedir cada vez mais potência.</p>
+<p>É essencial separar duas grandezas:</p>
+<p class="equation"><img src="images/equacao-51.png" alt="Equação 51"></p>
+
+<p class="equation"><img src="images/equacao-52.png" alt="Equação 52"></p>
+
+<p>v é o comando calculado; u é a potência que pode ser aplicada. Se v = 180%, o atuador entrega somente 100%. Acrescentar mais integral não aumenta a potência real.</p>
+<p>No experimento seguinte, usamos Kp = 2, Ki = 0,4, Ts = 1 s, sem anti-windup. <strong>SP = 80 °C até 39 s; a partir de t = 40 s, o SP cai para 40 °C.</strong> A coluna SP da tabela mostra essa troca.</p>
+<!--BEGIN WIND-->
+
+<table>
+<thead>
+<tr>
+<th>t (s)</th>
+<th>SP (°C)</th>
+<th>PV (°C)</th>
+<th>Erro (°C)</th>
+<th>P (%)</th>
+<th>I (%)</th>
+<th>v calculado (%)</th>
+<th>u aplicado (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>80,000</td>
+<td>20,000</td>
+<td>60,000</td>
+<td>120,000</td>
+<td>0,000</td>
+<td>120,000</td>
+<td>100,000</td>
+</tr>
+<tr>
+<td>10</td>
+<td>80,000</td>
+<td>51,606</td>
+<td>28,394</td>
+<td>56,788</td>
+<td>160,208</td>
+<td>216,996</td>
+<td>100,000</td>
+</tr>
+<tr>
+<td>20</td>
+<td>80,000</td>
+<td>63,233</td>
+<td>16,767</td>
+<td>33,534</td>
+<td>244,430</td>
+<td>277,964</td>
+<td>100,000</td>
+</tr>
+<tr>
+<td>39</td>
+<td>80,000</td>
+<td>68,988</td>
+<td>11,012</td>
+<td>22,024</td>
+<td>342,317</td>
+<td>364,341</td>
+<td>100,000</td>
+</tr>
+<tr>
+<td>40</td>
+<td>40,000</td>
+<td>69,084</td>
+<td>-29,084</td>
+<td>-58,168</td>
+<td>330,684</td>
+<td>272,515</td>
+<td>100,000</td>
+</tr>
+<tr>
+<td>45</td>
+<td>40,000</td>
+<td>69,445</td>
+<td>-29,445</td>
+<td>-58,889</td>
+<td>272,054</td>
+<td>213,165</td>
+<td>100,000</td>
+</tr>
+<tr>
+<td>60</td>
+<td>40,000</td>
+<td>64,375</td>
+<td>-24,375</td>
+<td>-48,749</td>
+<td>98,888</td>
+<td>50,139</td>
+<td>50,139</td>
+</tr>
+<tr>
+<td>80</td>
+<td>40,000</td>
+<td>39,645</td>
+<td>0,355</td>
+<td>0,710</td>
+<td>33,537</td>
+<td>34,246</td>
+<td>34,246</td>
+</tr>
+</tbody>
+</table>
+<!--END WIND-->
+
+<p><strong>Como ler, linha a linha:</strong></p>
+<ul>
+<li><strong>t = 0 a 39 s (SP = 80 °C):</strong> v passa de 100% já no início (120% em t = 0, porque P = 2 × 60). A potência aplicada fica travada em 100%, e a PV sobe só até perto dos 70 °C possíveis. Como o erro nunca zera (80 − 69 = 11 °C em t = 39 s), a integral cresce sem parar: 160% em t = 10 s, 342% em t = 39 s. <strong>Esse crescimento não muda nada na planta</strong>, porque a saída já está em 100%.</li>
+<li><strong>t = 40 s (SP = 40 °C):</strong> o erro vira negativo de repente (40 − 69,08 = −29,08 °C), e P = −58,17%. Mas I ainda vale 330,68%, e v = −58,17 + 330,68 = 272,52%: o aquecedor <strong>continua em 100%</strong>, embora a temperatura esteja 29 °C acima do novo SP.</li>
+<li><strong>t = 45 s:</strong> a PV até subiu (69,4 °C). A integral está "desenrolando" (cada amostra soma 0,4 × e[k] × 1 ≈ −11,8%), mas ainda está em 272%.</li>
+<li><strong>t = 55 s</strong> (não está na tabela; veja o arquivo <code>windup-sem.csv</code>): só então v cai abaixo de 100% (93,8%) e a potência começa a diminuir. Foram 15 s aquecendo a todo vapor com a temperatura quase 30 °C acima do SP; a PV chegou a 69,8 °C.</li>
+<li><strong>t = 60 s:</strong> a integral já caiu para ~99% e a potência aplicada está em 50%; a PV começa a descer (64,4 °C).</li>
+<li><strong>t = 80 s:</strong> a PV finalmente chega perto de 40 °C.</li>
+</ul>
+<p>Para a saída cair, os erros negativos precisam reduzir a integral: esse é o “desenrolar” do acúmulo.</p>
+<p><img alt="Saturação e recuperação com e sem proteção anti-windup" src="images/pi-windup.png" /></p>
+<p>O gráfico usa Ts = 0,1 s para mostrar curvas mais detalhadas, com os mesmos ganhos. A tabela anterior usa Ts = 1 s; por isso os valores não são exatamente iguais. Compare a integral no painel do meio: a proteção evita o crescimento que não se transforma em atuação.</p>
+<p><strong>Proteção por integração condicional:</strong> calcule uma integral candidata e o comando correspondente. Se o comando exceder 100% e o erro for positivo, rejeite o incremento. Se ficar abaixo de 0% e o erro for negativo, rejeite. Aceite atualizações que não agravem a saturação. Depois recalcule a soma e limite a saída.</p>
+<p>O anti-windup não torna uma referência impossível alcançável e não elimina o tempo de resposta da planta. Ele reduz o acúmulo indevido durante as limitações de atuação. Em sistemas com atuadores limitados externamente, o controlador também precisa conhecer a atuação realmente disponível.</p>
+<h3>3.8 Limitações do PI</h3>
+<p>O PI elimina o erro constante neste processo estável e alcançável, mas acrescenta memória à malha. Ki grande pode provocar ultrapassagem do SP e oscilações. A saturação exige anti-windup. O período de cálculo precisa corresponder ao Ts usado, e a integral deve permanecer armazenada entre execuções.</p>
+<p>Para comparar bibliotecas, verifique se o parâmetro é Ki ou o tempo integral Ti. Na forma em que Kp multiplica o conjunto, a conversão é:</p>
+<p class="equation"><img src="images/equacao-53.png" alt="Equação 53"></p>
+
+<p>No exemplo da aula: Ki = 2/10 = 0,2 %/(°C·s), com Ti = 10 s.</p>
+<hr />
+<h2>4. Termo derivativo: responder à velocidade de mudança</h2>
+<h3>4.1 Revisão da derivada</h3>
+<p>A derivada indica a inclinação de uma curva: quanto ela muda por unidade de tempo. Uma variação de −2 °C em 1 s tem inclinação média de −2/1 = −2 °C/s. Se a mesma variação ocorrer em 0,1 s, a inclinação média será −2/0,1 = −20 °C/s.</p>
+<p>No termo D ideal, sobre o erro:</p>
+<p class="equation"><img src="images/equacao-54.png" alt="Equação 54"></p>
+
+<p>Kd tem unidade %·s/°C. Se o erro está diminuindo, D é negativo e reduz a atuação de aquecimento. Se o erro está crescendo, D é positivo e aumenta a atuação.</p>
+<table>
+<thead>
+<tr>
+<th>Intervalo</th>
+<th>Erro inicial</th>
+<th>Erro final</th>
+<th>Inclinação média = (final − inicial)/1 s</th>
+<th>D para Kd = 1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0–1 s</td>
+<td>10 °C</td>
+<td>8 °C</td>
+<td>(8 − 10)/1 = −2 °C/s</td>
+<td>−2%</td>
+</tr>
+<tr>
+<td>1–2 s</td>
+<td>8 °C</td>
+<td>7 °C</td>
+<td>(7 − 8)/1 = −1 °C/s</td>
+<td>−1%</td>
+</tr>
+<tr>
+<td>2–3 s</td>
+<td>7 °C</td>
+<td>7 °C</td>
+<td>(7 − 7)/1 = 0 °C/s</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>3–4 s</td>
+<td>7 °C</td>
+<td>8 °C</td>
+<td>(8 − 7)/1 = +1 °C/s</td>
+<td>+1%</td>
+</tr>
+</tbody>
+</table>
+<p>A tabela descreve inclinações médias em cada intervalo. A derivada contínua coincide com elas se o erro for linear em cada trecho, fora dos instantes de mudança de inclinação.</p>
+<p>O D reage à tendência atual. Não mede o futuro e não substitui a integral: quando o sinal para de variar, D tende a zero, mesmo que continue existindo erro constante (linha 2–3 s: erro de 7 °C, D = 0).</p>
+<h3>4.2 Contínuo: de PD a PID</h3>
+<p>Somando P e D:</p>
+<p class="equation"><img src="images/equacao-55.png" alt="Equação 55"></p>
+
+<p>No equilíbrio, a derivada é zero. Portanto, o PD não elimina o erro permanente do aquecedor sem base: a conta da seção 1.2 é a mesma, porque o termo D vale zero no equilíbrio. Com Kp = 2, seu equilíbrio continua sendo 30 °C.</p>
+<p>Somando também a integral, obtemos o PID ideal:</p>
+<p class="equation"><img src="images/equacao-56.png" alt="Equação 56"></p>
+
+<p>O D pode modificar a resposta transitória e contribuir para amortecimento em certas plantas. Isso não significa que sempre melhore o resultado.</p>
+<h3>4.3 Discreto: diferença dividida pelo tempo</h3>
+<p>Aproximamos a inclinação por duas amostras:</p>
+<p class="equation"><img src="images/equacao-57.png" alt="Equação 57"></p>
+
+<p>Se e anterior = 5 °C, e atual = 4 °C, Ts = 0,5 s e Kd = 1: D = 1 × (4 − 5)/0,5 = −1/0,5 = −2%.</p>
+<p>Aqui, Ts aparece <strong>dividindo</strong> a diferença, pois queremos uma taxa. Na integral, ele aparece <strong>multiplicando</strong> o erro, pois queremos uma área.</p>
+<p>Para uma rampa real de inclinação constante, diminuir Ts reduz proporcionalmente a diferença entre amostras, mantendo a derivada aproximada. Entretanto, uma diferença causada por ruído pode não diminuir da mesma maneira. Dividi-la por um intervalo pequeno pode produzir valores elevados.</p>
+<h3>4.4 Por que derivar a medição e filtrar?</h3>
+<p>Um salto no SP também é um salto no erro. A derivada ideal do erro contém um impulso nesse instante; no discreto, aparece um pico que depende de Ts. Por exemplo, se o SP passa de 40 para 50 °C entre duas amostras com Ts = 1 s e Kd = 2, a conta dá D = 2 × 10/1 = 20% em uma única amostra. É o salto derivativo, ou derivative kick.</p>
+<p>Uma implementação comum deriva a medição com sinal negativo:</p>
+<p class="equation"><img src="images/equacao-58.png" alt="Equação 58"></p>
+
+<p>Para SP constante, de/dt = d(r − y)/dt = −dy/dt, e as duas formas são iguais. Se o SP muda, essa implementação não reage diretamente ao salto da referência; continua reagindo às mudanças de PV.</p>
+<p>Acrescentamos um filtro de primeira ordem à derivada (o mesmo tipo de equação do aquecedor, agora com constante de tempo Tf):</p>
+<p class="equation"><img src="images/equacao-59.png" alt="Equação 59"></p>
+
+<p><strong>Passo 1 — trocar as derivadas por diferenças para trás:</strong></p>
+<p class="equation"><img src="images/equacao-60.png" alt="Equação 60"></p>
+
+<p><strong>Passo 2 — multiplicar tudo por Ts:</strong></p>
+<p class="equation"><img src="images/equacao-61.png" alt="Equação 61"></p>
+
+<p><strong>Passo 3 — juntar os termos com D[k]:</strong></p>
+<p class="equation"><img src="images/equacao-62.png" alt="Equação 62"></p>
+
+<p><strong>Passo 4 — dividir por (Tf + Ts):</strong></p>
+<p class="equation"><img src="images/equacao-63.png" alt="Equação 63"></p>
+
+<p>O primeiro termo é a memória do filtro (uma fração do D anterior); o segundo é a derivada nova, suavizada. O filtro reduz a resposta às variações rápidas. Também altera a fase e a resposta transitória; não deve ser aumentado sem avaliar o efeito no controle.</p>
+<h3>4.5 PID: o mesmo processo, com gráfico e tabela</h3>
+<p>Use Kp = 2, Ki = 0,2, Kd = 2 e Tf = 0,5 s. A derivada é filtrada e aplicada à medição. Inicialize I = D = 0 e medição anterior = 20 °C. A versão discreta usa Ts = 1 s e o mesmo cálculo de área do PI.</p>
+<p><strong>Os coeficientes do filtro com esses números:</strong></p>
+<p class="equation"><img src="images/equacao-64.png" alt="Equação 64"></p>
+
+<p class="equation"><img src="images/equacao-65.png" alt="Equação 65"></p>
+
+<p><strong>Amostra k = 0:</strong> y[0] = 20 °C, D[0] = 0, I[0] = 0, P[0] = 40%, u[0] = 40%. Como no P e no PI, y[1] = 21,903 °C.</p>
+<p><strong>Amostra k = 1:</strong></p>
+<ul>
+<li>e[1] = 18,097 °C; P[1] = 36,193%; I[1] = 0,2 × 18,097 = 3,619% (o mesmo retângulo do PI).</li>
+<li>D[1] = (1/3) × 0 − (4/3) × (21,903 − 20) = −(4/3) × 1,903 = −2,538%.</li>
+<li>u[1] = 36,193 + 3,619 − 2,538 = <strong>37,275%</strong> (menos que os 39,813% do PI: o D "freia" porque a temperatura está subindo).</li>
+<li>y[2] = 20 + 0,904837 × 1,903 + 0,047581 × 37,275 = 20 + 1,722 + 1,774 = <strong>23,496 °C</strong>.</li>
+</ul>
+<p><strong>Amostra k = 2:</strong></p>
+<ul>
+<li>e[2] = 40 − 23,496 = 16,504 °C; P[2] = 33,009%; I[2] = 3,619 + 0,2 × 16,504 = 6,920%.</li>
+<li>D[2] = (1/3) × (−2,538) − (4/3) × (23,496 − 21,903) = −0,846 − 2,123 = −2,969%.</li>
+<li>u[2] = 33,009 + 6,920 − 2,969 = <strong>36,960%</strong>.</li>
+</ul>
+<p>A tabela mostra o cálculo do D nas primeiras amostras (as colunas 4 e 5 são os dois termos da equação do filtro):</p>
+<!--BEGIN PID_PASSO-->
+
+<table>
+<thead>
+<tr>
+<th>k</th>
+<th>y[k] (°C)</th>
+<th>Δy = y[k] − y[k−1]</th>
+<th>(1/3)·D[k−1]</th>
+<th>−(4/3)·Δy</th>
+<th>D[k] = col.4 + col.5 (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>21,903</td>
+<td>1,903</td>
+<td>0,000</td>
+<td>-2,538</td>
+<td>-2,538</td>
+</tr>
+<tr>
+<td>2</td>
+<td>23,496</td>
+<td>1,592</td>
+<td>-0,846</td>
+<td>-2,123</td>
+<td>-2,969</td>
+</tr>
+<tr>
+<td>3</td>
+<td>24,922</td>
+<td>1,426</td>
+<td>-0,990</td>
+<td>-1,901</td>
+<td>-2,891</td>
+</tr>
+<tr>
+<td>4</td>
+<td>26,223</td>
+<td>1,302</td>
+<td>-0,964</td>
+<td>-1,736</td>
+<td>-2,699</td>
+</tr>
+</tbody>
+</table>
+<!--END PID_PASSO-->
+
+<p>E a evolução até 60 s, com o SP para comparar:</p>
+<!--BEGIN PID_DISC-->
+
+<table>
+<thead>
+<tr>
+<th>t (s)</th>
+<th>SP (°C)</th>
+<th>PV (°C)</th>
+<th>Erro (°C)</th>
+<th>P (%)</th>
+<th>I (%)</th>
+<th>D (%)</th>
+<th>u (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>40,000</td>
+<td>20,000</td>
+<td>20,000</td>
+<td>40,000</td>
+<td>0,000</td>
+<td>0,000</td>
+<td>40,000</td>
+</tr>
+<tr>
+<td>1</td>
+<td>40,000</td>
+<td>21,903</td>
+<td>18,097</td>
+<td>36,193</td>
+<td>3,619</td>
+<td>-2,538</td>
+<td>37,275</td>
+</tr>
+<tr>
+<td>2</td>
+<td>40,000</td>
+<td>23,496</td>
+<td>16,504</td>
+<td>33,009</td>
+<td>6,920</td>
+<td>-2,969</td>
+<td>36,960</td>
+</tr>
+<tr>
+<td>5</td>
+<td>40,000</td>
+<td>27,418</td>
+<td>12,582</td>
+<td>25,165</td>
+<td>15,208</td>
+<td>-2,492</td>
+<td>37,880</td>
+</tr>
+<tr>
+<td>10</td>
+<td>40,000</td>
+<td>32,068</td>
+<td>7,932</td>
+<td>15,865</td>
+<td>24,840</td>
+<td>-1,626</td>
+<td>39,079</td>
+</tr>
+<tr>
+<td>20</td>
+<td>40,000</td>
+<td>36,975</td>
+<td>3,025</td>
+<td>6,050</td>
+<td>34,584</td>
+<td>-0,661</td>
+<td>39,973</td>
+</tr>
+<tr>
+<td>40</td>
+<td>40,000</td>
+<td>39,636</td>
+<td>0,364</td>
+<td>0,729</td>
+<td>39,461</td>
+<td>-0,092</td>
+<td>40,097</td>
+</tr>
+<tr>
+<td>60</td>
+<td>40,000</td>
+<td>39,972</td>
+<td>0,028</td>
+<td>0,056</td>
+<td>39,981</td>
+<td>-0,010</td>
+<td>40,027</td>
+</tr>
+</tbody>
+</table>
+<!--END PID_DISC-->
+
+<p>A derivada fica negativa quando a temperatura aumenta, reduzindo a atuação em relação à soma P + I. Quando a temperatura se estabiliza, D tende a zero. A potência permanente de 40% continua sendo sustentada pela integral.</p>
+<p><img alt="PI e PID filtrado: temperatura, erro e parcelas" src="images/pid-resposta.png" /></p>
+<p>A curva de PID com passo de 0,01 s aproxima a implementação contínua filtrada; os pontos usam Ts = 1 s. Neste exemplo, adicionar D com os mesmos Kp e Ki não acelera a chegada ao SP. Não foi feita uma ressintonia para otimizar o PID: o objetivo é identificar o papel da parcela.</p>
+<h3>4.6 Amplificação de ruído: pequenas diferenças, grandes comandos</h3>
+<p>Suponha temperatura verdadeira de 30 °C, mas uma medição com oscilações de apenas 0,1 °C. Com Ts = 0,01 s e Kd = 1, uma sequência possível produz:</p>
+<table>
+<thead>
+<tr>
+<th>t (s)</th>
+<th>PV medida (°C)</th>
+<th>Variação de PV (°C)</th>
+<th>Conta: −Kd·ΔPV/Ts</th>
+<th>D sem filtro (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0,00</td>
+<td>30,00</td>
+<td>inicialização</td>
+<td>—</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0,01</td>
+<td>30,10</td>
+<td>+0,10</td>
+<td>−1 × 0,10/0,01</td>
+<td>−10</td>
+</tr>
+<tr>
+<td>0,02</td>
+<td>29,90</td>
+<td>−0,20</td>
+<td>−1 × (−0,20)/0,01</td>
+<td>+20</td>
+</tr>
+<tr>
+<td>0,03</td>
+<td>30,10</td>
+<td>+0,20</td>
+<td>−1 × 0,20/0,01</td>
+<td>−20</td>
+</tr>
+<tr>
+<td>0,04</td>
+<td>29,90</td>
+<td>−0,20</td>
+<td>−1 × (−0,20)/0,01</td>
+<td>+20</td>
+</tr>
+</tbody>
+</table>
+<p>A temperatura real não mudou, mas a saída derivativa alterna fortemente. Isso pode causar movimentação desnecessária de válvulas, desgaste, vibração e atuação irregular. Ruído não deve ser interpretado como uma mudança real do processo.</p>
+<p>Para um ruído senoidal de amplitude A e frequência f, a amplitude da derivada ideal cresce com a frequência:</p>
+<p class="equation"><img src="images/equacao-66.png" alt="Equação 66"></p>
+
+<p class="equation"><img src="images/equacao-67.png" alt="Equação 67"></p>
+
+<p>Com A = 0,1 °C e Kd = 1, ruído de 4 Hz gera 1 × 0,1 × 2π × 4 ≈ 2,51% de amplitude em D. A 40 Hz, se essa frequência for medida sem aliasing, seriam 25,13%. O ganho P = 2 geraria somente 2 × 0,1 = 0,2% de amplitude para o mesmo ruído, independentemente dessa frequência no modelo ideal.</p>
+<p><img alt="Ruído pequeno na medição e amplificação pela derivada" src="images/d-ruido.png" /></p>
+<p>O gráfico usa ruído senoidal de 4 Hz e derivada sobre PV. O filtro com Tf = 0,2 s reduz o comando oscilante. Ainda é necessário tratar a qualidade da medição, filtrar adequadamente e escolher uma frequência de amostragem compatível. Simplesmente amostrar mais rápido não elimina o ruído; amostrar devagar demais pode ocultá-lo ou produzir aliasing.</p>
+<h3>4.7 Por que PI é mais comum na indústria?</h3>
+<p>Em muitas malhas de processo, PI é a escolha mais comum: corrige o erro constante e evita a sensibilidade adicional da derivada às variações rápidas da medição. Tem menos parâmetros para ajustar e costuma oferecer desempenho suficiente em aplicações de vazão, pressão e outras variáveis de processo.</p>
+<p>A ISA registra que controladores P+I são os mais frequentes na prática e relaciona o menor uso de D, entre outros motivos, à sensibilidade a ruído. Isso não significa que D seja inútil. Há processos em que uma medição adequada e uma derivada filtrada, bem ajustada, melhoram o transitório. O critério é o benefício observado na planta, não a obrigação de usar todos os termos do nome PID.</p>
+<hr />
+<h2>5. Comparação final e sequência para o laboratório</h2>
+<table>
+<thead>
+<tr>
+<th>Aspecto</th>
+<th>P</th>
+<th>PI</th>
+<th>PID com D filtrado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Informação usada</td>
+<td>erro atual</td>
+<td>erro atual e área passada</td>
+<td>erro, área e velocidade</td>
+</tr>
+<tr>
+<td>Memória do controlador</td>
+<td>não</td>
+<td>integral</td>
+<td>integral, filtro D e PV anterior</td>
+</tr>
+<tr>
+<td>PV final com SP = 40 °C</td>
+<td>30 °C com Kp = 2 (erro de 10 °C)</td>
+<td>tende a 40 °C, se estável</td>
+<td>tende a 40 °C pela ação I</td>
+</tr>
+<tr>
+<td>Principal cuidado</td>
+<td>erro permanente e ganho alto</td>
+<td>windup, estabilidade e Ts</td>
+<td>ruído, filtro, sintonia e Ts</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ordem de cálculo em cada amostra:</strong> leia PV e calcule o erro; atualize a integral pela área do intervalo (I = I + Ki·e·Ts); calcule D se habilitado; avalie a saturação e o anti-windup; forme a soma usando os estados aceitos; limite e aplique a saída; preserve os estados para a próxima chamada. Na primeira chamada, inicialize I e D e use PV atual como medição anterior.</p>
+<p>Para a prática, comece pelo P e confirme o equilíbrio de 30 °C. Adicione I e acompanhe P diminuindo enquanto I sustenta a potência. Depois provoque saturação na simulação e observe o windup. Só então adicione D e compare o comportamento com medição limpa e ruidosa.</p>
+<p>Registre SP, PV, erro, P, I, D, comando antes do limite e saída aplicada. Um potenciômetro permite testar as contas; a avaliação de malha fechada exige que uma planta física ou simulada responda à saída do controlador.</p>
+<h2>Referências e reprodução</h2>
+<ul>
+<li>ISA, <a href="https://www.isa.org/intech-home/2023/june-2023/features/fundamentals-pid-control">Fundamentals of PID Control</a>: ações P/I/D, sensibilidade de D ao ruído e uso frequente de PI em processos industriais.</li>
+<li>MathWorks, <a href="https://www.mathworks.com/help/simulink/slref/anti-windup-control-using-a-pid-controller.html">Anti-Windup Control Using PID Controller Block</a>: saturação, acúmulo integral e técnicas de proteção.</li>
+<li>Åström e Murray, <a href="https://www.cds.caltech.edu/~murray/FBS/PID_Control.html">PID Control — Feedback Systems</a>: fundamentos, implementação prática e limitações do controle PID.</li>
+</ul>
+<p>A planta, os parâmetros e os exemplos numéricos são didáticos e foram construídos para esta aula. As tabelas contínuas usam soluções analíticas; as tabelas discretas usam saída mantida e atualização exata do modelo da planta. Os arquivos CSV acompanham as trajetórias discretas, com valores sem arredondamento. O script gerar-aula.py reproduz as figuras, as tabelas e o PDF a partir deste Markdown. A apresentação mantém página A4, margens e tipografia compatíveis com o modelo das aulas existentes.</p></body></html>
